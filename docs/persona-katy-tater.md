@@ -29,7 +29,7 @@ https://www.flickr.com/photos/jacobgarcia/5723190759/
 ## Goals/Needs
 
 - Articulate build process to dev/ops team
-- Help develop his company's new Node.js-based API
+- Help develop her company's new Node.js-based API
 
 ### Tech Knowledge
 
