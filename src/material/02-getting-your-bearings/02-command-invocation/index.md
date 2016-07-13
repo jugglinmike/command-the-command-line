@@ -527,7 +527,7 @@ $ export PS1="my awesome prompt "
 my awesome prompt echo Strange...
 Strange...
 my awesome prompt 
----
+```
 
 ???
 
