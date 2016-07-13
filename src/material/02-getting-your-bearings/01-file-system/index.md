@@ -47,7 +47,7 @@ $
 - On the command line, though, it's not always clear where we are. 
 - By the way: in this course, we'll use the dollar sign (`$`) to indicate a
   command prompt.
-- This notation is commonly used in softward documentation, but it is only
+- This notation is commonly used in software documentation, but it is only
   convention; there is nothing special about the dollar sign.
 - Importantly, you should *not* include it when you copy commands from the web
 - In any case, there are a few essential tools for getting our bearings.
