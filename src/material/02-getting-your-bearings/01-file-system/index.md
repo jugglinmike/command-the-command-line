@@ -68,8 +68,9 @@ $
 - This is an acronym for "print working directory"
 - This information is so important that many people customize their command
   prompt to include it. We'll discuss customization later.
-- In this example, we are in the "**home directory**". This is a location
-  reserved for your user account (the shell typically starts here).
+- In this example, we are in the "**home directory**" of the user named
+  "sally". The home directory is a location reserved for your user account (the
+  shell typically starts here).
 
 ---
 
