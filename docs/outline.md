@@ -1,12 +1,12 @@
 # Speaking \*nix outline
 
-## 0 Introduction
+## 1 Introduction
 
 - What is "\*nix", anyway?
 - Why are things so messed up?
 - It's "okay" to be critical
 
-## 1 Getting your bearings
+## 2 Getting your bearings
 
 - TOPIC: Traversing and inspecting the file system
   - `cd`, `ls`, `pwd`, `tree` (where available)
@@ -41,7 +41,7 @@
   - Recognizing when it is necessary
   - Recognizing when it is *not* necessary
 
-## 2 Improving your workflow
+## 3 Improving your workflow
 
 - Process management
   - Exit codes and `$?`
@@ -68,7 +68,7 @@
     - `source`
   - Aliases 
 
-## 3 Managing systems
+## 4 Managing systems
 
 - Users and groups
   - `chown`, `groups`, `who`, `whoami`
