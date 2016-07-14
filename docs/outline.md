@@ -2,9 +2,23 @@
 
 ## 1 Introduction
 
-- What is "\*nix", anyway?
-- Why are things so messed up?
-- It's "okay" to be critical
+- History
+  - What is "\*nix", anyway?
+  - Why are things so messed up?
+  - It's "okay" to be critical
+- About this course
+  - Our virtual machine
+    - Vagrant and VirtualBox
+    - Ubuntu distribution of GNU/Linux
+  - Topic overview
+- Setup instructions
+  - Download and install VirtualBox
+  - Download and install Vagrant
+- Working with Vagrant
+  - `vagrant up`
+  - `vagrant ssh`
+  - `vagrant halt`
+  - `vagrant destroy`
 
 ## 2 Getting your bearings
 
