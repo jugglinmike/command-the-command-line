@@ -47,7 +47,7 @@
     - Setting your own (with and without `export`)
     - Transitivity
   - EXERCISE: Invoker
-- Exiting processes
+- Process Management I
   - CTRL-C
   - CTRL-D
   - CTRL-Z and `fg`
@@ -59,15 +59,18 @@
 
 ## 3 Improving your workflow
 
-- Process management
-  - Exit codes and `$?`
-  - Process IDs and `ps`, `top`, `kill`, `killall`
-  - Standard in/out/err redirection
-- Essential utilities
-  - File management: `mv`, `rm`, `touch`, `mktmp`
+- File management
+  - Organization: `mv`, `rm`, `touch`, `mkdir`, `mktmp`
   - Inspection: `grep`, `find`
-  - Manipulation: `sed`, `awk`
-- Combining
+  - Manipulation: `nano`, `sed`, `awk`
+- The edges of a process
+  - Standard input, standard output, standard error
+  - Input redirection from file
+  - Output redirection to file (truncating)
+  - `/dev/null`
+  - Output redirection to file (appending)
+  - Exit codes, `false`, and `true`
+- Process combination
   - Command substitution
   - Boolean logical operators: `&&`, `||`
   - Piping (plus `xargs`)
@@ -76,7 +79,7 @@
   - Formatting (comments, newlines)
   - `chmod`
   - Built-ins: `if`, `[`, `exit`, `for`, `while`
-  - Substitions: `$0`, `$@`
+  - Shell variables: `$0`, `$@`
 - Customization
   - Startup scripts
     - Interactive vs. non-interactive shells
@@ -86,6 +89,9 @@
 
 ## 4 Managing systems
 
+- Process management II
+  - Process IDs and `ps`, `top`
+  - `kill`, `killall`
 - Users and groups
   - `chown`, `groups`, `who`, `whoami`
 - File system hierarchy standard
