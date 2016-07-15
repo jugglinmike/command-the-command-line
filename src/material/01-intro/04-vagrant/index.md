@@ -9,6 +9,14 @@
 
 ???
 
+In this course, we'll use a virtual machine to learn and experiment. This is a
+full operating system (sometimes called the "guest") that is completely
+isolated from the one that created it (e.g. your operating system, also known
+as the "host"). The virtual machine is provided by
+[VirtualBox](https://www.virtualbox.org/), and
+[Vagrant](https://www.vagrantup.com/) lets us manage the machine with a few
+short commands.
+
 ---
 
 # Creating a virtual machine
@@ -19,10 +27,8 @@ C:\speaking-nix\> vagrant up
 
 ???
 
-The command `vagrant up`, when invoked from a directory containing a file named
-`Vagrantfile` will initialize a new virtual machine. This is a full operating
-system (sometimes called the "guest") that is completely isolated from the one
-that created it (e.g. your operating system, also known as the "host").
+When we run the command `vagrant up` from a directory that has a file
+`Vagrantfile`, a new virtual machine will be created for us.
 
 ---
 
@@ -55,7 +61,7 @@ $
 ???
 
 The command `vagrant ssh` will initiate an SSH connection to the "guest"
-environment. For this course (and because there are no security concerns),
+environment. Because there are no security concerns for this environment,
 there's no need to worry about user names, passwords, or keys.
 
 ---
@@ -89,7 +95,7 @@ C:\speaking-nix\> vagrant halt
 
 `vagrant halt` will shut down the virtual machine. Virtual machines require a
 lot of system resources, so it's a good idea to run this command when you are
-done working. You can re-start the machine with `vagrant up` later.
+done working. You can re-start the machine later with `vagrant up`.
 
 ---
 
@@ -122,4 +128,5 @@ C:\speaking-nix\> vagrant up
 ???
 
 Don't be afraid to make mistakes. Even if things go *very* wrong, you are just
-two commands away from a completely fresh virtual machine!
+two commands away from a completely fresh virtual machine: first `vagrant
+destroy`, then `vagrant up`.
