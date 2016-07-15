@@ -3,9 +3,11 @@
 ## 1 Introduction
 
 - History
-  - What is "\*nix", anyway?
-  - Why are things so messed up?
-  - It's "okay" to be critical
+  - Multics
+  - Bell Labs, 1970 (origin of Unix)
+  - Unix Wars
+  - POSIX/Single Unix Specification
+  - "Unix-like"
 - About this course
   - Our virtual machine
     - Vagrant and VirtualBox
