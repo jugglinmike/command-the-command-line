@@ -60,6 +60,25 @@ there's no need to worry about user names, passwords, or keys.
 
 ---
 
+# Get learnin'
+
+```
+$ echo Hello, world!
+Hell world!
+$ exit
+C:\speaking-nix\>
+```
+
+???
+
+Now you're ready to go! The dollar sign character (`$`) is your command prompt.
+This is where you enter instructions--we'll be doing a lot of that in the
+coming sections.
+
+When you want to log out of the virtual machine, type `exit` and press `Enter`.
+
+---
+
 # When you're done (for the day)
 
 ```
@@ -95,7 +114,7 @@ C:\speaking-nix\> vagrant ssh
 $ sudo rm -rf /bin
 $ echo Uh oh.
 Uh oh.
-$ ^D
+$ exit
 C:\speaking-nix\> vagrant destroy
 C:\speaking-nix\> vagrant up
 ```
