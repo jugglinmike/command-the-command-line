@@ -64,7 +64,7 @@ there's no need to worry about user names, passwords, or keys.
 
 ```
 $ echo Hello, world!
-Hell world!
+Hello, world!
 $ exit
 C:\speaking-nix\>
 ```
