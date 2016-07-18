@@ -112,9 +112,9 @@ rm: cannot remove ‘/bin/login’: Permission denied
 
 ???
 
-This is good news for when you are learning because it means you are unable to
-perform many actions that would break things. Even the person who is "in
-charge" of the system (that's you in these exercises and on your personal
+This separation is good news for when you are learning because it means you are
+unable to perform many actions that would break things. Even the person who is
+"in charge" of the system (that's you in these exercises and on your personal
 computer) usually has a normal user account. This limits the damage that a
 malicious program can do when it runs on your behalf.
 
@@ -138,6 +138,52 @@ $
   short for "**s**uper **u**ser **do**." Because you may use the `-u` option to
   execute a command as *any* user, some argue that it is short for "**s**witch
   **u**ser and **do**."
+
+---
+
+:continued:
+
+```
+$ whoami
+untrusteduser
+$ sudo whoami
+[sudo] password for untrusteduser:
+untrusteduser is not in the sudoers file.  This incident will be reported.
+$
+```
+
+???
+
+Not all users are able to use `sudo`. If you are working on a machine that you
+do not own, you may need to request the necessary permissions from your system
+administrator.
+
+---
+
+:continued:
+
+```
+$ sudo echo "After I've authenticated once..."
+[sudo] password for sally:
+After I've authenticated once...
+$ date
+Wed Dec 31 1969 19:00:00 EST 1969
+$ sudo echo "I stay in 'sudo mode' for a little while."
+I stay in 'sudo mode' for a little while.
+$ date
+Wed Dec 31 1969 19:21:00 EST 1969
+$ sudo echo "...but I'll need to re-authenticate every so often."
+[sudo] password for sally:
+...but I'll need to re-authenticate every so often.
+$
+```
+
+???
+
+Most systems are configured to "recognize" users that have recently
+authenticated with `sudo`. In this state, you will still need to use `sudo` to
+take actions as the root user, but you will not have to re-enter your password.
+This status will expire after a short period (15 minutes by default).
 
 ---
 
