@@ -136,3 +136,9 @@ C:\speaking-nix\> vagrant up
 Don't be afraid to make mistakes. Even if things go *very* wrong, you are just
 two commands away from a completely fresh virtual machine: first `vagrant
 destroy`, then `vagrant up`.
+
+**Warning** It can be easy to confuse the "guest" environment and the "host"
+environment from the terminal prompt. Always be sure that you know where your
+commands are going before you execute them! As demonstrated above, it's easy to
+recover from mistakes made in the guest environment. Mistakes made on your
+local environment may be much more difficult to fix.
