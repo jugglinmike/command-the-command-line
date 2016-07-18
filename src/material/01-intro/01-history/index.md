@@ -41,10 +41,10 @@ The differences between these modified versions of Unix effected the way that
 programmers wrote application code. A program written for one "flavor" of Unix
 might not work on another.
 
-This situation caused many to call for a formal standard. Each group had a
-vested interest in their particular version to be recognized as the standard
-implementation. This led to overt competition between computer manufacturers
-along these lines.
+This situation caused many to call for a formal standard. Each workstation
+manufacturer had a vested interest in their particular version to be recognized
+as the standard implementation. This led to overt competition between the
+manufacturers, each vying for industry recognition.
 
 ---
 
