@@ -103,6 +103,12 @@ done working. You can re-start the machine later with `vagrant up`.
 
 ```
 C:\speaking-nix\> vagrant destroy
+    default: Are you sure you want to destroy the 'default' VM? [y/N] y
+==> default: Forcing shutdown of VM...
+==> default: Destroying VM and associated drives...
+==> default: Removing hosts
+==> default: Running cleanup tasks for 'shell' provisioner...
+C:\speaking-nix\> 
 ```
 
 ???
