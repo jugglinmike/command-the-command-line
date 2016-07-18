@@ -1,0 +1,34 @@
+/**
+ * A marquee with a blinking background.
+ */
+marquee.attention.really-attention {
+  width: 100%;
+  outline: solid 2px orange;
+  background-image: url('./blinker.gif');
+}
+
+body > div > li + blink {
+  display: block;
+}
+
+/**
+ * Necessary for IE5.5 support.
+ */
+.teams .team font {
+  display: inline;
+}
+
+.teams p > blink {
+  color: papayawhip;
+  font-family: monospace;
+}
+
+.emblink embed {
+  position: relative;
+  z-index: 234;
+}
+
+a[rel] font ~ ul {
+  font-weight: bold !important;
+  zoom: 1;
+}
