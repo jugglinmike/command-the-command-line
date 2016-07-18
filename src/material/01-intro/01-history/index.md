@@ -77,9 +77,10 @@ kernel was written from scratch and eventually incorporated into the GNU
 project to form the GNU/Linux operating system.
 
 While these systems generally target compatibility with the POSIX standard,
-they are not officially compliant. This means they cannot be legally referred
-to as Unix implementations. So we use the term "Unix-like" or "\*nix" to
-describe them.
+they are not officially compliant. Because the name "Unix" is a trademark
+currently registered to the Open Group, these systems cannot be legally
+referred to as Unix implementations. So we use the term "Unix-like" or "\*nix"
+to describe them.
 
 ---
 
