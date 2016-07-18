@@ -60,7 +60,7 @@
 ## 3 Improving your workflow
 
 - File management
-  - Organization: `mv`, `rm`, `touch`, `mkdir`, `mktmp`
+  - Organization: `mv`, `rm`, `mkdir`, `mktemp`
   - Inspection: `grep`, `find`
   - Manipulation: `nano`, `sed`, `awk`
 - The edges of a process
