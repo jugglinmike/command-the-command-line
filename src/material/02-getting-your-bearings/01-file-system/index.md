@@ -233,6 +233,28 @@ can write a path.
 
 ---
 
+:continued:
+
+```
+$ pwd
+/home/sally
+$ cd ../..
+$ pwd
+/
+$ cd ..
+$ pwd
+/
+```
+
+???
+
+The hierarchy of files is sometimes referred to as a "tree" because of the way
+directories and sub-directories tend to "branch out" from the center. Continuing
+this metaphor, the top-most directory is commonly referred to as the **root
+directory**. We can't move any higher in the file system than the root.
+
+---
+
 # Paths from the root? Absolutely!
 
 ???
@@ -386,6 +408,8 @@ and displays the result.
 - Paths
   - The forward slash character (`/`) is the path separator
   - Two periods (`..`) denote "the parent directory"
+  - The "root" directory is the topmost directory on the file system; it's
+    name is simply `/`
   - The tilde character (`~`) denotes "my home directory"
 - Utilities
   - `pwd` - display the current directory ("**p**rint **w**orking
