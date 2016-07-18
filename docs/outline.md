@@ -60,7 +60,7 @@
 ## 3 Improving your workflow
 
 - File management
-  - Organization: `mv`, `rm`, `mkdir`, `mktemp`
+  - Organization: `mv`, `rm`, `mkdir`
   - Inspection: `grep`, `find`
   - Manipulation: `nano`, `sed`, `awk`
 - The edges of a process
@@ -95,5 +95,9 @@
 - Users and groups
   - `chown`, `groups`, `who`, `whoami`
 - File system hierarchy standard
+  - `/tmp` (and `mktemp`)
+  - `/var/log` (and `tail`)
+  - `/mnt`
+  - `/opt`
 - Scheduling (cron, upstart, init.d)
 - Linux distributions & package managers
