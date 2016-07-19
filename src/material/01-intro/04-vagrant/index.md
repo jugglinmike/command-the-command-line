@@ -122,7 +122,7 @@ hard drive. Use `vagrant destroy` when you don't need the environment anymore.
 ```
 pc$ vagrant up
 pc$ vagrant ssh
-vm$ sudo rm -rf /bin
+vm$ bad --command "that really" messes-things.up
 vm$ echo Uh oh.
 Uh oh.
 vm$ exit
