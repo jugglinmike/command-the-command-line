@@ -31,21 +31,21 @@ this course, we're concerned with the mainline use cases; you can consult the
 # `mv`
 
 ```
-$ ls good-guys
+vm$ ls good-guys
 dent-harvey.jpg
 fries-victor.jpg
 gordon-jim.jpg
 kyle-selina.jpg
 nigma-edward.jpg
-$ ls bad-guys
-$ mv good-guys/dent-harvey.jpg bad-guys
-$ ls good-guys
+vm$ ls bad-guys
+vm$ mv good-guys/dent-harvey.jpg bad-guys
+vm$ ls good-guys
 fries-victor.jpg
 gordon-jim.jpg
 kyle-selina.jpg
-$ ls bad-guys
+vm$ ls bad-guys
 dent-harvey.jpg
-$
+vm$
 ```
 
 ???
@@ -58,14 +58,14 @@ first option is the source and the second is the destination.
 :continued:
 
 ```
-$ mv good-guys/fries-victor.jpg good-guys/kyle-selina.jpg bad-guys
-$ ls good-guys
+vm$ mv good-guys/fries-victor.jpg good-guys/kyle-selina.jpg bad-guys
+vm$ ls good-guys
 gordon-jim.jpg
-$ ls bad-guys
+vm$ ls bad-guys
 dent-harvey.jpg
 fries-victor.jpg
 kyle-selina.jpg
-$
+vm$
 ```
 
 ???
@@ -80,9 +80,9 @@ expansion character.
 :continued:
 
 ```
-$ cd bad-guys
-$ mv dent-harvey.jpg twoface.jpg
-$ ls
+vm$ cd bad-guys
+vm$ mv dent-harvey.jpg twoface.jpg
+vm$ ls
 fries-victor.jpg
 kyle-selina.jpg
 twoface.jpg
@@ -99,8 +99,8 @@ from "moving" it between two names.
 :continued:
 
 ```
-$ cd ..
-$ mv bad-guys/twoface.jpg good-guys/dent-harvey.jpg
+vm$ cd ..
+vm$ mv bad-guys/twoface.jpg good-guys/dent-harvey.jpg
 ```
 
 ???
@@ -113,14 +113,14 @@ directory.
 # `rm`
 
 ```
-$ ls
+vm$ ls
 my-directory
 my-first-file
 my-second-file
-$ rm my-first-file my-second-file
-$ ls
+vm$ rm my-first-file my-second-file
+vm$ ls
 my-directory
-$
+vm$
 ```
 
 ???
@@ -132,13 +132,13 @@ We'll use `rm` to **r**e**m**ove files and directories.
 :continued:
 
 ```
-$ ls
+vm$ ls
 my-directory
-$ rm my-directory
+vm$ rm my-directory
 rm: cannot remove ‘dir’: Is a directory
-$ rm -r my-directory
-$ ls
-$
+vm$ rm -r my-directory
+vm$ ls
+vm$
 ```
 
 ???
@@ -152,11 +152,11 @@ often protects you from accidentally deleting things.
 # `mkdir`
 
 ```
-$ mkdir my-new-directory
-$ ls
+vm$ mkdir my-new-directory
+vm$ ls
 my-new-directory
-$ ls my-new-directory
-$
+vm$ ls my-new-directory
+vm$
 ```
 
 ???
@@ -184,7 +184,7 @@ ways to inspect their contents.
 # `grep`
 
 ```
-$ grep CSSConf index.html
+vm$ grep CSSConf index.html
 <h3 class="work-hed"><a href="http://2016.cssconf.com">CSSConf</a></h3>
 CSSConf is a conference dedicated to the designers, developers and engineers
 edge techniques, and tools. CSSConf US part of the international family of
@@ -204,7 +204,7 @@ text editor), so this is a case where rote memorization may be necessary.
 :continued:
 
 ```
-$ grep -E '<h[1-5]' index.html
+vm$ grep -E '<h[1-5]' index.html
 <h1 class="logo">
 <h2 class="mission">Open Design & Technology Services for
 <h3 class="section-hed"><strong>Partner with us</strong>
@@ -221,7 +221,7 @@ $ grep -E '<h[1-5]' index.html
 <h3 class="section-hed">Our team <strong>creates, champio
 <h2 class="section-hed">We'd love to hear from you. <stro
 <h2>Join our newsletter for Bocoup news you can use!</h2>
-$
+vm$
 ```
 
 ???
@@ -235,7 +235,7 @@ though, so don't worry if you're not comfortable using them.
 # `find`
 
 ```
-$ find src -name index.html
+vm$ find src -name index.html
 src/index.html
 src/birds/index.html
 src/birds/penguins/index.html
@@ -243,7 +243,7 @@ src/birds/puffins/index.html
 src/cereal/index.html
 src/cereal/capn-crunch/index.html
 src/cereal/fruit-loops/index.html
-$ 
+vm$ 
 ```
 
 ???
@@ -267,17 +267,17 @@ the user experience.
 :continued:
 
 ```
-$ find documents/recipes -name *carrot*
-$ echo *carrot*
+vm$ find documents/recipes -name *carrot*
+vm$ echo *carrot*
 giant-carrot.jpg
-$ echo \*carrot\*
+vm$ echo \*carrot\*
 *carrot*
-$ find documents/recipes -name \*carrot\*
+vm$ find documents/recipes -name \*carrot\*
 documents/recipes/appetizers/cold-carrot-soup.pdf
 documents/recipes/carrot-free
 documents/recipes/desserts/carrot-cake.odt
 documents/recipes/sides/carrots.pdf
-$ 
+vm$ 
 ```
 
 ???
@@ -310,7 +310,7 @@ Finally, we'll take a look at a few tools for modifying file contents.
 # `nano`
 
 ```
-$ nano hello.txt
+vm$ nano hello.txt
   GNU nano 2.2.6        File: hello.txt                      
 
 Hello, world!
@@ -339,13 +339,13 @@ somewhat truncated in the example above due to space limitations.
 # `sed`
 
 ```
-$ cat quote.txt
+vm$ cat quote.txt
 It's 106 miles to Chicago, we got a full tank of gas, half a pack of
 cigarettes, it's dark... and we're wearing sunglasses. 
-$ sed s/Chicago/Boston/ quote.txt
+vm$ sed s/Chicago/Boston/ quote.txt
 It's 106 miles to Boston, we got a full tank of gas, half a pack of
 cigarettes, it's dark... and we're wearing sunglasses. 
-$ 
+vm$ 
 ```
 
 ???
@@ -360,14 +360,14 @@ third forward slash character.
 :continued:
 
 ```
-$ cat quote.txt
+vm$ cat quote.txt
 It's 106 miles to Chicago, we got a full tank of gas, half a pack of
 cigarettes, it's dark... and we're wearing sunglasses. 
-$ sed --in-place s/Chicago/Boston/ quote.txt
-$ cat quote.txt
+vm$ sed --in-place s/Chicago/Boston/ quote.txt
+vm$ cat quote.txt
 It's 106 miles to Boston, we got a full tank of gas, half a pack of
 cigarettes, it's dark... and we're wearing sunglasses. 
-$ 
+vm$ 
 ```
 
 
@@ -384,7 +384,7 @@ option.
 :continued:
 
 ```
-$ sed -r s/(moz|webkit)R(equestAnimationFrame)/r\2/ -i src/utils/raf.js
+vm$ sed -r s/(moz|webkit)R(equestAnimationFrame)/r\2/ -i src/utils/raf.js
 ```
 
 ???
@@ -399,7 +399,7 @@ powerful way to automate text file transformations.
 # `awk`
 
 ```
-$ cat src/foo.css 
+vm$ cat src/foo.css 
 body {
   margin-left: 0;
   padding: 0;
@@ -408,14 +408,14 @@ table.data {
   color: red;
   margin: 0 1em;
 }
-$ awk '/\{/ { s = $0 } /margin/ { print s "\n" $0 "\n}" }' src/foo.css
+vm$ awk '/\{/ { s = $0 } /margin/ { print s "\n" $0 "\n}" }' src/foo.css
 body {
   margin-left: 0;
 }
 table.data {
   margin: 0 1em;
 }
-$ 
+vm$ 
 ```
 
 ???

@@ -17,6 +17,55 @@ that students will not have to rely on rote memorization to build confidence.
 
 ---
 
+# Conventions
+
+```
+pc$ code blocks like these represent a terminal
+they are intended to demonstrate various commands
+and their effects
+pc$
+```
+
+???
+
+Lines that begin with `pc$` describe commands that are intended to be entered
+into your system's terminal. The `pc$` is sometimes referred to as the
+"prompt", and it is intended to designate input lines. The "command" is all
+the text that follows the prompt; when typing the command on your system, you
+should not include the prompt.
+
+Lines that do not begin with the prompt are "output" lines. This is text
+produced by the in response to the command.
+
+Note that terminal examples from other guides use the lone dollar sign
+character (`$`) or even the "hash" character (`#`) as the prompt. Whatever it
+looks like, the prompt's purpose is the same: to disignate the command that
+should be typed.
+
+---
+
+:continued:
+
+```
+pc$ this command should be run on your system
+this is output from your system
+vm$ this command should be run in the virtual machine
+this is output from the virtual machine
+```
+
+???
+
+This course is designed to use a complete Unix-like system that runs as a
+standalone process on your computer. This process is known as a "virtual
+machine." A small number of commands in this course are intended to be run on
+your system, but most of them should be executed within the virtual machine.
+
+The `pc$` prompt denotes commands that are inteded to be run on your system.
+We'll use the `vm$` prompt to denote the commands that are intended for the
+virtual machine.
+
+---
+
 # About the exercises
 
 ![VirtualBox logo](logo-virtualbox.png)

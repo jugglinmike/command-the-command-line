@@ -22,7 +22,7 @@ short commands.
 # Creating a virtual machine
 
 ```
-C:\speaking-nix\> vagrant up
+pc$ vagrant up
 ```
 
 ???
@@ -35,7 +35,7 @@ When we run the command `vagrant up` from a directory that has a file
 # Logging in to the virtual machine
 
 ```
-C:\speaking-nix\> vagrant ssh
+pc$ vagrant ssh
 Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-39-generic x86_64)
 
  * Documentation:  https://help.ubuntu.com/
@@ -55,7 +55,7 @@ Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-39-generic x86_64)
 
 0 packages can be updated.
 0 updates are security updates.
-$
+vm$
 ```
 
 ???
@@ -69,17 +69,16 @@ there's no need to worry about user names, passwords, or keys.
 # Get learnin'
 
 ```
-$ echo Hello, world!
+vm$ echo Hello, world!
 Hello, world!
-$ exit
-C:\speaking-nix\>
+vm$ exit
+pc$
 ```
 
 ???
 
-Now you're ready to go! The dollar sign character (`$`) is your command prompt.
-This is where you enter instructions--we'll be doing a lot of that in the
-coming sections.
+Now you're ready to go! The `vm$` is your command prompt. This is where you
+enter instructions--we'll be doing a lot of that in the coming sections.
 
 When you want to log out of the virtual machine, type `exit` and press `Enter`.
 
@@ -88,7 +87,7 @@ When you want to log out of the virtual machine, type `exit` and press `Enter`.
 # When you're done (for the day)
 
 ```
-C:\speaking-nix\> vagrant halt
+pc$ vagrant halt
 ```
 
 ???
@@ -102,13 +101,13 @@ done working. You can re-start the machine later with `vagrant up`.
 # When you're done (for good)
 
 ```
-C:\speaking-nix\> vagrant destroy
+pc$ vagrant destroy
     default: Are you sure you want to destroy the 'default' VM? [y/N] y
 ==> default: Forcing shutdown of VM...
 ==> default: Destroying VM and associated drives...
 ==> default: Removing hosts
 ==> default: Running cleanup tasks for 'shell' provisioner...
-C:\speaking-nix\> 
+vm$
 ```
 
 ???
@@ -121,14 +120,14 @@ hard drive. Use `vagrant destroy` when you don't need the environment anymore.
 # Live dangerously
 
 ```
-C:\speaking-nix\> vagrant up
-C:\speaking-nix\> vagrant ssh
-$ sudo rm -rf /bin
-$ echo Uh oh.
+pc$ vagrant up
+pc$ vagrant ssh
+vm$ sudo rm -rf /bin
+vm$ echo Uh oh.
 Uh oh.
-$ exit
-C:\speaking-nix\> vagrant destroy
-C:\speaking-nix\> vagrant up
+vm$ exit
+pc$ vagrant destroy
+pc$ vagrant up
 ```
 
 ???
