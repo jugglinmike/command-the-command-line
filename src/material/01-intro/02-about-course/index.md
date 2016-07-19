@@ -39,7 +39,7 @@ produced by the in response to the command.
 
 Note that terminal examples from other guides use the lone dollar sign
 character (`$`) or even the "hash" character (`#`) as the prompt. Whatever it
-looks like, the prompt's purpose is the same: to disignate the command that
+looks like, the prompt's purpose is the same: to designate the command that
 should be typed.
 
 ---
@@ -49,6 +49,7 @@ should be typed.
 ```
 pc$ this command should be run on your system
 this is output from your system
+
 vm$ this command should be run in the virtual machine
 this is output from the virtual machine
 ```
@@ -60,7 +61,7 @@ standalone process on your computer. This process is known as a "virtual
 machine." A small number of commands in this course are intended to be run on
 your system, but most of them should be executed within the virtual machine.
 
-The `pc$` prompt denotes commands that are inteded to be run on your system.
+The `pc$` prompt denotes commands that are intended to be run on your system.
 We'll use the `vm$` prompt to denote the commands that are intended for the
 virtual machine.
 
