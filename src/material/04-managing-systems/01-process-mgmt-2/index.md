@@ -16,11 +16,11 @@ processes.
 # `ps`
 
 ```
-$ ps
+vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  1926 pts/0    00:00:00 ps
-$
+vm$
 ```
 
 ???
@@ -37,11 +37,11 @@ running bash and `ps` itself.
 :continued:
 
 ```
-$ ps -u
+vm$ ps -u
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 speaker   1892  0.0  0.7  21300  3756 pts/0    Ss   17:31   0:00 -bash
 speaker   1925  0.0  0.2  17168  1272 pts/0    R+   17:33   0:00 ps -u
-$
+vm$
 ```
 
 ???
@@ -59,7 +59,7 @@ an exhaustive overview.
 
 
 ```
-$ ps -aux
+vm$ ps -aux
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root         1  0.0  0.5  33600  2920 ?        Ss   17:30   0:00 /sbin/init
 root         2  0.0  0.0      0     0 ?        S    17:30   0:00 [kthreadd]
@@ -89,7 +89,7 @@ can see that many of the processes are actually owned by the "root" user.
 :continued:
 
 ```
-$ ps -aux | grep sleep
+vm$ ps -aux | grep sleep
 speaker   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
 speaker   2083  0.0  0.1  10464   892 pts/0    S+   18:31   0:00 grep sleep
 ```
@@ -106,7 +106,7 @@ a little confusing.
 :continued:
 
 ```
-$ ps -aux | grep slee[p]
+vm$ ps -aux | grep slee[p]
 speaker   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
 ```
 
@@ -131,12 +131,12 @@ management utilities recognize PIDs as references to processes.
 # `kill`
 
 ```
-$ ps -aux | grep slee[p]
+vm$ ps -aux | grep slee[p]
 speaker   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
-$ kill 2079
+vm$ kill 2079
 [1]+  Terminated              sleep 3000
-$ ps -aux | grep slee[p]
-$
+vm$ ps -aux | grep slee[p]
+vm$
 ```
 
 ???
@@ -150,20 +150,20 @@ $
 :continued:
 
 ```
-$ sleep 1000 &
+vm$ sleep 1000 &
 [1] 2526
-$ ps
+vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  2526 pts/0    00:00:00 sleep
  2527 pts/0    00:00:00 ps
-$ kill -s sigint 2526
+vm$ kill -s sigint 2526
 [1]+  Interrupt               sleep 1000
-$ ps
+vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  2529 pts/0    00:00:00 ps
-$
+vm$
 ```
 
 This is actually the second time we have run across signals in Unix-like
@@ -175,24 +175,24 @@ can do the same thing for any process using kill.
 :continued:
 
 ```
-$ ps
+vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  2698 pts/0    00:00:03 rouge-process
  2699 pts/0    00:00:00 ps
-$ kill 2698
-$ ps
+vm$ kill 2698
+vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  2698 pts/0    00:00:03 rouge-process
  2701 pts/0    00:00:00 ps
-$ kill -s sigkill 2698
+vm$ kill -s sigkill 2698
 [1]+  Killed                  rouge-process
-$ ps
+vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  2703 pts/0    00:00:00 ps
-$ 
+vm$ 
 ```
 
 ???
@@ -209,7 +209,7 @@ exit gracefully. Keep this in mind as it may not be acceptable in all cases.
 # `killall`
 
 ```
-$ ps
+vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  2708 pts/0    00:00:00 sleep
@@ -217,16 +217,16 @@ $ ps
  2710 pts/0    00:00:00 sleep
  2711 pts/0    00:00:00 sleep
  2712 pts/0    00:00:00 ps
-$ killall sleep
+vm$ killall sleep
 [1]   Terminated              sleep 1000
 [2]   Terminated              sleep 1000
 [3]-  Terminated              sleep 1000
 [4]+  Terminated              sleep 1000
-$ ps
+vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  2714 pts/0    00:00:00 ps
-$
+vm$
 ```
 
 ???
@@ -241,14 +241,14 @@ reference...
 :continued:
 
 ```
-$ ps
+vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  2719 pts/0    00:00:00 bash
  2724 pts/0    00:00:00 ps
-$ killall -9 bash
+vm$ killall -9 bash
 Connection to 127.0.0.1 closed.
-C:\>
+pc$
 ```
 
 ???
@@ -260,7 +260,7 @@ C:\>
 # `top`
 
 ```
-$ top
+vm$ top
 top - 19:50:44 up  2:19,  1 user,  load average: 0.00, 0.01, 0.05
 Tasks:  72 total,   1 running,  71 sleeping,   0 stopped,   0 zombie
 %Cpu(s):  0.0 us,  0.3 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st

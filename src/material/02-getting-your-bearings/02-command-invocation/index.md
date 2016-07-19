@@ -1,12 +1,12 @@
 
 ```
-$ ls
+vm$ ls
 my-amazing-subdirectory
 my-normal-file.txt
-$ ls my-amazing-subdirectory
+vm$ ls my-amazing-subdirectory
 oh-boy-another-directory
 just-another-file.txt
-$
+vm$
 ```
 
 ???
@@ -17,11 +17,11 @@ the program, optionally followed by some specific "target"
 ---
 
 ```
-$ LS_COLORS="di=42" ls -lr --all --sort=size music/*.mp3
+vm$ LS_COLORS="di=42" ls -lr --all --sort=size music/*.mp3
 Ace of Base - I Saw the Sign.mp3
 Santana - Smooth.mp3
 Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
-$
+vm$
 ```
 
 ???
@@ -39,11 +39,11 @@ $
 # The Executable
 
 ```
-$ pwd
+vm$ pwd
 /home/sally
-$ /bin/pwd
+vm$ /bin/pwd
 /home/sally
-$
+vm$
 ```
 
 ???
@@ -64,7 +64,7 @@ $
 # Path options
 
 ```
-$ ls ~/video ~/music
+vm$ ls ~/video ~/music
 ~/video:
 
 ~/music:
@@ -72,7 +72,7 @@ Ace of Base - I Saw the Sign.mp3
 Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
 Santana - Smooth.mp3
 Stallman - Free Software Song.ogg
-$
+vm$
 ```
 
 ???
@@ -87,11 +87,11 @@ $
 # Named options
 
 ```
-$ cat --number my-normal-file.txt
+vm$ cat --number my-normal-file.txt
      1 This is the first line of just-another-file.txt
      2 This is the second line of the file!
      3 The file only has three lines, and this is the last one!
-$
+vm$
 ```
 
 ???
@@ -107,7 +107,7 @@ $
 :continued:
 
 ```
-$ ls --sort=size ~/music
+vm$ ls --sort=size ~/music
 Stallman - Free Software Song.ogg
 Ace of Base - I Saw the Sign.mp3
 Santana - Smooth.mp3
@@ -122,11 +122,11 @@ option's behavior.
 ---
 
 ```
-$ cat --number --show-ends my-normal-file.txt
+vm$ cat --number --show-ends my-normal-file.txt
      1 This is the first line of just-another-file.txt$
      2 This is the second line of the file!$
      3 The file only has three lines, and this is the last one!$
-$
+vm$
 ```
 
 ???
@@ -136,23 +136,23 @@ Many options can be specified at the same time.
 ---
 
 ```
-$ cat -n --show-ends my-normal-file.txt
+vm$ cat -n --show-ends my-normal-file.txt
      1 This is the first line of just-another-file.txt$
      2 This is the second line of the file!$
      3 The file only has three lines, and this is the last one!$
-$ cat --number -E my-normal-file.txt
+vm$ cat --number -E my-normal-file.txt
      1 This is the first line of just-another-file.txt$
      2 This is the second line of the file!$
      3 The file only has three lines, and this is the last one!$
-$ cat -n -E my-normal-file.txt
+vm$ cat -n -E my-normal-file.txt
      1 This is the first line of just-another-file.txt$
      2 This is the second line of the file!$
      3 The file only has three lines, and this is the last one!$
-$ cat -nE my-normal-file.txt
+vm$ cat -nE my-normal-file.txt
      1 This is the first line of just-another-file.txt$
      2 This is the second line of the file!$
      3 The file only has three lines, and this is the last one!$
-$
+vm$
 ```
 
 ???
@@ -202,7 +202,7 @@ Fortunately, there are tools available for discovery.
 # `man`
 
 ```
-$ man ls
+vm$ man ls
 (1)                  User Commands                 LS(1)
 
 NAME
@@ -237,7 +237,7 @@ DESCRIPTION
 # `help`
 
 ```
-$ help cd
+vm$ help cd
 cd: cd [-L|[-P [-e]] [-@]] [dir]
     Change the shell working directory.
     
@@ -257,7 +257,7 @@ you're looking for.
 # The `--help` option
 
 ```
-$ cat --help
+vm$ cat --help
 Usage: cat [OPTION]... [FILE]...
 Concatenate FILE(s), or standard input, to standard output.
 
@@ -330,9 +330,9 @@ program invocation, it will work for *every* application.
 # `echo`
 
 ```
-$ echo Whatever we type here will be printed to the screen.
+vm$ echo Whatever we type here will be printed to the screen.
 Whatever we type here will be printed to the screen.
-$ echo Please expand the tilde character ~ there.
+vm$ echo Please expand the tilde character ~ there.
 Please expand the tilde character /home/sally there.
 ```
 
@@ -347,21 +347,21 @@ experiment with shell substitution.
 # Shell Expansion: `*`
 
 ```
-$ ls music
+vm$ ls music
 Ace of Base - I Saw the Sign.mp3
 Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
 Santana - Smooth.mp3
 Stallman - Free Software Song.ogg
-$ ls music/*.mp3
+vm$ ls music/*.mp3
 Ace of Base - I Saw the Sign.mp3
 Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
 Santana - Smooth.mp3
-$ ls music/S*
+vm$ ls music/S*
 Santana - Smooth.mp3
 Stallman - Free Software Song.ogg
-$ ls music/S*.mp3
+vm$ ls music/S*.mp3
 Santana - Smooth.mp3
-$
+vm$
 ```
 
 ???
@@ -379,11 +379,11 @@ with a list of files that match the rest of the characters.
 # Shell Expansion: Opting out
 
 ```
-$ echo I have ~ 2 oranges
+vm$ echo I have ~ 2 oranges
 I have /home/sally 2 oranges
-$ echo I have \~ 2 oranges
+vm$ echo I have \~ 2 oranges
 I have ~ 2 oranges
-$
+vm$
 ```
 
 ???
@@ -433,10 +433,10 @@ aspect of the system that effect the behavior of many commands.
 # Environment Variables: Definition
 
 ```
-$ export myVariable=my-variable-value
-$ echo Okay. Now what?
+vm$ export myVariable=my-variable-value
+vm$ echo Okay. Now what?
 Okay, Now what?
-$
+vm$
 ```
 
 ???
@@ -449,16 +449,16 @@ We can use the `export` utility to create and modify environment variables.
 
 
 ```
-$ export myVariable=variable-value
-$ echo The value of the variable "myVariable" is: $myVariable
+vm$ export myVariable=variable-value
+vm$ echo The value of the variable "myVariable" is: $myVariable
 The value of the variable "myVariable" is: variable-value
-$ export mistake=value with spaces
-$ echo The value of the variable "mistake" is: $mistake
+vm$ export mistake=value with spaces
+vm$ echo The value of the variable "mistake" is: $mistake
 The value of the variable "mistake" is: value
-$ export correct='value with spaces'
-$ echo The value of the variable "correct" is: $correct
+vm$ export correct='value with spaces'
+vm$ echo The value of the variable "correct" is: $correct
 The value of the variable "correct" is: value with spaces
-$
+vm$
 ```
 
 ???
@@ -470,17 +470,17 @@ To inspect them, another shell substitution feature comes to the rescue.
 # Environment Variables: Process Isolation
 
 ```
-$ export foo=bar
-$ echo $foo
+vm$ export foo=bar
+vm$ echo $foo
 bar
-$
+vm$
 ```
 
 In a new shell:
 
 ```
-$ echo $foo
-$
+vm$ echo $foo
+vm$
 ```
 
 ???
@@ -494,14 +494,14 @@ just close the terminal window and try again with a new one.
 # Under the hood: the `PATH` environment variable
 
 ```
-$ echo $PATH
+vm$ echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/sbin
-$ which ls
+vm$ which ls
 /bin/ls
-$ which man
+vm$ which man
 /usr/bin/man
-$ export PATH=garbage
-$ ls
+vm$ export PATH=garbage
+vm$ ls
 Command 'ls' is available in '/bin/ls'
 The command could not be located because '/bin' is not included in the PATH environment variable.
 ls: command not found
@@ -521,9 +521,9 @@ We can modify this value at our peril.
 # Under the hood: the `PS1` environment variable
 
 ```
-$ echo Prompt: $PS1
+vm$ echo Prompt: $PS1
 Prompt: $
-$ export PS1="my awesome prompt "
+vm$ export PS1="my awesome prompt "
 my awesome prompt echo Strange...
 Strange...
 my awesome prompt 

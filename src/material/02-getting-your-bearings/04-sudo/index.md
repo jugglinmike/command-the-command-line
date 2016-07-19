@@ -12,9 +12,9 @@ There's one more topic that is important to understand: the `sudo` utility.
 # Background: Users and permissions
 
 ```
-$ whoami
+vm$ whoami
 sally
-$
+vm$
 ```
 
 ???
@@ -28,14 +28,14 @@ to promote privacy while still allowing people to share files and devices.
 :continued:
 
 ```
-$ echo $HOME
+vm$ echo $HOME
 /home/sally
-$ ls /home
+vm$ ls /home
 larry
 nancy
 sally
 xavier
-$
+vm$
 ```
 
 ???
@@ -49,9 +49,9 @@ there might be more directories for other people.
 :continued:
 
 ```
-$ ls /home/larry
+vm$ ls /home/larry
 ls: cannot open directory /home/larry: Permission denied
-$
+vm$
 ```
 
 ???
@@ -64,13 +64,13 @@ users.
 :continued:
 
 ```
-$ ls -o /home
+vm$ ls -o /home
 total 102
 drwx------ 72 larry  24576 Jul 01 10:55 larry
 drwx------ 72 nancy  8374  Jul 09 10:55 nancy
 drwx------ 72 sally  39827 Jul 14 10:55 sally
 drwx------ 72 xavier 33432 Jul 11 10:55 xavier
-$
+vm$
 ```
 
 ???
@@ -100,7 +100,7 @@ file system: `/root`.
 :continued:
 
 ```
-$ rm -rf /bin
+vm$ rm -rf /bin
 rm: cannot remove ‘/bin/zdiff’: Permission denied
 rm: cannot remove ‘/bin/findmnt’: Permission denied
 rm: cannot remove ‘/bin/bzegrep’: Permission denied
@@ -123,12 +123,12 @@ malicious program can do when it runs on your behalf.
 # `sudo`
 
 ```
-$ whoami
+vm$ whoami
 sally
-$ sudo whoami
+vm$ sudo whoami
 [sudo] password for sally:
 root
-$
+vm$
 ```
 
 ???
@@ -144,12 +144,12 @@ $
 :continued:
 
 ```
-$ whoami
+vm$ whoami
 untrusteduser
-$ sudo whoami
+vm$ sudo whoami
 [sudo] password for untrusteduser:
 untrusteduser is not in the sudoers file.  This incident will be reported.
-$
+vm$
 ```
 
 ???
@@ -163,19 +163,19 @@ administrator.
 :continued:
 
 ```
-$ sudo echo "After I've authenticated once..."
+vm$ sudo echo "After I've authenticated once..."
 [sudo] password for sally:
 After I've authenticated once...
-$ date
+vm$ date
 Wed Dec 31 1969 19:00:00 EST 1969
-$ sudo echo "I stay in 'sudo mode' for a little while."
+vm$ sudo echo "I stay in 'sudo mode' for a little while."
 I stay in 'sudo mode' for a little while.
-$ date
+vm$ date
 Wed Dec 31 1969 19:21:00 EST 1969
-$ sudo echo "...but I'll need to re-authenticate every so often."
+vm$ sudo echo "...but I'll need to re-authenticate every so often."
 [sudo] password for sally:
 ...but I'll need to re-authenticate every so often.
-$
+vm$
 ```
 
 ???
@@ -190,17 +190,17 @@ This status will expire after a short period (15 minutes by default).
 # Using `sudo` safely
 
 ```
-$ apt-get install cowsay
+vm$ apt-get install cowsay
 E: Could not open lock file /var/lib/dpkg/lock - open (13: Permission denied)
 E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?
-$ sudo apt-get install cowsay
+vm$ sudo apt-get install cowsay
 [sudo] password for sally: 
 Reading package lists... Done
 Building dependency tree       
 Reading state information... Done
 cowsay is already the newest version.
 0 upgraded, 0 newly installed, 0 to remove and 23 not upgraded.
-$
+vm$
 ```
 
 ???
@@ -215,11 +215,11 @@ understand what the command is going to do.
 # Avoiding "unsafe" uses of `sudo`
 
 ```
-$ sudo ./script-i-found-on-the-web.sh
+vm$ sudo ./script-i-found-on-the-web.sh
 [sudo] password for sally: 
 Installing a key logger... Done
 Deleting all your applications... Done
-$
+vm$
 ```
 
 ???
@@ -233,11 +233,11 @@ untrusted program from the Internet may cause all sorts of problems.
 :continued:
 
 ```
-$ sudo apt-get install the-dependency-i-need
+vm$ sudo apt-get install the-dependency-i-need
 [sudo] password for sally: 
-$ ./script-i-found-on-the-web.sh
+vm$ ./script-i-found-on-the-web.sh
 Performing actions as the current (de-privileged) user
-$
+vm$
 ```
 
 ???

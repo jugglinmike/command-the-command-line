@@ -40,7 +40,7 @@
 ---
 
 ```
-$
+vm$
 ```
 
 ???
@@ -58,9 +58,9 @@ $
 # `pwd`
 
 ```
-$ pwd
+vm$ pwd
 /home/sally
-$
+vm$
 ```
 
 ???
@@ -78,12 +78,12 @@ $
 # `ls`
 
 ```
-$ pwd
+vm$ pwd
 /home/sally
-$ ls
+vm$ ls
 my-amazing-subdirectory
 my-normal-file.txt
-$
+vm$
 ```
 
 ???
@@ -97,10 +97,10 @@ $
 :continued:
 
 ```
-$ ls my-amazing-subdirectory
+vm$ ls my-amazing-subdirectory
 oh-boy-another-directory
 just-another-file.txt
-$
+vm$
 ```
 
 ???
@@ -113,10 +113,10 @@ of that directory.
 # `cd`
 
 ```
-$ cd my-amazing-subdirectory
-$ pwd
+vm$ cd my-amazing-subdirectory
+vm$ pwd
 /home/sally/my-amazing-subdirectory
-$
+vm$
 ```
 
 ???
@@ -133,14 +133,14 @@ $
 :continued:
 
 ```
-$ ls
+vm$ ls
 oh-boy-another-directory
 just-another-file.txt
-$ cd just-another-file.txt
+vm$ cd just-another-file.txt
 cd: just-another-file.txt: Not a directory
-$ cd this-directory-doesnt-exist
+vm$ cd this-directory-doesnt-exist
 cd: this-directory-doesnt-exist: No such file or directory
-$
+vm$
 ```
 
 ???
@@ -152,12 +152,12 @@ Notice that we cannot move into a file or into a location that doesn't exist.
 :continued:
 
 ```
-$ pwd
+vm$ pwd
 /home/sally
-$ cd my-amazing-subdirectory/oh-boy-another-directory
-$ pwd
+vm$ cd my-amazing-subdirectory/oh-boy-another-directory
+vm$ pwd
 /home/sally/my-amazing-subdirectory/oh-boy-another-directory
-$
+vm$
 ```
 
 ???
@@ -170,15 +170,15 @@ directory names.
 # Going `$HOME`
 
 ```
-$ pwd
+vm$ pwd
 /home/sally/my-amazing-subdirectory/oh-boy-another-directory
-$ cd ~
-$ pwd
+vm$ cd ~
+vm$ pwd
 /home/sally
-$ cd ~/my-amazing-subdirectory/oh-boy-another-directory
-$ pwd
+vm$ cd ~/my-amazing-subdirectory/oh-boy-another-directory
+vm$ pwd
 /home/sally/my-amazing-subdirectory/oh-boy-another-directory
-$
+vm$
 ```
 
 ???
@@ -201,12 +201,12 @@ directory."
 :continued:
 
 ```
-$ pwd
+vm$ pwd
 /home/sally/my-amazing-subdirectory/oh-boy-another-directory
-$ cd ..
-$ pwd
+vm$ cd ..
+vm$ pwd
 /home/sally/my-amazing-subdirectory
-$
+vm$
 ```
 
 ???
@@ -218,12 +218,12 @@ Two period characters (`..`) signify "the directory above."
 :continued:
 
 ```
-$ pwd
+vm$ pwd
 /home/sally/my-amazing-subdirectory
-$ cd ../../sally
-$ pwd
+vm$ cd ../../sally
+vm$ pwd
 /home/sally
-$
+vm$
 ```
 
 ???
@@ -236,13 +236,13 @@ can write a path.
 :continued:
 
 ```
-$ pwd
+vm$ pwd
 /home/sally
-$ cd ../..
-$ pwd
+vm$ cd ../..
+vm$ pwd
 /
-$ cd ..
-$ pwd
+vm$ cd ..
+vm$ pwd
 /
 ```
 
@@ -269,15 +269,15 @@ directory**. We can't move any higher in the file system than the root.
 :continued:
 
 ```
-$ pwd
+vm$ pwd
 /home/sally
-$ cd /home
-$ pwd
+vm$ cd /home
+vm$ pwd
 /home
-$ cd /home/sally/my-amazing-subdirectory
-$ pwd
+vm$ cd /home/sally/my-amazing-subdirectory
+vm$ pwd
 /home/sally/my-amazing-subdirectory
-$
+vm$
 ```
 
 ???
@@ -291,14 +291,14 @@ when we use it.
 # `tree`
 
 ```js
-$ tree
+vm$ tree
 .
 ├── my-amazing-directory
 │   └── just-another-file.txt
 └── my-normal-file.txt
 
 1 directory, 2 files
-$
+vm$
 ```
 
 ???
@@ -323,14 +323,14 @@ Lets take a look at some tools for learning about files and their contents.
 # `cat`
 
 ```
-$ ls
+vm$ ls
 oh-boy-another-directory
 just-another-file.txt
-$ cat just-another-file.txt
+vm$ cat just-another-file.txt
 This is the first line of just-another-file.txt
 This is the second line of the file!
 The file only has three lines, and this is the last one!
-$
+vm$
 ```
 
 ???
@@ -345,7 +345,7 @@ $
 # `less`
 
 ```
-$ less a-longer-file.txt
+vm$ less a-longer-file.txt
 This is the content of a-longer-file.txt, but only
 just enough of it to fill the screen. You can use
 the "up" and "down" arrow keys in the terminal to
@@ -368,13 +368,13 @@ has a lot of special controls, but the most important ones are:
 # `wc`
 
 ```
-$ cat just-another-file.txt
+vm$ cat just-another-file.txt
 This is the first line of just-another-file.txt
 This is the second line of the file!
 The file only has three lines, and this is the last one!
-$ wc just-another-file.txt
+vm$ wc just-another-file.txt
   3  27 142 just-another-file.txt
-$
+vm$
 ```
 
 The `wc` utility (short for "word count") displays the number of newlines,
@@ -385,15 +385,15 @@ words, and bytes in a given file. The output is pretty terse, though!
 # `sort`
 
 ```
-$ cat just-another-file.txt
+vm$ cat just-another-file.txt
 This is the first line of just-another-file.txt
 This is the second line of the file!
 The file only has three lines, and this is the last one!
-$ sort just-another-file.txt
+vm$ sort just-another-file.txt
 The file only has three lines, and this is the last one!
 This is the first line of just-another-file.txt
 This is the second line of the file!
-$
+vm$
 ```
 
 ???

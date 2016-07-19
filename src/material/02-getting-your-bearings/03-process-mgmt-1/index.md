@@ -13,7 +13,7 @@ processes and how you can regain control of the terminal in each.
 # Case #1: "I want to cancel this work"
 
 ```
-$ find / -name nemo
+vm$ find / -name nemo
 ```
 
 ???
@@ -35,9 +35,9 @@ Instead, we'll send a "signal" to the active process.
 :continued:
 
 ```
-$ find / -name nemo
+vm$ find / -name nemo
 ^C
-$
+vm$
 ```
 
 ???
@@ -54,7 +54,7 @@ re-enter the correct command.
 # Case #2: "I'm done entering data"
 
 ```
-$ sort
+vm$ sort
 murdock, matt
 stark, tony
 rogers, steve
@@ -80,7 +80,7 @@ we are done entering input and would like the program to continue its work.
 :continued:
 
 ```
-$ sort
+vm$ sort
 murdock, matt
 stark, tony
 rogers, steve
@@ -94,7 +94,7 @@ parker, peter
 rogers, steve
 romanova, natasha
 stark, tony
-$
+vm$
 ```
 
 ???
@@ -113,7 +113,7 @@ line directly.
 # Case #3: "I'd like to do other things while this completes."
 
 ```
-$ find / -name nemo
+vm$ find / -name nemo
 ```
 
 ???
@@ -128,10 +128,10 @@ inefficient (and may clutter up your desktop environment).
 :continued:
 
 ```
-$ find / -name nemo
+vm$ find / -name nemo
 ^Z
 [1]+  Stopped                 find / -name nemo
-$
+vm$
 ```
 
 ???
@@ -146,11 +146,11 @@ stop (but not exit) and release the terminal.
 :continued:
 
 ```
-$ jobs
+vm$ jobs
 [1]+  Stopped                 find / -name nemo
-$ bg 1
+vm$ bg 1
 [1]+ find / -name nemo &
-$ jobs
+vm$ jobs
 [1]+  Running                 find / -name nemo &
 ```
 
@@ -167,9 +167,9 @@ we want by ts "job ID" (`1` in this case).
 :continued:
 
 ```
-$ jobs
+vm$ jobs
 [1]+  Running                 find / -name nemo &
-$ fg 1
+vm$ fg 1
 ```
 
 ???
