@@ -24,11 +24,14 @@ var manifest = {
     },
     {
       name: 'Part III - Improving Your Workflow',
-      toc: ['file-mgmt']
+      toc: [
+        'file-mgmt', 'process-bounds', 'process-combination', 'scripting',
+        'customization'
+      ]
     },
     {
       name: 'Part IV - Managing Systems',
-      toc: ['process-mgmt-2']
+      toc: ['process-mgmt-2', 'users-and-groups', 'fhs', 'scheduling']
     }
   ]
 };
