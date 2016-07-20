@@ -5,6 +5,8 @@ var fs = require('fs');
 var async = require('async');
 var grayMatter = require('gray-matter');
 
+var chapterRefRe = /:chapter:([^:]+):/g;
+
 function validateToc(toc) {
   assert(Array.isArray(toc), 'Table of contents must be an array.');
   assert(toc.length > 0, 'Table of contents must have at least one entry.');
@@ -87,19 +89,35 @@ function read(manifest, done) {
   });
 
   async.map(toc, readChapter.bind(null, base), function(err, chapters) {
+    var byId, badRefs, errorMsg;
+
     if (err) {
       done(err);
       return;
     }
 
-    var byId = Object.create(null);
+    byId = Object.create(null);
+    badRefs = [];
     chapters.forEach(function(chapter) { byId[chapter.id] = chapter; });
     chapters.forEach(function(chapter) {
-      chapter.content = chapter.content.replace(/:chapter-([^:]+):/, function(_, id) {
+      chapter.content = chapter.content.replace(chapterRefRe, function(_, id) {
         var ref = byId[id];
-        return `[Chapter ${ ref.idx } - ${ ref.meta.title }](${ ref.id })`;
+        if (!ref) {
+          badRefs.push(id);
+          return;
+        }
+
+        return `[Chapter ${ ref.idx } - ${ ref.meta.title }](../${ ref.id })`;
       });
     });
+
+    if (badRefs.length) {
+      errorMsg = 'Could not resolve the following chapter references: ' +
+        badRefs.join(',');
+      done(new Error(errorMsg));
+      return;
+    }
+
     done(null, chapters);
   });
 }
