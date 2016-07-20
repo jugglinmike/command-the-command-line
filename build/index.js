@@ -128,6 +128,11 @@ function renderIndex(chapters, done) {
 }
 
 read(manifest, function(err, chapters) {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+
   async.series([
     cpr.bind(null, assetDir, outDir, { deleteFirst: true }),
     // Render and write index.html
