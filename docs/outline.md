@@ -67,7 +67,6 @@
   - Standard input, standard output, standard error
   - Input redirection from file
   - Output redirection to file (truncating)
-  - `/dev/null`
   - Output redirection to file (appending)
   - Exit codes, `false`, and `true`
 - Process combination
@@ -77,6 +76,7 @@
 - Shells, scripting, and portability
   - Shebang
   - Formatting (comments, newlines)
+  - Redirection to `/dev/null`
   - `chmod`
   - Built-ins: `if`, `[`, `exit`, `for`, `while`
   - Shell variables: `$0`, `$@`
