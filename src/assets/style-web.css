@@ -32,7 +32,7 @@ main > article {
 main > article img {
   margin: 0 auto;
   max-width: 100%;
-  max-height: 50vw;
+  max-height: 50vh;
   display: block;
 }
 
