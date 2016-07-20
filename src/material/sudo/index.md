@@ -1,4 +1,6 @@
-# All about `sudo`
+---
+title: All about `sudo`
+---
 
 ???
 

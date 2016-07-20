@@ -1,0 +1,51 @@
+main {
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+header h1 {
+  font-family: monospace;
+}
+header h1:before {
+  content: '$ ';
+}
+header h1 a {
+  color: #333;
+  text-decoration: none;
+}
+
+nav {
+  width: 30%;
+  float: left;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+main > article {
+  width: 70%;
+  float: left;
+}
+
+main > article img {
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 50vw;
+  display: block;
+}
+
+footer {
+  float: left;
+  padding: 1em 0;
+}
+
+pre {
+  padding: 1em;
+
+  background-color: #333;
+  color: #eee;
+  font-size: 1.5em;
+  overflow-x: auto;
+}

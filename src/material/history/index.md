@@ -1,4 +1,6 @@
-# A Brief History of Unix
+---
+title: A Brief History of Unix
+---
 
 ---
 

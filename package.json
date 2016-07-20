@@ -1,0 +1,38 @@
+{
+  "name": "speaking-nix",
+  "version": "1.0.0",
+  "description": "Educational material covering usage and administration of Unix-like systems.",
+  "main": "build/index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bocoup-education/speaking-nix.git"
+  },
+  "keywords": [
+    "bocoup",
+    "education",
+    "unix",
+    "linux",
+    "command-line",
+    "terminal",
+    "shell"
+  ],
+  "author": "Bocoup, LLC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bocoup-education/speaking-nix/issues"
+  },
+  "homepage": "https://github.com/bocoup-education/speaking-nix#readme",
+  "dependencies": {
+    "async": "^2.0.0",
+    "cpr": "^1.1.2",
+    "gray-matter": "^2.0.2",
+    "remark": "^5.0.1",
+    "remark-html": "^5.0.0"
+  }
+}

@@ -1,3 +1,6 @@
+---
+title: Command Invocation
+---
 
 ```
 vm$ ls

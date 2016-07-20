@@ -1,1 +1,3 @@
 src/environment/.vagrant
+node_modules/
+out/

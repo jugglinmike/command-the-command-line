@@ -1,4 +1,6 @@
-# Using Vagrant
+---
+title: Using Vagrant
+---
 
 > Vagrant is a tool for building complete development environments. With an
 > easy-to-use workflow and focus on automation, Vagrant lowers development

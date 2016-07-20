@@ -1,5 +1,3 @@
-# File Management
-
 The project in the `webapp` directory is a mess! Let's clean it up a bit.
 
 1. The files `layout.html` and `style.css` look like temporary work. Maybe you

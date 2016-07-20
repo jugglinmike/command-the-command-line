@@ -1,4 +1,6 @@
-# Setup
+---
+title: Setup
+---
 
 ![Disassembled camera](camera-assembly.jpg)
 

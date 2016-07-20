@@ -1,4 +1,6 @@
-# About the course
+---
+title: About the course
+---
 
 ???
 
