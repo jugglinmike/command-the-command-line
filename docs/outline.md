@@ -68,10 +68,10 @@
   - Input redirection from file
   - Output redirection to file (truncating)
   - Output redirection to file (appending)
-  - Exit codes, `false`, and `true`
+  - Exit codes
 - Process combination
   - Command substitution
-  - Boolean logical operators: `&&`, `||`
+  - Boolean logical operators: `&&`, `||`, `false`, `true`
   - Piping (plus `xargs`)
 - Shells, scripting, and portability
   - Shebang
