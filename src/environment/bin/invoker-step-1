@@ -1,0 +1,31 @@
+#!/bin/bash
+
+function help() {
+  cat <<HERE
+Step 1: Expansions
+
+Please invoke me with every file in the "/bin" directory that contains the
+letter "t" and/or that ends with the letter "s".
+HERE
+  exit 1
+}
+
+progress_file=~/.invoker-1
+
+if [[ $1 == '--help' || $1 == '-h' ]]; then
+  help
+elif [[ ! -f $progress_file ]]; then
+  touch $progress_file
+  help
+fi
+
+diff \
+  <(echo $@ | tr ' ' '\n' | sort | uniq) \
+  <(echo /bin/*t* /bin/*s | tr ' ' '\n' | sort | uniq) \
+  > /dev/null 2>&1
+
+if [ $? != 0 ]; then
+  echo "That doesn't look quite right to me. Here's what I'm seeing:" >&2
+  echo $@ >&2
+  exit 1
+fi

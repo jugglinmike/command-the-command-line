@@ -1,0 +1,42 @@
+#!/bin/bash
+
+function congrats() {
+  cat <<HERE
+Congratulations, you've completed the exercise! If you'd like to start over,
+use the the '--reset' option.
+HERE
+  exit
+}
+
+step_total=4
+progress_file=~/.invoker
+progress=$(cat $progress_file 2> /dev/null)
+soln=0
+err=0
+
+if [[ $1 == '--reset' ]]; then
+  echo 'invoker: resetting...'
+  rm ~/.invoker* 2> /dev/null
+  exit
+fi
+
+if [[ $progress == '' ]]; then
+  progress=1
+fi
+
+if [[ $progress > $step_total ]]; then
+  congrats
+fi
+
+$0-step-$progress $@
+
+if [[ $? == 0 ]]; then
+  echo Step $progress/$step_total complete!
+
+  progress=$(($progress + 1))
+  echo $progress > $progress_file
+
+  if [[ $progress > $step_total ]]; then
+    congrats
+  fi
+fi

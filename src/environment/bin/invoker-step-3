@@ -1,0 +1,138 @@
+#!/bin/bash
+
+function help() {
+  cat <<HERE
+Step 3: Options
+
+I support the "--word" option and the "short" version "-w". I also support the
+"-x" option. There are six unique ways to specify these options, even though
+each version means the same thing. Can you invoke me with all of them?
+HERE
+  exit 1
+}
+
+progress_file=~/.invoker-3
+progress=$(cat $progress_file 2> /dev/null)
+soln_count=6
+
+soln=0
+err=0
+
+if [[ $1 == '--help' || $1 == '-h' ]]; then
+  help
+elif [[ $progress == '' ]]; then
+  echo 0 > $progress_file
+  help
+fi
+
+xw=$((1<<0))
+wx=$((1<<1))
+x_w=$((1<<2))
+w_x=$((1<<3))
+x_word=$((1<<4))
+word_x=$((1<<5))
+
+function count_ones {
+  in=$1
+  count=0
+  while [[ $in > 0 ]]; do
+    count=$(($count + ($in & 1)))
+    in=$(($in >> 1))
+  done
+  echo $count
+}
+
+case $# in
+0)
+  msg="Not enough options."
+  err=1
+  ;;
+1)
+  case $1 in
+  -wx)
+    soln=$wx
+    ;;
+  -xw)
+    soln=$xw
+    ;;
+  -x)
+    msg="That's part of a solution."
+    ;;
+  -w)
+    msg="That's part of a solution."
+    ;;
+  --word)
+    msg="That's part of a solution."
+    ;;
+  *)
+    msg="I don't recognize that option."
+    ;;
+  esac
+  ;;
+2)
+  case $1 in
+  -x)
+    if [[ $2 == '-w' ]]; then
+      soln=$x_w
+    elif [[ $2 == '--word' ]]; then
+      soln=$x_word
+    else
+      msg="That's almost right."
+    fi
+    ;;
+  -w)
+    if [[ $2 == '-x' ]]; then
+      soln=$w_x
+    else
+      msg="That's almost right."
+    fi
+    ;;
+  --word)
+    if [[ $2 == '-x' ]]; then
+      soln=$word_x
+    else
+      msg="That's almost right."
+    fi
+    ;;
+  -wx)
+    msg="That's almost right."
+    ;;
+  -xw)
+    msg="That's almost right."
+    ;;
+  *)
+    msg="I don't recognize that option."
+  esac
+  ;;
+*)
+  msg="Too many options."
+  ;;
+esac
+
+if [[ $msg != "" ]]; then
+  exit_code=3
+else
+  if [[ $(($progress & $soln)) == 0 ]]; then
+    progress=$(($progress | $soln))
+    echo $progress > $progress_file
+    msg="Nice work!"
+    exit_code=1
+  else
+    msg="Correct, but you've already found that one."
+    exit_code=2
+  fi
+fi
+
+if [[ $progress == $(((1<<$soln_count) - 1)) ]]; then
+  exit
+fi
+
+if [[ exit_code != 1 ]]; then
+  echo $msg >&2
+else
+  echo $msg
+fi
+
+echo "Progress: $(count_ones $progress)/$soln_count"
+
+exit $exit_code

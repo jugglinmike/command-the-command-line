@@ -1,0 +1,40 @@
+#!/bin/bash
+
+function help() {
+  cat <<HERE
+Step 4: Environment variables
+
+Please invoke me with the "foo" environment variable set to "bar" and the
+"LIMIT" environment variable to "max".
+HERE
+  exit 1
+}
+
+progress_file=~/.invoker-4
+
+if [[ $1 == '--help' || $1 == '-h' ]]; then
+  help
+elif [[ ! -f $progress_file ]]; then
+  touch $progress_file
+  help
+fi
+
+status=0
+
+if [ "$foo" = '' ]; then
+  echo "'foo' isn't set." >&2
+  status=1
+elif [ "$foo" != 'bar' ]; then
+  echo "'foo' is set to the wrong value." >&2
+  status=1
+fi
+
+if [ "$LIMIT" = '' ]; then
+  echo "'limit' isn't set." >&2
+  status=1
+elif [ "$LIMIT" != 'max' ]; then
+  echo "'limit' is set to the wrong value." >&2
+  status=1
+fi
+
+exit $status
