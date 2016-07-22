@@ -1,0 +1,5 @@
+#!/bin/bash
+
+date +%s | sha1sum | cut -d ' ' -f 1 >&2
+
+exit 1

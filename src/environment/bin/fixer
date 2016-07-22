@@ -1,0 +1,42 @@
+#!/bin/bash
+
+name=$(basename $0)
+
+function usage() {
+  cat <<HERE
+Usage: $name "value-from-booboo"
+Invoke this program with the value that the 'booboo' program writes to the
+standard error stream.
+HERE
+}
+
+if [[ $# == '0' || $# != '1' ]]; then
+  echo "Expected exactly 1 argument but received $#." >&2
+  usage
+  exit 1
+fi
+
+if [[ $1 == '--help' || $1 == '-h' ]]; then
+  usage
+  exit
+fi
+
+# This heuristic contains a race condition--if the invocation of `booboo`
+# occurs more than 1 second before the invocation of this script, it will fail
+# incorrectly. Because students are instructed to use process substitution or
+# pipelines to achieve this task, such a delay is unlikely to be experienced.
+
+now=$(date +%s)
+before=$(($now - 1))
+
+function calc() {
+  echo $1 | sha1sum | cut -d ' ' -f 1
+}
+
+if [[ $1 == $(calc $now) || $1 == $(calc $before) ]]; then
+  echo You got it!
+  exit
+fi
+
+echo That isn\'t what I was expecting.
+exit 1
