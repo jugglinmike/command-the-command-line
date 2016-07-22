@@ -21,9 +21,13 @@ vm$
 
 ???
 
-Unix was designed as a time-sharing system. Many people were expected to be
-logged in and working at the same time. The system recognizes "users" as a way
-to promote privacy while still allowing people to share files and devices.
+Recall from :chapter:history: that Unix was designed as a time-sharing system.
+Many people were expected to be logged in and working at the same time. The
+system recognizes "users" as a way to promote privacy while still allowing
+people to share files and devices.
+
+The `whoami` application is one of the better-named utilities in our toolkit;
+it simply displays the name of the user who invoked it.
 
 ---
 
@@ -254,6 +258,7 @@ in its origins!
 
 # In Review
 
+- `whoami` is a utility that prints the current user's name
 - The "root" user (or "superuser") is capable of performing any task
 - The `sudo` utility allows you to execute single commands as the "root" user
 - You should trust any program you run using `sudo`!

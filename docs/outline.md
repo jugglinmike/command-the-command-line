@@ -52,7 +52,8 @@
   - CTRL-D
   - CTRL-Z and `fg`
 - All about `sudo`
-  - Intro to users and permissions
+  - Intro to users and permissions (and `whoami`)
+  - The `root` user
   - Dangers
   - Recognizing when it is necessary
   - Recognizing when it is *not* necessary
@@ -93,7 +94,7 @@
   - Process IDs and `ps`, `top`
   - `kill`, `killall`
 - Users and groups
-  - `chown`, `groups`, `who`, `whoami`
+  - `chown`, `groups`, `who`
 - File system hierarchy standard
   - `/tmp` (and `mktemp`)
   - `/var/log` (and `tail`)
