@@ -18,7 +18,7 @@ itself.
 # Overview
 
 - File organization: `mv`, `rm`, `mkdir`
-- File inspection: `grep`, `find`
+- File inspection: `wc`, `grep`, `find`
 - File manipulation: `nano`, `sed`, `awk`
 
 ???
@@ -173,13 +173,30 @@ vm$
   - `mv` - change the location of files and directories (as in "**m**o**v**")
   - `rm` - delete files and directories (as in "**r**e**m**ove")
   - `mkdir` - create directories (as in "**m**a**k**e **dir**ectories")
-- File inspection: `grep`, `find`
+- File inspection: `wc`, `grep`, `find`
 - File manipulation: `nano`, `sed`, `awk`
 
 ???
 
 Now that we know a little more about organizing files, we'll learn about a few
 ways to inspect their contents.
+
+---
+
+# `wc`
+
+```
+vm$ cat just-another-file.txt
+This is the first line of just-another-file.txt
+This is the second line of the file!
+The file only has three lines, and this is the last one!
+vm$ wc just-another-file.txt
+  3  27 142 just-another-file.txt
+vm$
+```
+
+The `wc` utility (short for "**w**ord **c**ount") displays the number of
+newlines, words, and bytes in a given file. The output is pretty terse, though!
 
 ---
 
@@ -299,6 +316,8 @@ character (`\`).
   - `rm` - delete files and directories (as in "**r**e**m**ove")
   - `mkdir` - create directories (as in "**m**a**k**e **dir**ectories")
 - File inspection
+  - `wc` - display statistics for a text file, including details like number of
+    words and number of lines ("**w**ord **c**ount")
   - `grep` - find text within a file
   - `find` - find files and directories based on meta data
 - File manipulation: `nano`, `sed`, `awk`
@@ -436,6 +455,8 @@ when you need to perform advanced text manipulation.
   - `rm` - delete files and directories (as in "**r**e**m**ove")
   - `mkdir` - create directories (as in "**m**a**k**e **dir**ectories")
 - File inspection
+  - `wc` - display statistics for a text file, including details like number of
+    words and number of lines ("**w**ord **c**ount")
   - `grep` - find text within a file
   - `find` - find files and directories based on meta data
 - File manipulation

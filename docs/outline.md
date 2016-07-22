@@ -27,7 +27,7 @@
 - TOPIC: Traversing and inspecting the file system
   - `cd`, `ls`, `pwd`, `tree` (where available)
   - Special paths: `.`, `..`, `/`, `~`
-  - `cat`, `less`, `wc`, `sort`, `head`, `tail`
+  - `cat`, `less`, `sort`
 - EXERCISE: Treasure hunt
 - TOPIC: Command invocation
   - `echo`
@@ -61,7 +61,7 @@
 
 - File management
   - Organization: `mv`, `rm`, `mkdir`
-  - Inspection: `grep`, `find`
+  - Inspection: `wc`, `grep`, `find`
   - Manipulation: `nano`, `sed`, `awk`
 - The edges of a process
   - Standard input, standard output, standard error

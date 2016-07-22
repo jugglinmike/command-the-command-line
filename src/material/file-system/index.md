@@ -367,23 +367,6 @@ has a lot of special controls, but the most important ones are:
 
 ---
 
-# `wc`
-
-```
-vm$ cat just-another-file.txt
-This is the first line of just-another-file.txt
-This is the second line of the file!
-The file only has three lines, and this is the last one!
-vm$ wc just-another-file.txt
-  3  27 142 just-another-file.txt
-vm$
-```
-
-The `wc` utility (short for "word count") displays the number of newlines,
-words, and bytes in a given file. The output is pretty terse, though!
-
----
-
 # `sort`
 
 ```
