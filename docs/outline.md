@@ -24,12 +24,12 @@
 
 ## 2 Getting your bearings
 
-- TOPIC: Traversing and inspecting the file system
+- Traversing and inspecting the file system
   - `cd`, `ls`, `pwd`, `tree` (where available)
   - Special paths: `.`, `..`, `/`, `~`
   - `cat`, `less`, `sort`
-- EXERCISE: Treasure hunt
-- TOPIC: Command invocation
+  - **Exercise**: Treasure hunt
+- Command invocation
   - `echo`
   - Options and arguments
     - Long versus short (convention)
@@ -46,7 +46,7 @@
     - `env`
     - Setting your own (with and without `export`)
     - Transitivity
-  - EXERCISE: Invoker
+  - **Exercise**: Invoker
 - Process Management I
   - CTRL-C
   - CTRL-D
