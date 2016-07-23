@@ -69,10 +69,10 @@
   - Input redirection from file
   - Output redirection to file (truncating)
   - Output redirection to file (appending)
-  - Exit codes
+  - Exit status
 - Process combination
   - Command substitution
-  - Boolean logical operators: `&&`, `||`, `false`, `true`
+  - Exit status and `$?`
   - Piping (plus `xargs`)
 - Shells, scripting, and portability
   - Shebang
@@ -80,6 +80,7 @@
   - Redirection to `/dev/null`
   - `chmod`
   - Built-ins: `if`, `[`, `exit`, `for`, `while`
+  - Boolean logical operators: `&&`, `||`, `false`, `true`
   - Shell variables: `$0`, `$@`
 - Customization
   - Startup scripts
