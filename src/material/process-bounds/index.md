@@ -771,6 +771,50 @@ this communication channel is much more useful within shell scripts.
 
 ---
 
+:continued:
+
+```
+vm$ cat .
+cat: .: Is a directory
+vm$ echo $?
+1
+vm$ echo $?
+0
+vm$
+```
+
+???
+
+One final caveat: don't foget that `echo` is itself a program! When we use it
+to inspect the value of the `$?` variable, we're also causing the shell to
+overwrite that value.
+
+---
+
+:continued:
+
+```
+vm$ cat .
+cat: .: Is a directory
+vm$ catresult=$?
+vm$ echo $catresult
+1
+vm$ echo $?
+0
+vm$ echo $catresult
+1
+vm$
+```
+
+???
+
+If we need to re-use a process's exit status, we'll have to store it in a
+variable immediately after that process completes. Subsequent processes may
+change the value of the `$?` variable, but the variable we created won't be
+affected.
+
+---
+
 # In Review
 
 Processes have access to four common input channels:
