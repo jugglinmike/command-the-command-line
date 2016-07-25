@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+# The commands in this file would require the use of `sudo` if executed by a
+# de-privileged user. However, Vagrant's "shell provisioner" [1] is run as the
+# root user, making this unnecessary.
+#
+# [1] https://www.vagrantup.com/docs/provisioning/shell.html
+
 USER_NAME=speaker
 USER_PSWD=speaker
 USER_HOME=/home/$USER_NAME
