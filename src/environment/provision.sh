@@ -13,6 +13,9 @@ USER_HOME=/home/$USER_NAME
 echo "Updating package repository"
 apt-get update >/dev/null 2>&1
 
+echo "Installing utilities"
+apt-get install tree
+
 adduser $USER_NAME --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
 echo "$USER_NAME:$USER_PSWD" | chpasswd
 usermod -a -G sudo $USER_NAME
