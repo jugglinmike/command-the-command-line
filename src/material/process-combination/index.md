@@ -297,7 +297,7 @@ for another command.
 ---
 
 ```
-vm$ find documents -newermt 'last week'
+vm$ find documents -type f -newermt 'last week'
 documents/year plan.odf
 documents/questionnaire.odf
 vm$
@@ -315,9 +315,9 @@ week.
 :continued:
 
 ```
-vm$ find documents -newermt 'last week' | sed 's/hot dog/banana/g'
-documents/year plan.odf
-documents/questionnaire.odf
+vm$ find documents -type f -newermt 'last week' | sed 's/hot dog/banana/g'
+documents/year plan.txt
+documents/questionnaire.txt
 vm$
 ```
 
@@ -332,7 +332,7 @@ not the content of the files.
 :continued:
 
 ```
-vm$ find documents -newermt 'last week' | cat | sed 's/hot dog/banana/g'
+vm$ find documents -type f -newermt 'last week' | cat | sed 's/hot dog/banana/g'
 # Year plan
 
 January: learn to use the Terminal
@@ -357,12 +357,12 @@ we want to modify each source file in-place.
 :continued:
 
 ```
-vm$ sed -i 's/hot dog/banana/g' $(find documents -newermt 'last week')
+vm$ sed -i 's/hot dog/banana/g' $(find documents -type f -newermt 'last week')
 sed: can't read documents/year: No such file or directory
-sed: can't read plan.odf: No such file or directory
-vm$ sed -i 's/hot dog/banana/g' documents/year plan.odf documents/questionnaire.odf
+sed: can't read plan.txt: No such file or directory
+vm$ sed -i 's/hot dog/banana/g' documents/year plan.txt documents/questionnaire.txt
 sed: can't read documents/year: No such file or directory
-sed: can't read plan.odf: No such file or directory
+sed: can't read plan.txt: No such file or directory
 vm$
 ```
 
@@ -402,7 +402,7 @@ input.
 :continued:
 
 ```
-vm$ find documents -newermt 'last week' -print0 | xargs -0 sed -i 's/hot dog/banana/g'
+vm$ find documents -type f -newermt 'last week' -print0 | xargs -0 sed -i 's/hot dog/banana/g'
 vm$
 ```
 
