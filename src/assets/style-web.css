@@ -49,3 +49,10 @@ pre {
   font-size: 1.5em;
   overflow-x: auto;
 }
+
+.solution {
+  visibility: hidden;
+}
+#solution-toggle:checked ~ .solution {
+  visibility: visible;
+}

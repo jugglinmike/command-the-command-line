@@ -100,6 +100,7 @@ function renderChapter(chapter, _, done) {
   ];
   if (chapter.exercise) {
     ops.push(translate.bind(null, 'web', chapter.exercise.prompt.content));
+    ops.push(translate.bind(null, 'web', chapter.exercise.solution.content));
   }
 
   async.parallel(ops, function(err, results) {
@@ -114,6 +115,9 @@ function renderChapter(chapter, _, done) {
 
     if (chapter.exercise) {
       html += '<h3>Exercise</h3>' + results[1];
+      html += '<input type="checkbox" id="solution-toggle" />';
+      html += '<label for="solution-toggle">Show/hide solution</label>';
+      html += '<div class="solution">' + results[2] + '</div>';
     }
 
     done(null, html);
