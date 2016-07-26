@@ -382,7 +382,7 @@ approach is necessary.
 # `xargs`
 
 ```
-$vm man xargs
+vm$ man xargs
 XARGS(1)              General Commands Manual              XARGS(1)
 
 NAME
