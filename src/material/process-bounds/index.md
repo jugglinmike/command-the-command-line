@@ -300,8 +300,8 @@ are available to all processes.
 vm$ cat my-file.txt
 The `cat` utility writes to standard output.
 vm$ mkdir my-directory
-vm$ echo But `mkdir` does not.
-But `mkdir` does not.
+vm$ echo But mkdir does not.
+But mkdir does not.
 ```
 
 ???
