@@ -75,13 +75,16 @@
   - Exit status and `$?`
   - Piping (plus `xargs`)
 - Shells, scripting, and portability
-  - Shebang
-  - Formatting (comments, newlines)
-  - Redirection to `/dev/null`
-  - `chmod`
-  - Built-ins: `if`, `[`, `exit`, `for`, `while`
-  - Boolean logical operators: `&&`, `||`, `false`, `true`
-  - Shell variables: `$0`, `$@`
+  - Script usability
+    - "execute" permission (and `chmod`)
+    - Shebang
+  - Source readability
+    - Newlines
+    - Comments
+    - Long vs. short options, revisited
+  - Built-ins: `if`, `[`, `exit`
+  - Boolean logical operators: `&&`, `||`
+  - Shell variables: `$0`, `$#`
 - Customization
   - Startup scripts
     - Interactive vs. non-interactive shells

@@ -86,7 +86,7 @@ doesn't work, we'll need to discuss a new aspect of Unix files--file "modes".
 # File Modes
 
 Every file on the file system has a set of permissions associated with it. This
-meta-data describes whether the file can be read, written, and exectued as a
+meta-data describes whether the file can be read, written, and executed as a
 command. (This description simplifies the topic a bit; see
 :chapter:users-and-groups: for a more complete discussion.)
 
@@ -115,7 +115,7 @@ vm$
 
 ???
 
-The difficult-to-pronounse `chmod` utility is the tool we need here. Short for
+The difficult-to-pronounce `chmod` utility is the tool we need here. Short for
 "**ch**ange **mod**e," `chmod` will allow us to enable the "execute" permission
 for the scripts we write.
 
@@ -158,20 +158,22 @@ vm$
 ???
 
 When we invoke our script, the program loader assumes that the script should be
-interpreted with our default shell (which, as mentioned earlier, is Bash in
-this course's virtual environment). This is a valid assumption for the shells
-we authored for ourselves and for the current system. But because we may want
-to share our scripts with others (or re-use them in different environments), we
-can't take this for granted.
+interpreted with our default shell (as mentioned earlier, this is Bash in this
+course's virtual environment). This is a valid assumption for the shells we
+author for ourselves and for the current system.  However, another system may
+be configured to use a different shell by default. In that case, our script
+would be interpreted by that other shell, and there's no telling if it would
+work correctly there.
 
-Another system may be configured to use a different shell by default. In that
-case, our script would be interpreted by that other shell, and there's no
-telling if it would work correctly there.
+Because we may want to share our scripts with others (or re-use them in
+different environments), we can't take the shell for granted. Ideally, we want
+to author our scripts in a way that is "portable" between users and systems.
 
 In order to ensure that the same shell is used across all environments, we
-specify it at the top of the file. Note that this first line begins with a
-special character sequence: the "number" sign (`#`) followed by the exclamation
-point (`!`). This sequence is sometimes referred to as a "shebang."
+specify the name of the shell at the top of the file. Note that this first line
+begins with a special character sequence: the "number" sign (`#`) followed by
+the exclamation point (`!`). This sequence is sometimes referred to as a
+"shebang."
 
 With those details out of the way, we can get back to writing scripts.
 
@@ -293,7 +295,7 @@ standard output and standard error as we went. If some command failed, we would
 stop and modify our plan as necessary.
 
 Shell scripts do not require step-by-step verification by default. They will
-execute each coommand in series, usually faster than we can perceive. This is
+execute each command in series, usually faster than we can perceive. This is
 largely the point, but it forces us to be explicit about how exceptional
 circumstances should be handled.
 
@@ -304,7 +306,7 @@ circumstances should be handled.
 ```
 vm$ ls
 my-important-document.odf
-vm$ cd out && rm -rf *
+vm$ cd out && rm -r *
 bash: cd: out: No such file or directory
 vm$ ls
 my-important-document.odf
@@ -356,7 +358,7 @@ demonstrate our disappointment.'
 
 # `exit`
 
-```bash
+```
 vm$ cat bad.sh
 #!/bin/bash
 
@@ -378,7 +380,7 @@ command has been evaluated.
 
 :continued:
 
-```bash
+```
 vm$ cat applying-exit.sh
 #!/bin/bash
 
@@ -413,7 +415,7 @@ that something went wrong.
 
 # Writing complex branches with `if`
 
-```bash
+```
 vm$ cat first-if.sh
 #!/bin/bash
 
@@ -422,7 +424,7 @@ then
   cp src/* out
   echo The build process is now complete.
 else
-  echo Unable to run build process.
+  echo Unable to run build process. >&2
   exit 1
 fi
 ```
@@ -509,10 +511,14 @@ to the utility's `man` page.
 vm$ cat if-with-test.sh
 #!/bin/bash
 
-if test ! -d out
-  echo Unable to run build process.
-  exit 1
+# Abort if an output directory already exists because
+# mixing content with a previous build could produce
+# unexpected results.
+if test -d out
 then
+  echo Unable to run build process. >&2
+  exit 1
+fi
 
 mkdir out
 cp src/* out
@@ -522,28 +528,217 @@ vm$
 
 ???
 
-The wide range of supported expressions, along with the ability to negative
-expressions via the exclamation mark (`!`), make `test` a great companion to
-`if`.
+The wide range of supported expressions make `test` a great companion to `if`.
+
+Unfortunately, the operators are somewhat terse, and there are no corresponding
+"extended forms." It's always possible to reference the `man` page (or memorize
+their meaning), but using code comments is probably the best way to clarify the
+script's intent.
 
 ---
 
-# `true` ("Do nothing, successfully")
+# Alternate paths with `if`
 
 ```
-vm$ true
-vm$ echo $?
-0
+vm$ cat if-else.sh
+#!/bin/bash
+
+# Ensure that an empty output directory exists
+if test -d out
+then
+  rm -r out/*
+else
+  mkdir out
+fi
+
+cp src/* out
+echo The build process is now complete.
 vm$
 ```
 
+???
+
+In the case that our branch ends with the `exit` command, we don't need to
+worry about the "negative" condition. But in many cases, we'll want to specify
+some other commands to run if the test fails. A corresponding `else` branch
+allows us to do exactly that.
+
+This is an example of how we can make our script more robust by responding
+gracefully to different conditions. If the `out` directory exists, we'll just
+make sure it is empty and continue on with the build process. We only need to
+create the directory if it doesn't already exist (in which case, we know it is
+empty).
+
 ---
 
-# `false` ("Do nothing, unsuccessfully")
+# Improving legibility with `[`
 
 ```
-vm$ false
+vm$ cat if-else.sh
+#!/bin/bash
+
+# Ensure that an empty output directory exists
+if [ -d out ]
+then
+  rm -r out/*
+else
+  mkdir out
+fi
+
+cp src/* out
+echo The build process is now complete.
+vm$
+```
+
+???
+
+We can express these same conditions using the "open bracket" character (`[`)
+and "close bracket" character (`]`).
+
+This form is equivalent to the earlier version using `test`. It visually mimics
+the syntax for `if` statements in other languages, so some people prefer it for
+aesthetic reasons. This is a personal choice, though it's good to be aware of
+it because many examples on the web make use of it.
+
+---
+
+# The truth behind `[`
+
+```
+vm$ which [
+/usr/bin/[
+vm$ [ 45 -lt 23 ]
 vm$ echo $?
 1
 vm$
 ```
+
+???
+
+Although `[` looks like syntax for the `if` statement, it is actually just
+another utility. We can invoke it directly and even reference its entry in the
+`man` pages. It is basically an alias for the `test` command we used
+previously; it just requires that the last option is the "close bracket"
+character (`]`).
+
+It's an odd name for a program, but recognizing this detail can make it easier
+to remember how it is used.
+
+---
+
+# Variables: don't repeat yourself
+
+```
+vm$ cat if-else-vars.sh
+#!/bin/bash
+
+out_dir=out
+
+# Ensure that an empty output directory exists
+if [ -d $out_dir ]
+then
+  rm -r $out_dir/*
+else
+  mkdir $out_dir
+fi
+
+cp src/* $out_dir
+echo The build process is now complete.
+vm$
+```
+
+
+???
+
+Minimizing duplication can make our scripts easier to maintain. This is one
+case where variables really shine.
+
+The name of the output directory shows up on four separate lines in this
+example script. If we ever want to change that value, we'll have to be careful
+to replace all four instances.
+
+By storing it in a variable, we're making future maintenance easier and less
+error-prone.
+
+---
+
+# Special script variables
+
+```
+vm$ cat script-vars.sh
+#!/bin/bash
+
+echo The name of the script is $0
+echo You passed $# options
+echo The first option is $1
+echo The fourth option is $4
+vm$
+```
+
+???
+
+Within shell scripts, we can reference a few variables that describe how the
+script was invoked:
+
+- `$#` contains the number of options provided
+- `$0` contains the full path to the script itself
+- The numeric variables `$1` through `$9` contain the option values provided
+
+By acting on these values, we can write scripts that are much more re-usable.
+
+---
+
+:continued:
+
+```
+vm$ cat if-else-option.sh
+#!/bin/bash
+
+if [ $# = 1 ]
+then
+  out_dir=$1
+else
+  out_dir=out
+fi
+
+# Ensure that an empty output directory exists
+if [ -d $out_dir ]
+then
+  rm -r $out_dir/*
+else
+  mkdir $out_dir
+fi
+
+cp src/* $out_dir
+echo The build process is now complete.
+vm$
+```
+
+???
+
+Here, we're allowing the output directory to be specified as the first
+option. If the script is invoked without any options, we default to the
+value "out".
+
+Note how much more difficult this would be if we hadn't introduced the
+`out_dir` variable. That refactoring is already paying off!
+
+---
+
+# In Review
+
+- The "shebang" (`#!`) makes scripts more "portable"
+- Files need the "execute" permission before they can be invoked as scripts. We
+  can use `chmod` to grant that permission.
+- Scripts are much more readable when they include careful use of comments and
+  line breaks
+- `&&` is a way to "chain" commands where the second is executed only if the
+  first completes successfully
+- `||` is a way to "chain" commands where the second is executed only if the
+  first fails
+- The `if` keyword lets us create "branches" of commands that are conditionally
+  executed based on the return status of some process
+- `test` and `[` are alternate names of a command that lets us specify complex
+  conditions
+- The shell defines a number of variables that describe how a script was
+  invoked: `$#`, and variables in the numeric range `$0` through `$9`.
