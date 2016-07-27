@@ -1,39 +1,63 @@
 #!/bin/bash
 
 function help() {
+  if [ $expected = 'CAT' ]; then
+    is_cat=x
+    is_dog=" "
+  else
+    is_cat=" "
+    is_dog=x
+  fi
+
   cat <<HERE
 Step 4: Environment variables
 
-Please invoke me with the "foo" environment variable set to "bar" and the
-"LIMIT" environment variable to "max".
+Please invoke me with the "TODAY" environment variable set to the current day
+of the week and the "cat_or_dog" environment variable set to either "CAT" or
+"DOG", depending on which of the following lines in marked with an "x":
+
+   $is_cat CAT
+   $is_dog DOG
 HERE
   exit 1
 }
 
 progress_file=~/.invoker-4
 
-if [[ $1 == '--help' || $1 == '-h' ]]; then
+if [[ ! -f $progress_file ]]; then
+  # The expected value is randomized in order to increase interest for repeated
+  # playthroughs and also to increase the difficulty of writing a scripted
+  # solution.
+  if [ $(($RANDOM % 2)) = 0 ]; then
+    expected=CAT
+  else
+    expected=DOG
+  fi
+  echo $expected > $progress_file
   help
-elif [[ ! -f $progress_file ]]; then
-  touch $progress_file
+fi
+
+expected=$(cat $progress_file)
+
+if [[ $1 == '--help' || $1 == '-h' ]]; then
   help
 fi
 
 status=0
 
-if [ "$foo" = '' ]; then
-  echo "'foo' isn't set." >&2
+if [ "$cat_or_dog" = '' ]; then
+  echo "'cat_or_dog' isn't set." >&2
   status=1
-elif [ "$foo" != 'bar' ]; then
-  echo "'foo' is set to the wrong value." >&2
+elif [ "$cat_or_dog" != $expected ]; then
+  echo "'cat_or_dog' is set to the wrong value." >&2
   status=1
 fi
 
-if [ "$LIMIT" = '' ]; then
-  echo "'limit' isn't set." >&2
+if [ "$TODAY" = '' ]; then
+  echo "'TODAY' isn't set." >&2
   status=1
-elif [ "$LIMIT" != 'max' ]; then
-  echo "'limit' is set to the wrong value." >&2
+elif [ $(echo $TODAY | tr 'A-Z' 'a-z') != $(date +%A | tr 'A-Z' 'a-z') ]; then
+  echo "'TODAY' is set to the wrong value." >&2
   status=1
 fi
 

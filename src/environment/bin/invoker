@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# NOTE: This script is used by both the "Command Invocation" chapter *and* the
+# "Scripting" chapter. Any changes to its behavior may effect the exercise for
+# either chapter.
+
 function congrats() {
   cat <<HERE
 Congratulations, you've completed the exercise! If you'd like to start over,
