@@ -1,5 +1,5 @@
 ---
-title: Scripting (TODO)
+title: Scripting
 ---
 
 We've accumulated a lot of knowledge about process orchestration. Up to now,
