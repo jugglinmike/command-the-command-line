@@ -1,5 +1,6 @@
 ---
 title: Process Combination
+layout: chapter.html
 ---
 
 Unix-like systems provide a number of facilities for composing processes. As

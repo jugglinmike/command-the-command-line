@@ -1,5 +1,6 @@
 ---
 title: All about `sudo`
+layout: chapter.html
 ---
 
 ???

@@ -1,5 +1,6 @@
 ---
 title: Filesystem Hierarchy Standard
+layout: chapter.html
 ---
 
 ```

@@ -1,5 +1,6 @@
 ---
 title: Setup
+layout: chapter.html
 ---
 
 ![Disassembled camera](camera-assembly.jpg)

@@ -1,5 +1,6 @@
 ---
 title: About the course
+layout: chapter.html
 ---
 
 ???

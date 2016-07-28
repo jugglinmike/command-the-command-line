@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href="{{ root }}/assets/style-web.css" />
+</head>
+<body>
+<main>
+	{{> header }}
+	{{> nav}}
+	<article>
+		<h2>{{ partTitle }}</h2>
+		<h3>{{ title }}</h3>
+
+		{{{ contents }}}
+
+		{{#if exercise}}
+		<section>
+			<h3>Exercise</h3>
+			{{{ exercise.contents }}}
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			{{{ solution.contents }}}
+		</section>
+		{{/if}}
+	</article>
+	{{> footer }}
+</main>
+</body>
+</html>

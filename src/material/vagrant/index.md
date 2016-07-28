@@ -1,5 +1,6 @@
 ---
 title: Using Vagrant
+layout: chapter.html
 ---
 
 > Vagrant is a tool for building complete development environments. With an

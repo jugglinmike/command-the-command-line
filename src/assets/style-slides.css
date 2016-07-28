@@ -1,0 +1,36 @@
+/**
+ * !important declarations necessary to override element attributes defined by
+ * Remark.js.
+ */
+.has-bg {
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.has-bg img {
+  display: none;
+}
+
+.has-bg h1 {
+  position: absolute;
+  right: 0;
+  bottom: 0.8em;
+  left: 0;
+
+  padding: 0.2em 0.4em;
+
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #eee;
+  text-align: right;
+}
+
+.has-bg p {
+  position: absolute;
+  left: 0;
+  bottom: 1em;
+  right: 0;
+
+  font-size: 0.7em;
+  padding: 0.5em 1em;
+  text-align: right;
+}

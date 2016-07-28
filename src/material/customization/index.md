@@ -1,5 +1,6 @@
 ---
 title: Customization
+layout: chapter.html
 ---
 
 ???
