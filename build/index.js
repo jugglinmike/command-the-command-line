@@ -20,7 +20,10 @@ var manifest = {
     },
     {
       name: 'Part II - Getting Your Bearings',
-      toc: ['file-system', 'command-invocation', 'process-mgmt-1', 'sudo']
+      toc: [
+        'file-system', 'command-invocation', 'process-mgmt-1', 'sudo',
+        'networking'
+      ]
     },
     {
       name: 'Part III - Improving Your Workflow',

@@ -57,6 +57,14 @@
   - Dangers
   - Recognizing when it is necessary
   - Recognizing when it is *not* necessary
+- Networking for Web Developers
+  - OSI
+  - Testing with `curl`
+  - The `ifconfig` utility
+  - "Loopback" addresses and `127.0.0.1`
+  - The `0.0.0.0` address
+  - `/etc/hosts`
+  - Ports (common ports, priviledged ports)
 
 ## 3 Improving your workflow
 
