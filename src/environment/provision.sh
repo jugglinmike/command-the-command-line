@@ -21,12 +21,7 @@ echo "$USER_NAME:$USER_PSWD" | chpasswd
 usermod -a -G sudo $USER_NAME
 
 cp -r /home/vagrant/.ssh $USER_HOME
-find /mnt/vagrant/home -maxdepth 1 -mindepth 1 -execdir cp -r {} $USER_HOME \;
 
-# Sample site for "Networking" chapter
-cp -r /mnt/vagrant/var/www /var/
-chown -R $USER_NAME:$USER_NAME /var/www/my-site
+rsync --recursive /mnt/vagrant/root/ /
 
-chown -R $USER_NAME:$USER_NAME $USER_HOME/.ssh $USER_HOME/.bashrc
-
-cp /mnt/vagrant/bin/* /usr/local/bin/
+chown -R $USER_NAME:$USER_NAME $USER_HOME /var/www/my-site
