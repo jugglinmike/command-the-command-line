@@ -16,12 +16,14 @@ apt-get update >/dev/null 2>&1
 echo "Installing utilities"
 apt-get install tree
 
-adduser $USER_NAME --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
+echo "Creating user: $USER_NAME"
+adduser $USER_NAME \
+  --gecos "First Last,RoomNumber,WorkPhone,HomePhone" \
+  --disabled-password
 echo "$USER_NAME:$USER_PSWD" | chpasswd
 usermod -a -G sudo $USER_NAME
-
 cp -r /home/vagrant/.ssh $USER_HOME
 
+echo "Copying files"
 rsync --recursive /mnt/vagrant/root/ /
-
 chown -R $USER_NAME:$USER_NAME $USER_HOME /var/www/my-site
