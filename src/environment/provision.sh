@@ -26,4 +26,7 @@ cp -r /home/vagrant/.ssh $USER_HOME
 
 echo "Copying files"
 rsync --recursive /mnt/vagrant/root/ /
+cd $USER_HOME
+/mnt/vagrant/create-island.sh
+
 chown -R $USER_NAME:$USER_NAME $USER_HOME /var/www/my-site
