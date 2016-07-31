@@ -20,7 +20,7 @@ $(OUTDIR)/.git:
 .PHONY: deploy
 deploy: build $(OUTDIR)/.git
 	git rev-parse HEAD > $(OUTDIR)/version.txt
-	cd $(OUTDIR); \
+	cd $(OUTDIR)/web; \
 		git remote set-url upstream $(UPSTREAM); \
 		git add --all .; \
 		git commit --amend --message 'Build site';\

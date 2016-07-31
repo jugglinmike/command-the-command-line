@@ -14,7 +14,12 @@ module.exports = function crossLink(namePattern, pattern, userReplacer) {
         } else {
           replacer = userReplacer;
         }
+
         file.contents = file.contents.toString().replace(pattern, replacer);
+
+        // The `wintersmith-layouts` module rejects string values for the
+        // `contents` property, so store as a Buffer.
+        file.contents = new Buffer(file.contents);
       });
     done();
   };

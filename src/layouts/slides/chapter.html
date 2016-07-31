@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+	<title>Speaking *nix: Chapter {{ chapterNumber }}: {{ title }}</title>
+	<script src="{{ root }}/assets/remark.js"></script>
+  </head>
+  <body>
+    <textarea id="source">
+### Chapter {{ chapterNumber }}
+# {{ title }}
+
+{{{ contents }}}
+    </textarea>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
