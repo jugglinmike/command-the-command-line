@@ -1,5 +1,6 @@
 ---
 title: The File System
+layout: chapter.html
 ---
 
 ???

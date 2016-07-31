@@ -1,0 +1,23 @@
+[
+    {
+      "title": "Part I - Introduction",
+      "toc": ["history", "about-course", "setup", "vagrant"]
+    },
+    {
+      "title": "Part II - Getting Your Bearings",
+      "toc": [
+        "file-system", "command-invocation", "process-mgmt-1", "sudo"
+      ]
+    },
+    {
+      "title": "Part III - Improving Your Workflow",
+      "toc": [
+        "file-mgmt", "process-bounds", "process-combination", "scripting",
+        "customization"
+      ]
+    },
+    {
+      "title": "Part IV - Managing Systems",
+      "toc": ["process-mgmt-2", "users-and-groups", "fhs", "scheduling"]
+    }
+  ]

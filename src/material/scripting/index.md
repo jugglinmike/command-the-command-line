@@ -1,5 +1,6 @@
 ---
 title: Scripting (TODO)
+layout: chapter.html
 ---
 
 We've accumulated a lot of knowledge about process orchestration. Up to now,

@@ -1,0 +1,17 @@
+	<nav>
+		<ul>
+			{{#each toc }}
+			<li>
+				{{ title }}
+				<ul>
+					{{#each toc}}
+					<li>
+						<a href="{{ ../../root }}/{{ slug }}">{{ file.title }}</a>
+					</li>
+					{{/each}}
+				</ul>
+			</li>
+			{{/each}}
+		</ul>
+	</nav>
+

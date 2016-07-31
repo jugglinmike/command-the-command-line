@@ -1,5 +1,6 @@
 ---
 title: Process Management I
+layout: chapter.html
 ---
 
 ???

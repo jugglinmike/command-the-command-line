@@ -1,5 +1,6 @@
 ---
 title: Command Invocation
+layout: chapter.html
 ---
 
 ```

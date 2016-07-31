@@ -1,7 +1,6 @@
 ---
 title: A Brief History of Unix
----
-
+layout: chapter.html
 ---
 
 # MULTICS
