@@ -205,7 +205,7 @@ vm$
 ???
 
 In a network running on the Internet Protocol (IP), each machine has a unique
-address, assigned to it by an authority of the network. This address is
+address, assigned to it by an authority on the network. This address is
 typically represented with four numbers between 0 and 255 (inclusive),
 separated by period characters (`.`). IP addresses are easy for a machine to
 interpret but difficult for a human to remember.
@@ -609,9 +609,9 @@ vm$
 ???
 
 We'll make one final consideration for working with hosts in web development
-projects: the "hosts file." This file defines a list of host-name-to-IP-address
-pairs. The system will redirect requests to any host name listed to the
-corresponding IP address.
+projects: the "hosts file." This file defines a list that associates host names
+with IP addresses. The system will redirect requests to any host name listed to
+the corresponding IP address.
 
 ---
 
@@ -635,6 +635,10 @@ vm$ curl opengroup.org
 ```
 
 ???
+
+Modifications take effect immediately; no processes need to be re-started after
+the file is changed. However, some web browsers may "cache" the IP address for
+a given host, so a "hard refresh" of the browser may be necessary.
 
 While we could use this for general mischief, the functionality is limited to
 the local machine--it won't effect anyone else on the network.
