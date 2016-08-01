@@ -29,4 +29,8 @@ rsync --recursive /mnt/vagrant/root/ /
 cd $USER_HOME
 /mnt/vagrant/create-island.sh
 
+# The default `.bashrc` provided to new users by Ubuntu defines an abstraction
+# that hides details discussed in this course.
+rm $USER_HOME/.bashrc $USER_HOME/.profile
+
 chown -R $USER_NAME:$USER_NAME $USER_HOME /var/www/my-site

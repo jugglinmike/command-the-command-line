@@ -95,10 +95,12 @@
   - Shell variables: `$0`, `$#`
 - Customization
   - Startup scripts
-    - Interactive vs. non-interactive shells
-    - Login vs. non-login shells
+    - Shell invocation modes (interactive vs. non-interactive; login vs.
+      non-login)
     - `source`
-  - Aliases 
+  - Aliases
+  - Shell variables (`$PATH`, `$PS1`, `$CDPATH`)
+  - Maintaining dotfiles
 
 ## 4 Managing systems
 
