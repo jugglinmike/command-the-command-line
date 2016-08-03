@@ -324,9 +324,11 @@ the path to the current user's "home" directory.
 ???
 
 Understanding the way shell expansion works helps to explain why it is
-different from other invocation patterns. As we saw, any application may or may
-not implement the `--help` flag. Because shell expansion happens *before*
-program invocation, it will work for *every* application.
+different from other invocation patterns. Individual applications can differ in
+the functionality they provide (for example, we've already seen that a given
+applications may or may not implement the `--help` flag). On the other hand,
+because shell expansion happens *before* program invocation, it will work for
+*every* application.
 
 ---
 
