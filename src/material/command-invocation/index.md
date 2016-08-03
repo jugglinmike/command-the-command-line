@@ -300,11 +300,11 @@ is why it is sometimes referred to as "the interpreter."
 
 ```
                    +-------+
-"$"           <--- |       |                                    +--------+
+"vm$"         <--- |       |                                    +--------+
 "ls ~/movies" ---> |       | -> "/bin/ls /home/sally/movies" -> |        |
                    | shell |                                    | system |
 "hellboy.mp4" <--- |       | <------- "hellboy.mp4" <---------- |        |
-"$"           <--- |       |                                    +--------+
+"vm$"         <--- |       |                                    +--------+
                    +-------+
 ```
 
