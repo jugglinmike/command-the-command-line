@@ -289,9 +289,9 @@ output (via display)        <--- |       | <--- |        |
 There's more to invocation than just options and arguments, though!
 
 The command prompt we've been using is provided by a program called a "shell."
-When you enter text into the prompt, the shell is responsible for determining
-wrangling together all the necessary executables, options, and/or files. This
-is why it is sometimes referred to as "the interpreter."
+When you enter text into the prompt, the shell is responsible for wrangling
+together all the necessary executables, options, and/or files. This is why it
+is sometimes referred to as "the interpreter."
 
 ---
 
