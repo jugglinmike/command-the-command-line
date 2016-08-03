@@ -69,6 +69,39 @@ virtual machine.
 
 ---
 
+# A note on shells
+
+Executable | Name                  | Year Created
+-----------|-----------------------|-------------
+`bash`     | Bourne-again shel l   | 1989
+`csh`      | C shell               | 1978
+`dash`     | Debian Almquist shell | 1997
+`ksh`      | Korn shell            | 1983
+`sh`       | Bourne shell          | 1977
+`tcsh`     | TENEX C shell         | 1981
+`zsh`      | Z shell               | 1990
+
+???
+
+The terms of Unix-like systems, the word "**shell**" refers to any program that
+provides a text interface to the system. There are *many* shell applications
+available (this is just a partial list), and they differ substantially.
+
+Because all interaction is mediated by the shell (:chapter:command-invocation:
+has a more complete discussion of this), the distinction between features
+provided by the system and features provided by the shell can be subtle.
+
+This course focuses on system-provided functionality because that is relevant
+regardless of one's chosen shell. Whenever course content describes
+shell-provided functionality, this distinction is explicitly described. In
+these cases, content is limited to the feature set that is shared by the more
+common shells: `bash`, `sh`, and `zsh`.
+
+Students who are interested in using shell-specific features have advanced
+beyond the abilities of this course's target audience.
+
+---
+
 # About the exercises
 
 ![VirtualBox logo](logo-virtualbox.png)
@@ -86,5 +119,9 @@ platforms, interactive exercises for this course are authored to be completed
 within a "virtual machine." Thanks to the free and open source software
 [VirtualBox](https://www.virtualbox.org/),
 [Vagrant](https://www.vagrantup.com/), and [Ubuntu](http://www.ubuntu.com/),
-students can complete the exercise in a purpose-built Unix-like environment
+students can complete the exercises in a purpose-built Unix-like environment
 using their personal computer and at no charge.
+
+The default user account in the exercise environment is named "speaker", and it
+is configured to use the Bash shell. Administrative access requires a password,
+and that password is "speaker".
