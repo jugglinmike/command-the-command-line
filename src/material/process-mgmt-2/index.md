@@ -18,12 +18,12 @@ processes.
 
 # `ps`
 
-```
+```terminal
 vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  1926 pts/0    00:00:00 ps
-vm$
+vm$ 
 ```
 
 ???
@@ -39,12 +39,12 @@ running bash and `ps` itself.
 
 :continued:
 
-```
+```terminal
 vm$ ps -u
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 speaker   1892  0.0  0.7  21300  3756 pts/0    Ss   17:31   0:00 -bash
 speaker   1925  0.0  0.2  17168  1272 pts/0    R+   17:33   0:00 ps -u
-vm$
+vm$ 
 ```
 
 ???
@@ -61,7 +61,7 @@ an exhaustive overview.
 :continued:
 
 
-```
+```terminal
 vm$ ps -aux
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root         1  0.0  0.5  33600  2920 ?        Ss   17:30   0:00 /sbin/init
@@ -91,10 +91,11 @@ can see that many of the processes are actually owned by the "root" user.
 
 :continued:
 
-```
+```terminal
 vm$ ps -aux | grep sleep
 speaker   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
 speaker   2083  0.0  0.1  10464   892 pts/0    S+   18:31   0:00 grep sleep
+vm$ 
 ```
 
 ???
@@ -108,9 +109,10 @@ a little confusing.
 
 :continued:
 
-```
+```terminal
 vm$ ps -aux | grep slee[p]
 speaker   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
+vm$ 
 ```
 
 ???
@@ -133,13 +135,13 @@ management utilities recognize PIDs as references to processes.
 
 # `kill`
 
-```
+```terminal
 vm$ ps -aux | grep slee[p]
 speaker   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
 vm$ kill 2079
 [1]+  Terminated              sleep 3000
 vm$ ps -aux | grep slee[p]
-vm$
+vm$ 
 ```
 
 ???
@@ -152,7 +154,7 @@ vm$
 
 :continued:
 
-```
+```terminal
 vm$ sleep 1000 &
 [1] 2526
 vm$ ps
@@ -166,7 +168,7 @@ vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  2529 pts/0    00:00:00 ps
-vm$
+vm$ 
 ```
 
 This is actually the second time we have run across signals in Unix-like
@@ -177,7 +179,7 @@ can do the same thing for any process using kill.
 
 :continued:
 
-```
+```terminal
 vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
@@ -211,7 +213,7 @@ exit gracefully. Keep this in mind as it may not be acceptable in all cases.
 
 # `killall`
 
-```
+```terminal
 vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
@@ -229,7 +231,7 @@ vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
  2714 pts/0    00:00:00 ps
-vm$
+vm$ 
 ```
 
 ???
@@ -243,7 +245,7 @@ reference...
 
 :continued:
 
-```
+```terminal
 vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
@@ -251,7 +253,7 @@ vm$ ps
  2724 pts/0    00:00:00 ps
 vm$ killall -9 bash
 Connection to 127.0.0.1 closed.
-pc$
+pc$ 
 ```
 
 ???
@@ -262,7 +264,7 @@ pc$
 
 # `top`
 
-```
+```terminal
 vm$ top
 top - 19:50:44 up  2:19,  1 user,  load average: 0.00, 0.01, 0.05
 Tasks:  72 total,   1 running,  71 sleeping,   0 stopped,   0 zombie

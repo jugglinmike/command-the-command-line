@@ -3,7 +3,7 @@ title: Filesystem Hierarchy Standard
 layout: chapter.html
 ---
 
-```
+```terminal
 vm$ cat fhs.txt
     bin/       usr/            var/
     boot/         bin/            account/
@@ -19,7 +19,7 @@ vm$ cat fhs.txt
     sbin/                         spool/
     srv/                          tmp/
     tmp/
-vm$
+vm$ 
 ```
 
 ???
@@ -68,7 +68,7 @@ tree.
 
 # System Directories
 
-```
+```terminal
 vm$ cat fhs-system.txt
   * = directories for system use
 
@@ -86,7 +86,7 @@ vm$ cat fhs-system.txt
     sbin/                         spool/
     srv/                          tmp/
     tmp/
-vm$
+vm$ 
 ```
 
 ???
@@ -112,7 +112,7 @@ directories.
 
 # Administrative Directories
 
-```
+```terminal
 vm$ cat fhs-admin.txt
   * = directories for aministrators
 
@@ -130,7 +130,7 @@ vm$ cat fhs-admin.txt
     sbin/                         spool/
     srv/                          tmp/
     tmp/
-vm$
+vm$ 
 ```
 
 ???
@@ -154,7 +154,7 @@ vm$
 
 # Application Directories
 
-```
+```terminal
 vm$ cat fhs-applications.txt
   * = directories for application use
 
@@ -172,7 +172,7 @@ vm$ cat fhs-applications.txt
   * sbin/                         spool/
     srv/                          tmp/
   * tmp/
-vm$
+vm$ 
 ```
 
 ???

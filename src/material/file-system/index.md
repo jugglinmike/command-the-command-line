@@ -42,8 +42,8 @@ layout: chapter.html
 
 ---
 
-```
-vm$
+```terminal
+vm$ 
 ```
 
 ???
@@ -60,10 +60,10 @@ vm$
 
 # `pwd`
 
-```
+```terminal
 vm$ pwd
 /home/sally
-vm$
+vm$ 
 ```
 
 ???
@@ -80,13 +80,13 @@ vm$
 
 # `ls`
 
-```
+```terminal
 vm$ pwd
 /home/sally
 vm$ ls
 my-amazing-subdirectory
 my-normal-file.txt
-vm$
+vm$ 
 ```
 
 ???
@@ -99,11 +99,11 @@ vm$
 
 :continued:
 
-```
+```terminal
 vm$ ls my-amazing-subdirectory
 oh-boy-another-directory
 just-another-file.txt
-vm$
+vm$ 
 ```
 
 ???
@@ -115,11 +115,11 @@ of that directory.
 
 # `cd`
 
-```
+```terminal
 vm$ cd my-amazing-subdirectory
 vm$ pwd
 /home/sally/my-amazing-subdirectory
-vm$
+vm$ 
 ```
 
 ???
@@ -135,7 +135,7 @@ vm$
 
 :continued:
 
-```
+```terminal
 vm$ ls
 oh-boy-another-directory
 just-another-file.txt
@@ -143,7 +143,7 @@ vm$ cd just-another-file.txt
 cd: just-another-file.txt: Not a directory
 vm$ cd this-directory-doesnt-exist
 cd: this-directory-doesnt-exist: No such file or directory
-vm$
+vm$ 
 ```
 
 ???
@@ -154,13 +154,13 @@ Notice that we cannot move into a file or into a location that doesn't exist.
 
 :continued:
 
-```
+```terminal
 vm$ pwd
 /home/sally
 vm$ cd my-amazing-subdirectory/oh-boy-another-directory
 vm$ pwd
 /home/sally/my-amazing-subdirectory/oh-boy-another-directory
-vm$
+vm$ 
 ```
 
 ???
@@ -172,7 +172,7 @@ directory names.
 
 # Going `$HOME`
 
-```
+```terminal
 vm$ pwd
 /home/sally/my-amazing-subdirectory/oh-boy-another-directory
 vm$ cd ~
@@ -181,7 +181,7 @@ vm$ pwd
 vm$ cd ~/my-amazing-subdirectory/oh-boy-another-directory
 vm$ pwd
 /home/sally/my-amazing-subdirectory/oh-boy-another-directory
-vm$
+vm$ 
 ```
 
 ???
@@ -203,13 +203,13 @@ directory."
 
 :continued:
 
-```
+```terminal
 vm$ pwd
 /home/sally/my-amazing-subdirectory/oh-boy-another-directory
 vm$ cd ..
 vm$ pwd
 /home/sally/my-amazing-subdirectory
-vm$
+vm$ 
 ```
 
 ???
@@ -220,13 +220,13 @@ Two period characters (`..`) signify "the directory above."
 
 :continued:
 
-```
+```terminal
 vm$ pwd
 /home/sally/my-amazing-subdirectory
 vm$ cd ../../sally
 vm$ pwd
 /home/sally
-vm$
+vm$ 
 ```
 
 ???
@@ -238,7 +238,7 @@ can write a path.
 
 :continued:
 
-```
+```terminal
 vm$ pwd
 /home/sally
 vm$ cd ../..
@@ -247,6 +247,7 @@ vm$ pwd
 vm$ cd ..
 vm$ pwd
 /
+vm$ 
 ```
 
 ???
@@ -271,7 +272,7 @@ directory**. We can't move any higher in the file system than the root.
 
 :continued:
 
-```
+```terminal
 vm$ pwd
 /home/sally
 vm$ cd /home
@@ -280,7 +281,7 @@ vm$ pwd
 vm$ cd /home/sally/my-amazing-subdirectory
 vm$ pwd
 /home/sally/my-amazing-subdirectory
-vm$
+vm$ 
 ```
 
 ???
@@ -293,7 +294,7 @@ when we use it.
 
 # `tree`
 
-```js
+```terminal
 vm$ tree
 .
 ├── my-amazing-directory
@@ -301,7 +302,7 @@ vm$ tree
 └── my-normal-file.txt
 
 1 directory, 2 files
-vm$
+vm$ 
 ```
 
 ???
@@ -325,7 +326,7 @@ Lets take a look at some tools for learning about files and their contents.
 
 # `cat`
 
-```
+```terminal
 vm$ ls
 oh-boy-another-directory
 just-another-file.txt
@@ -333,7 +334,7 @@ vm$ cat just-another-file.txt
 This is the first line of just-another-file.txt
 This is the second line of the file!
 The file only has three lines, and this is the last one!
-vm$
+vm$ 
 ```
 
 ???
@@ -347,7 +348,7 @@ vm$
 
 # `less`
 
-```
+```terminal
 vm$ less a-longer-file.txt
 This is the content of a-longer-file.txt, but only
 just enough of it to fill the screen. You can use
@@ -370,7 +371,7 @@ has a lot of special controls, but the most important ones are:
 
 # `sort`
 
-```
+```terminal
 vm$ cat just-another-file.txt
 This is the first line of just-another-file.txt
 This is the second line of the file!
@@ -379,7 +380,7 @@ vm$ sort just-another-file.txt
 The file only has three lines, and this is the last one!
 This is the first line of just-another-file.txt
 This is the second line of the file!
-vm$
+vm$ 
 ```
 
 ???

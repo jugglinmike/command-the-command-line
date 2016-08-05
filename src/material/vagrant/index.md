@@ -24,8 +24,9 @@ short commands.
 
 # Creating a virtual machine
 
-```
+```terminal
 pc$ vagrant up
+ 
 ```
 
 ???
@@ -37,7 +38,7 @@ When we run the command `vagrant up` from a directory that has a file
 
 # Logging in to the virtual machine
 
-```
+```terminal
 pc$ vagrant ssh
 Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-39-generic x86_64)
 
@@ -58,7 +59,7 @@ Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-39-generic x86_64)
 
 0 packages can be updated.
 0 updates are security updates.
-vm$
+vm$ 
 ```
 
 ???
@@ -71,11 +72,11 @@ there's no need to worry about user names, passwords, or keys.
 
 # Get learnin'
 
-```
+```terminal
 vm$ echo Hello, world!
 Hello, world!
 vm$ exit
-pc$
+pc$ 
 ```
 
 ???
@@ -89,8 +90,9 @@ When you want to log out of the virtual machine, type `exit` and press `Enter`.
 
 # When you're done (for the day)
 
-```
+```terminal
 pc$ vagrant halt
+ 
 ```
 
 ???
@@ -103,14 +105,14 @@ done working. You can re-start the machine later with `vagrant up`.
 
 # When you're done (for good)
 
-```
+```terminal
 pc$ vagrant destroy
     default: Are you sure you want to destroy the 'default' VM? [y/N] y
 ==> default: Forcing shutdown of VM...
 ==> default: Destroying VM and associated drives...
 ==> default: Removing hosts
 ==> default: Running cleanup tasks for 'shell' provisioner...
-vm$
+pc$ 
 ```
 
 ???
@@ -122,7 +124,7 @@ hard drive. Use `vagrant destroy` when you don't need the environment anymore.
 
 # Live dangerously
 
-```
+```terminal
 pc$ vagrant up
 pc$ vagrant ssh
 vm$ bad --command "that really" messes-things.up
@@ -131,6 +133,7 @@ Uh oh.
 vm$ exit
 pc$ vagrant destroy
 pc$ vagrant up
+ 
 ```
 
 ???

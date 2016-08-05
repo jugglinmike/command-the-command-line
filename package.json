@@ -34,6 +34,7 @@
     "gray-matter": "^2.0.2",
     "handlebars": "^4.0.5",
     "mdast-util-to-string": "^1.0.2",
+    "memory-fs": "^0.3.0",
     "metalsmith": "^2.1.0",
     "metalsmith-layouts": "^1.6.5",
     "metalsmith-prism": "^2.2.0",
@@ -41,7 +42,9 @@
     "remark-html": "^5.0.0",
     "remark-parse": "^1.0.0",
     "remark-stringify": "^1.0.0",
+    "repl-sim": "^0.1.0",
     "unified": "^4.2.1",
-    "unist-util-visit": "^1.0.0"
+    "unist-util-visit": "^1.0.0",
+    "webpack": "^1.13.1"
   }
 }

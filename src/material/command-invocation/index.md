@@ -3,14 +3,14 @@ title: Command Invocation
 layout: chapter.html
 ---
 
-```
+```terminal
 vm$ ls
 my-amazing-subdirectory
 my-normal-file.txt
 vm$ ls my-amazing-subdirectory
 oh-boy-another-directory
 just-another-file.txt
-vm$
+vm$ 
 ```
 
 ???
@@ -20,12 +20,12 @@ the program, optionally followed by some specific "target"
 
 ---
 
-```
+```terminal
 vm$ LS_COLORS="di=42" ls -lr --all --sort=size music/*.mp3
 Ace of Base - I Saw the Sign.mp3
 Santana - Smooth.mp3
 Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
-vm$
+vm$ 
 ```
 
 ???
@@ -42,12 +42,12 @@ vm$
 
 # The Executable
 
-```
+```terminal
 vm$ pwd
 /home/sally
 vm$ /bin/pwd
 /home/sally
-vm$
+vm$ 
 ```
 
 ???
@@ -67,7 +67,7 @@ vm$
 
 # Path options
 
-```
+```terminal
 vm$ ls ~/video ~/music
 ~/video:
 
@@ -76,7 +76,7 @@ Ace of Base - I Saw the Sign.mp3
 Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
 Santana - Smooth.mp3
 Stallman - Free Software Song.ogg
-vm$
+vm$ 
 ```
 
 ???
@@ -90,12 +90,12 @@ vm$
 
 # Named options
 
-```
+```terminal
 vm$ cat --number my-normal-file.txt
      1 This is the first line of just-another-file.txt
      2 This is the second line of the file!
      3 The file only has three lines, and this is the last one!
-vm$
+vm$ 
 ```
 
 ???
@@ -110,7 +110,7 @@ vm$
 
 :continued:
 
-```
+```terminal
 vm$ ls --sort=size ~/music
 Stallman - Free Software Song.ogg
 Ace of Base - I Saw the Sign.mp3
@@ -125,12 +125,12 @@ option's behavior.
 
 ---
 
-```
+```terminl
 vm$ cat --number --show-ends my-normal-file.txt
      1 This is the first line of just-another-file.txt$
      2 This is the second line of the file!$
      3 The file only has three lines, and this is the last one!$
-vm$
+vm$ 
 ```
 
 ???
@@ -139,7 +139,7 @@ Many options can be specified at the same time.
 
 ---
 
-```
+```terminal
 vm$ cat -n --show-ends my-normal-file.txt
      1 This is the first line of just-another-file.txt$
      2 This is the second line of the file!$
@@ -156,7 +156,7 @@ vm$ cat -nE my-normal-file.txt
      1 This is the first line of just-another-file.txt$
      2 This is the second line of the file!$
      3 The file only has three lines, and this is the last one!$
-vm$
+vm$ 
 ```
 
 ???
@@ -205,7 +205,7 @@ Fortunately, there are tools available for discovery.
 
 # `man`
 
-```
+```terminal
 vm$ man ls
 (1)                  User Commands                 LS(1)
 
@@ -240,7 +240,7 @@ DESCRIPTION
 
 # `help`
 
-```
+```terminal
 vm$ help cd
 cd: cd [-L|[-P [-e]] [-@]] [dir]
     Change the shell working directory.
@@ -260,7 +260,7 @@ you're looking for.
 
 # The `--help` option
 
-```
+```terminal
 vm$ cat --help
 Usage: cat [OPTION]... [FILE]...
 Concatenate FILE(s), or standard input, to standard output.
@@ -335,7 +335,7 @@ because shell expansion happens *before* program invocation, it will work for
 
 # `echo`
 
-```
+```terminal
 vm$ echo Whatever we type here will be printed to the screen.
 Whatever we type here will be printed to the screen.
 vm$ echo Please expand the tilde character ~ there.
@@ -352,7 +352,7 @@ experiment with shell substitution.
 
 # Shell Expansion: `*`
 
-```
+```terminal
 vm$ ls music
 Ace of Base - I Saw the Sign.mp3
 Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
@@ -367,7 +367,7 @@ Santana - Smooth.mp3
 Stallman - Free Software Song.ogg
 vm$ ls music/S*.mp3
 Santana - Smooth.mp3
-vm$
+vm$ 
 ```
 
 ???
@@ -384,12 +384,12 @@ with a list of files that match the rest of the characters.
 
 # Shell Expansion: Opting out
 
-```
+```terminal
 vm$ echo I have ~ 2 oranges
 I have /home/sally 2 oranges
 vm$ echo I have \~ 2 oranges
 I have ~ 2 oranges
-vm$
+vm$ 
 ```
 
 ???
@@ -438,11 +438,11 @@ aspect of the system that effect the behavior of many commands.
 
 # Environment Variables: Definition
 
-```
+```terminal
 vm$ export myVariable=my-variable-value
 vm$ echo Okay. Now what?
 Okay, Now what?
-vm$
+vm$ 
 ```
 
 ???
@@ -454,7 +454,7 @@ We can use the `export` utility to create and modify environment variables.
 # Environment Variables: Inspection
 
 
-```
+```terminal
 vm$ export myVariable=variable-value
 vm$ echo The value of the variable "myVariable" is: $myVariable
 The value of the variable "myVariable" is: variable-value
@@ -464,7 +464,7 @@ The value of the variable "mistake" is: value
 vm$ export correct='value with spaces'
 vm$ echo The value of the variable "correct" is: $correct
 The value of the variable "correct" is: value with spaces
-vm$
+vm$ 
 ```
 
 ???
@@ -475,18 +475,18 @@ To inspect them, another shell substitution feature comes to the rescue.
 
 # Environment Variables: Process Isolation
 
-```
+```terminal
 vm$ export foo=bar
 vm$ echo $foo
 bar
-vm$
+vm$ 
 ```
 
 In a new shell:
 
-```
+```terminal
 vm$ echo $foo
-vm$
+vm$ 
 ```
 
 ???
@@ -499,7 +499,7 @@ just close the terminal window and try again with a new one.
 
 # Under the hood: the `PATH` environment variable
 
-```
+```terminal
 vm$ echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/sbin
 vm$ which ls
@@ -526,7 +526,7 @@ We can modify this value at our peril.
 
 # Under the hood: the `PS1` environment variable
 
-```
+```terminal
 vm$ echo Prompt: $PS1
 Prompt: $
 vm$ export PS1="my awesome prompt "

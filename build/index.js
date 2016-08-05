@@ -13,6 +13,7 @@ Metalsmith(__dirname + '/..')
     /\.md$/,
     /^(---|\?\?\?|:continued:)$/gm, '')
   )
+  .use(require('./plugins/webpack')('src/scripts/web/app.js', 'out/web/app.js'))
   .use(require('./plugins/replace')(
     /\.md$/,
     /:chapter:([^:]+):/g,
@@ -35,7 +36,6 @@ Metalsmith(__dirname + '/..')
     directory: 'src/layouts/web',
     partials: 'src/layouts/web/partials'
   }))
-  .use(require('metalsmith-prism')())
   .use(require('./plugins/copy')('src/assets', 'out/web/assets'))
 
   .build(function(err) {
@@ -53,6 +53,7 @@ Metalsmith(__dirname + '/..')
 
   .use(require('./plugins/toc'))
   .use(require('./plugins/add-root')(/(\/|^)index\.md$/))
+  .use(require('./plugins/webpack')('src/scripts/slides/app.js', 'out/slides/app.js'))
   .use(require('./plugins/replace')(
     /\.md$/,
     /:chapter:([^:]+):/g,
@@ -75,7 +76,6 @@ Metalsmith(__dirname + '/..')
     directory: 'src/layouts/slides',
     rename: true
   }))
-  .use(require('metalsmith-prism')())
   .use(require('./plugins/copy')('src/assets', 'out/slides/assets'))
 
   .build(function(err) {

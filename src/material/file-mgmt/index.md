@@ -33,7 +33,7 @@ this course, we're concerned with the mainline use cases; you can consult the
 
 # `mv`
 
-```
+```terminal
 vm$ ls good-guys
 dent-harvey.jpg
 fries-victor.jpg
@@ -48,7 +48,7 @@ gordon-jim.jpg
 kyle-selina.jpg
 vm$ ls bad-guys
 dent-harvey.jpg
-vm$
+vm$ 
 ```
 
 ???
@@ -60,7 +60,7 @@ first option is the source and the second is the destination.
 
 :continued:
 
-```
+```terminal
 vm$ mv good-guys/fries-victor.jpg good-guys/kyle-selina.jpg bad-guys
 vm$ ls good-guys
 gordon-jim.jpg
@@ -68,7 +68,7 @@ vm$ ls bad-guys
 dent-harvey.jpg
 fries-victor.jpg
 kyle-selina.jpg
-vm$
+vm$ 
 ```
 
 ???
@@ -82,7 +82,7 @@ expansion character.
 
 :continued:
 
-```
+```terminal
 vm$ cd bad-guys
 vm$ mv dent-harvey.jpg twoface.jpg
 vm$ ls
@@ -101,7 +101,7 @@ from "moving" it between two names.
 
 :continued:
 
-```
+```terminal
 vm$ cd ..
 vm$ mv bad-guys/twoface.jpg good-guys/dent-harvey.jpg
 ```
@@ -115,7 +115,7 @@ directory.
 
 # `rm`
 
-```
+```terminal
 vm$ ls
 my-directory
 my-first-file
@@ -123,7 +123,7 @@ my-second-file
 vm$ rm my-first-file my-second-file
 vm$ ls
 my-directory
-vm$
+vm$ 
 ```
 
 ???
@@ -134,14 +134,14 @@ We'll use `rm` to **r**e**m**ove files and directories.
 
 :continued:
 
-```
+```terminal
 vm$ ls
 my-directory
 vm$ rm my-directory
 rm: cannot remove ‘dir’: Is a directory
 vm$ rm -r my-directory
 vm$ ls
-vm$
+vm$ 
 ```
 
 ???
@@ -154,12 +154,12 @@ often protects you from accidentally deleting things.
 
 # `mkdir`
 
-```
+```terminal
 vm$ mkdir my-new-directory
 vm$ ls
 my-new-directory
 vm$ ls my-new-directory
-vm$
+vm$ 
 ```
 
 ???
@@ -186,14 +186,14 @@ ways to inspect their contents.
 
 # `wc`
 
-```
+```terminal
 vm$ cat just-another-file.txt
 This is the first line of just-another-file.txt
 This is the second line of the file!
 The file only has three lines, and this is the last one!
 vm$ wc just-another-file.txt
   3  27 142 just-another-file.txt
-vm$
+vm$ 
 ```
 
 The `wc` utility (short for "**w**ord **c**ount") displays the number of
@@ -203,7 +203,7 @@ newlines, words, and bytes in a given file. The output is pretty terse, though!
 
 # `grep`
 
-```
+```terminal
 vm$ grep CSSConf index.html
 <h3 class="work-hed"><a href="http://2016.cssconf.com">CSSConf</a></h3>
 CSSConf is a conference dedicated to the designers, developers and engineers
@@ -223,7 +223,7 @@ text editor), so this is a case where rote memorization may be necessary.
 
 :continued:
 
-```
+```terminal
 vm$ grep -E '<h[1-5]' index.html
 <h1 class="logo">
 <h2 class="mission">Open Design & Technology Services for
@@ -241,7 +241,7 @@ vm$ grep -E '<h[1-5]' index.html
 <h3 class="section-hed">Our team <strong>creates, champio
 <h2 class="section-hed">We'd love to hear from you. <stro
 <h2>Join our newsletter for Bocoup news you can use!</h2>
-vm$
+vm$ 
 ```
 
 ???
@@ -254,7 +254,7 @@ though, so don't worry if you're not comfortable using them.
 
 # `find`
 
-```
+```terminal
 vm$ find src -name index.html
 src/index.html
 src/birds/index.html
@@ -286,7 +286,7 @@ the user experience.
 
 :continued:
 
-```
+```terminal
 vm$ find documents/recipes -name *carrot*
 vm$ echo *carrot*
 giant-carrot.jpg
@@ -331,9 +331,9 @@ Finally, we'll take a look at a few tools for modifying file contents.
 
 # `nano`
 
-```
+```terminal
 vm$ nano hello.txt
-  GNU nano 2.2.6        File: hello.txt                      
+  GNU nano 2.2.6        File: hello.txt
 
 Hello, world!
 
@@ -360,7 +360,7 @@ somewhat truncated in the example above due to space limitations.
 
 # `sed`
 
-```
+```terminal
 vm$ cat quote.txt
 It's 106 miles to Chicago, we got a full tank of gas, half a pack of
 cigarettes, it's dark... and we're wearing sunglasses. 
@@ -381,7 +381,7 @@ third forward slash character.
 
 :continued:
 
-```
+```terminal
 vm$ cat quote.txt
 It's 106 miles to Chicago, we got a full tank of gas, half a pack of
 cigarettes, it's dark... and we're wearing sunglasses. 
@@ -405,7 +405,7 @@ option.
 
 :continued:
 
-```
+```terminal
 vm$ sed -r s/(moz|webkit)R(equestAnimationFrame)/r\2/ -i src/utils/raf.js
 ```
 
@@ -420,7 +420,7 @@ powerful way to automate text file transformations.
 
 # `awk`
 
-```
+```terminal
 vm$ cat src/foo.css 
 body {
   margin-left: 0;

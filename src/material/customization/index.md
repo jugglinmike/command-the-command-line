@@ -14,7 +14,7 @@ nicer.
 
 # Re-cap: 
 
-```
+```terminal
 vm$ sh ./greet.sh
 Hello.
 vm$ ./greet.sh
@@ -22,7 +22,7 @@ vm$ ./greet.sh
 vm$ chmod +x ./greet.sh
 vm$ ./greet.sh
 Hello.
-vm$
+vm$ 
 ```
 
 ???
@@ -36,7 +36,7 @@ the script is executed as a standalone process.
 
 # The hidden process
 
-```
+```terminal
 vm$ pwd
 /home/sally
 vm$ cat change-env.sh
@@ -48,7 +48,7 @@ vm$ echo [ $FOO ]
 [ ]
 vm$ pwd
 /home/sally
-vm$
+vm$ 
 ```
 
 ???
@@ -67,7 +67,7 @@ learn a new way of executing scripts before we can go any further.
 
 # "Sourcing" files with `.`
 
-```
+```terminal
 vm$ help .
 .: . filename [arguments]
     Execute commands from a file in the current shell.
@@ -80,7 +80,7 @@ vm$ help .
     Exit Status:
     Returns the status of the last command executed in FILENAME;
     fails if FILENAME cannot be read.
-vm$
+vm$ 
 ```
 
 ???
@@ -92,7 +92,7 @@ exactly this.
 
 :continued:
 
-```
+```terminal
 vm$ pwd
 /home/sally
 vm$ cat change-env.sh
@@ -104,7 +104,7 @@ vm$ echo [ $FOO ]
 cd /
 vm$ pwd
 /
-vm$
+vm$ 
 ```
 
 ???
@@ -117,7 +117,7 @@ is sometimes referred to as "**sourcing a file**."
 
 :continued:
 
-```
+```terminal
 vm$ cat change-prompt.sh 
 # Set the command prompt to a Microsoft Windows-style
 # value. It's just a bunch of characters, after all!
@@ -160,7 +160,7 @@ the shell.
 
 # Shell invocation modes
 
-```
+```terminal
 vm$ cat shell-classifications.txt
                 |     Login     |    Non-login    |
 ----------------+---------------+-----------------+
@@ -170,7 +170,7 @@ Interactive     |               |                 |
 Non-interactive |               |                 |
                 |               |                 |
 ----------------+---------------+-----------------+
-vm$
+vm$ 
 ```
 
 ???
@@ -240,7 +240,7 @@ context. While it may be a little technical, it's not magic!
 
 # Shell invocation modes: conventional examples
 
-```
+```terminal
 vm$ cat shell-classifications-examples.txt
                 |     Login     |    Non-login    |
 ----------------+---------------+-----------------+
@@ -250,7 +250,7 @@ Interactive     | connecting    | opening a       |
 Non-interactive | very rare     | running a       |
                 | circumstances | shell script    |
 ----------------+---------------+-----------------+
-vm$
+vm$ 
 ```
 
 ???
@@ -284,7 +284,7 @@ However, Bash sources two separate locations.
 
 :continued:
 
-```
+```terminal
 vm$ cat ~/.bash_profile
 # This file is sourced by "login" Bash shells, but "non-login"
 # Bash shells source the `~/.bashrc` file. To promote
@@ -295,7 +295,7 @@ if [ -f ~/.bashrc ]
 then
   . ~/.bashrc
 fi
-vm$
+vm$ 
 ```
 
 ???
@@ -305,7 +305,7 @@ sources from their `~/.bashrc` file.
 
 ---
 
-```
+```terminal
 vm$ echo "PS1='NEW$ '" > ~/.bashrc
 vm$ exit
 pc$ vagrant ssh
@@ -324,12 +324,12 @@ source the file using the "dot" utility.
 
 # Shell customization: Paths
 
-```
+```terminal
 vm$ cd projects/dragonweb
 vm$ ../scripts/my-component-scaffold.sh
 Creating scaffolding for new component...
 Done!
-vm$
+vm$ 
 ```
 
 ???
@@ -344,13 +344,13 @@ invoke it.
 
 :continued:
 
-```
+```terminal
 vm$ cd projects/dragonweb
 vm$ mv ../scripts/my-component-scaffold.sh ~
 vm$ ~/my-component-scaffold.sh
 Creating scaffolding for new component...
 Done!
-vm$
+vm$ 
 ```
 
 ???
@@ -365,14 +365,14 @@ than invoking a system-provided utility like `grep`.
 
 :continued:
 
-```
+```terminal
 vm$ echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/sbin
 vm$ which ls
 /bin/ls
 vm$ which man
 /usr/bin/man
-vm$
+vm$ 
 ```
 
 ???
@@ -385,14 +385,14 @@ searching for applications.
 
 :continued:
 
-```
+```terminal
 vm$ cd projects/dragonweb
 vm$ echo "PATH=$PATH:~/projects/scripts" >> ~/.bashrc
 vm$ . ~/.bashrc
 vm$ my-component-scaffold.sh
 Creating scaffolding for new component...
 Done!
-vm$
+vm$ 
 ```
 
 ???
@@ -406,7 +406,7 @@ find it.
 
 :continued:
 
-```
+```terminal
 vm$ fetch webrtc
 fetch: command not found
 vm$ echo "PATH=$PATH:/opt/google/depot_tools" >> ~/.bashrc
@@ -414,7 +414,7 @@ vm$ . ~/.bashrc
 vm$ fetch webrtc
 Running: gclient root
 Running: gclient sync --with_branch_heads
-vm$
+vm$ 
 ```
 
 ???
@@ -428,7 +428,7 @@ Tools](https://www.chromium.org/developers/how-tos/depottools).
 
 # PATH security
 
-```
+```terminal
 vm$ ls
 deploy.sh  src  test
 vm$ echo "PATH=.:$PATH" >> ~/.bashrc
@@ -436,7 +436,7 @@ vm$ . ~/.bashrc
 vm$ deploy.sh
 Now running local "deploy" script
 Deploy complete!
-vm$
+vm$ 
 ```
 
 ???
@@ -451,7 +451,7 @@ that makes the leading `./` unnecessary.
 
 :continued:
 
-```
+```terminal
 vm$ ls dangerous-directory
 ls
 vm$ cd dangerous-directory
@@ -460,7 +460,7 @@ Because "." is at the beginning of your PATH, you have
 just invoked the "local" script named `ls`. It might
 delete your files, read your passwords, or any number
 of other malicious things.
-vm$
+vm$ 
 ```
 
 ???
@@ -473,12 +473,12 @@ utilities.
 
 # Shell customization: Aliases
 
-```
+```terminal
 vm$ ls
 change-prompt.sh
 vm$ ls -l
 -rw-rw-r-- 1 speaker speaker   12 Aug  2 18:30 change-prompt.sh
-vm$
+vm$ 
 ```
 
 ???
@@ -494,7 +494,7 @@ other commands.
 
 :continued:
 
-```
+```terminal
 vm$ alias: alias [-p] [name[=value] ... ]
     Define or display aliases.
 
@@ -505,7 +505,7 @@ vm$ alias: alias [-p] [name[=value] ... ]
     is given A trailing space in VALUE causes the next word
     to be checked for alias substitution when the alias is
     expanded.
-vm$
+vm$ 
 ```
 
 ???
@@ -517,11 +517,11 @@ with alias "values" (the command you wish to be executed).
 
 :continued:
 
-```
+```terminal
 vm$ alias ll='ls -l'
 vm$ ll
 -rw-rw-r-- 1 speaker speaker   12 Aug  2 18:30 change-prompt.sh
-vm$
+vm$ 
 ```
 
 ???
@@ -534,7 +534,7 @@ the `alias` utility.
 
 :continued:
 
-```
+```terminal
 vm$ alias ll='ls -l'
 vm$ ll /tmp
 total 4
@@ -542,7 +542,7 @@ total 4
 -rw-rw-r-- 1 speaker speaker   0 Aug  2 21:50 a-temporary-file-02.txt
 -rw-rw-r-- 1 speaker speaker   0 Aug  2 21:50 a-temporary-file-03.txt
 -rw-rw-r-- 1 speaker speaker   0 Aug  2 21:50 a-temporary-file-04.txt
-vm$
+vm$ 
 ```
 
 ???
@@ -554,14 +554,14 @@ the underlying command.
 
 :continued:
 
-```
+```terminal
 vm$ alias desktop='cd ~/Desktop'
 vm$ pwd
 /home/sally
 vm$ desktop
 vm$ pwd
 /home/sally/Desktop
-vm$
+vm$ 
 ```
 
 ???
@@ -574,13 +574,13 @@ environment-modifying tasks like changing directories.
 
 :continued:
 
-```
+```terminal
 vm$ git checkout dev
 Switched to branch 'dev'
 vm$ alias co='git checkout'
 vm$ co master
 Switched to branch 'master'
-vm$
+vm$ 
 ```
 
 ???
@@ -594,11 +594,11 @@ tasks.
 
 # Application customizations
 
-```
+```terminal
 vm$ ls -a ~
 .   .asunder  .gitconfig  .npmrc  .xinputrc
 ..  .bashrc   .hgrc       .vimrc  .zshrc
-vm$
+vm$ 
 ```
 
 ???
@@ -615,7 +615,7 @@ documentation provided by `man`.
 
 :continued:
 
-```
+```terminal
 vm$ git add .npmrc
 vm$ git commit -m 'Add config file for npm package manager.'
 vm$ git push origin master
@@ -631,7 +631,7 @@ to recover from mistakes like typos and deleted files.
 
 :continued:
 
-```
+```terminal
 vm$ ssh our-dev-server.example.com
 # Welcome to the dev server!
 #
@@ -642,7 +642,7 @@ dev$ git clone git@github.com:speaker/dotfiles.git .
 Cloning into '.'...
 Checking connectivity... done.
 dev$ source .bashrc
-vm$
+vm$ 
 ```
 
 Synchronizing your changes with a remote repository can greatly simplify the

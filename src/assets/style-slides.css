@@ -34,3 +34,17 @@
   padding: 0.5em 1em;
   text-align: right;
 }
+
+pre {
+  padding: 1em;
+
+  background-color: #333;
+  color: #eee;
+  font-size: 1.34em;
+  overflow-x: auto;
+}
+code.language-terminal {
+  background-color: transparent;
+  color: inherit;
+  display: block;
+}

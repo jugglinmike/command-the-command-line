@@ -46,14 +46,19 @@ pre {
 
   background-color: #333;
   color: #eee;
+  font-size: 1.34em;
   overflow-x: auto;
 }
 
-code {
-  /**
-   * TODO: Research origin of this magic number.
-   */
-  font-size: 1.34em;
+/**
+ * When REPL animation is enabled, the height of each `code` block is
+ * explicitly set to its initially-calculated value. This ensures that the
+ * element size remains constant as the animation proceeds. `display: block`
+ * ensures that the element is actually rendered with the calculated height
+ * value.
+ */
+code.language-terminal {
+  display: block;
 }
 
 .solution {

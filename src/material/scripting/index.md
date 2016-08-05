@@ -19,11 +19,11 @@ the environment, automating your actions is trivial.
 
 # Our first script
 
-```
+```terminal
 vm$ echo pwd > my-script.sh
 vm$ bash my-script.sh
 /home/sally
-vm$
+vm$ 
 ```
 
 ???
@@ -46,11 +46,11 @@ different than it would if we had invoked `pwd` directly.
 
 :continued:
 
-```
+```terminal
 vm$ mv my-script.sh my-script.mp3
 vm$ bash my-script.mp3
 /home/sally
-vm$
+vm$ 
 ```
 
 ???
@@ -70,10 +70,10 @@ a few more steps to make it more comfortable to use scripts.
 
 :continued:
 
-```
+```terminal
 vm$ ./my-script.sh
 bash: ./my-script.sh: Permission denied
-vm$
+vm$ 
 ```
 
 ???
@@ -105,13 +105,13 @@ permission.
 
 # `chmod`
 
-```
+```terminal
 vm$ man chmod
 HMOD(1)                   User Commands                   CHMOD(1)
 
 NAME
        chmod - change file mode bits
-vm$
+vm$ 
 ```
 
 ???
@@ -124,13 +124,13 @@ for the scripts we write.
 
 :continued:
 
-```
+```terminal
 vm$ ./my-script.sh
 bash: ./my-script.sh: Permission denied
 vm$ chmod +x my-script.sh
 vm$ ./my-script.sh
 /home/sally
-vm$
+vm$ 
 ```
 
 ???
@@ -148,12 +148,12 @@ For the rest of the course, we'll assume that any script we write has the
 
 # The "Shebang"
 
-```
+```terminal
 vm$ cat my-script.sh
 #!/bin/bash
 
 pwd
-vm$
+vm$ 
 ```
 
 ???
@@ -182,11 +182,11 @@ With those details out of the way, we can get back to writing scripts.
 
 # Readability
 
-```
+```terminal
 vm$ cat replace-dog.sh
 #!/bin/bash
 find documents -newermt 'last week' -print0 | xargs -0 sed -i 's/hot dog/banana/g'
-vm$
+vm$ 
 ```
 
 ???
@@ -206,13 +206,13 @@ would prevent line wrapping, and would also help people see each processing
 
 :continued:
 
-```
+```terminal
 vm$ cat replace-dog.sh
 #!/bin/bash
 find documents -type f -newermt 'last week' -print0 | \
   xargs -0 \
     sed -i 's/hot dog/banana/g'
-vm$
+vm$ 
 ```
 
 ???
@@ -235,13 +235,13 @@ invisible characters like "space," and "tab."
 
 :continued:
 
-```
+```terminal
 vm$ cat replace-dog.sh
 #!/bin/bash
 find documents -type f -newermt 'last week' -print0 | \
   xargs --null \
     sed --in-place 's/hot dog/banana/g'
-vm$
+vm$ 
 ```
 
 ???
@@ -256,7 +256,7 @@ use the "long" version; this makes the commands a little more descriptive.
 
 :continued:
 
-```
+```terminal
 vm$ cat replace-dog.sh
 #!/bin/bash
 
@@ -266,7 +266,7 @@ vm$ cat replace-dog.sh
 find documents -type f -newermt 'last week' -print0 | \
   xargs --null \
     sed --in-place 's/hot dog/banana/g'
-vm$
+vm$ 
 ```
 
 ???
@@ -304,14 +304,14 @@ circumstances should be handled.
 
 # Boolean Control Operators: `&&`
 
-```
+```terminal
 vm$ ls
 my-important-document.odf
 vm$ cd out && rm -r *
 bash: cd: out: No such file or directory
 vm$ ls
 my-important-document.odf
-vm$
+vm$ 
 ```
 
 ???
@@ -332,13 +332,13 @@ in "change into the `out` directory **and** remove all the contents."
 
 # Boolean Control Operators: `||`
 
-```
+```terminal
 vm$ grep trousers journal/*
 vm$ echo $?
 1
 vm$ grep trousers journal/* || echo No mention of trousers :/ >&2
 No mention of trousers :/
-vm$
+vm$ 
 ```
 
 ???
@@ -359,7 +359,7 @@ demonstrate our disappointment.'
 
 # `exit`
 
-```
+```terminal
 vm$ cat bad.sh
 #!/bin/bash
 
@@ -381,7 +381,7 @@ command has been evaluated.
 
 :continued:
 
-```
+```terminal
 vm$ cat applying-exit.sh
 #!/bin/bash
 
@@ -394,7 +394,7 @@ vm$ ./applying-exit.sh
 mkdir: cannot create directory ‘out’: File exists
 vm$ echo $?
 1
-vm$
+vm$ 
 ```
 
 ???
@@ -416,7 +416,7 @@ that something went wrong.
 
 # Writing complex branches with `if`
 
-```
+```terminal
 vm$ cat first-if.sh
 #!/bin/bash
 
@@ -446,7 +446,7 @@ to learn about another utility.
 
 # Advanced conditions with `test`
 
-```
+```terminal
 vm$ whoami
 speaker
 vm$ test $(whoami) = root
@@ -455,7 +455,7 @@ vm$ echo $?
 vm$ test $(whoami) = speaker
 vm$ echo $?
 0
-vm$
+vm$ 
 ```
 
 ???
@@ -468,14 +468,14 @@ operation.
 
 :continued:
 
-```
+```terminal
 vm$ test 3 -lt 4
 vm$ echo $?
 0
 vm$ test 3 -lt 2
 vm$ echo $?
 1
-vm$
+vm$ 
 ```
 
 ???
@@ -487,14 +487,14 @@ vm$
 
 :continued:
 
-```
+```terminal
 vm$ test -f not-a-file
 vm$ echo $?
 1
 vm$ test -f an-actual-file
 vm$ echo $?
 0
-vm$
+vm$ 
 ```
 
 ???
@@ -508,7 +508,7 @@ to the utility's `man` page.
 
 :continued:
 
-```
+```terminal
 vm$ cat if-with-test.sh
 #!/bin/bash
 
@@ -524,7 +524,7 @@ fi
 mkdir out
 cp src/* out
 echo The build process is now complete.
-vm$
+vm$ 
 ```
 
 ???
@@ -540,7 +540,7 @@ script's intent.
 
 # Alternate paths with `if`
 
-```
+```terminal
 vm$ cat if-else.sh
 #!/bin/bash
 
@@ -554,7 +554,7 @@ fi
 
 cp src/* out
 echo The build process is now complete.
-vm$
+vm$ 
 ```
 
 ???
@@ -574,7 +574,7 @@ empty).
 
 # Improving legibility with `[`
 
-```
+```terminal
 vm$ cat if-else.sh
 #!/bin/bash
 
@@ -588,7 +588,7 @@ fi
 
 cp src/* out
 echo The build process is now complete.
-vm$
+vm$ 
 ```
 
 ???
@@ -605,13 +605,13 @@ it because many examples on the web make use of it.
 
 # The truth behind `[`
 
-```
+```terminal
 vm$ which [
 /usr/bin/[
 vm$ [ 45 -lt 23 ]
 vm$ echo $?
 1
-vm$
+vm$ 
 ```
 
 ???
@@ -629,7 +629,7 @@ to remember how it is used.
 
 # Variables: don't repeat yourself
 
-```
+```terminal
 vm$ cat if-else-vars.sh
 #!/bin/bash
 
@@ -645,7 +645,7 @@ fi
 
 cp src/* $out_dir
 echo The build process is now complete.
-vm$
+vm$ 
 ```
 
 
@@ -665,7 +665,7 @@ error-prone.
 
 # Special script variables
 
-```
+```terminal
 vm$ cat script-vars.sh
 #!/bin/bash
 
@@ -673,7 +673,7 @@ echo The name of the script is $0
 echo You passed $# options
 echo The first option is $1
 echo The fourth option is $4
-vm$
+vm$ 
 ```
 
 ???
@@ -691,7 +691,7 @@ By acting on these values, we can write scripts that are much more re-usable.
 
 :continued:
 
-```
+```terminal
 vm$ cat if-else-option.sh
 #!/bin/bash
 
@@ -712,7 +712,7 @@ fi
 
 cp src/* $out_dir
 echo The build process is now complete.
-vm$
+vm$ 
 ```
 
 ???

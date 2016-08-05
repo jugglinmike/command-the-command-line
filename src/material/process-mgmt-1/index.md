@@ -15,8 +15,9 @@ processes and how you can regain control of the terminal in each.
 
 # Case #1: "I want to cancel this work"
 
-```
+```terminal
 vm$ find / -name nemo
+ 
 ```
 
 ???
@@ -37,10 +38,10 @@ Instead, we'll send a "signal" to the active process.
 
 :continued:
 
-```
+```terminal
 vm$ find / -name nemo
-^C
-vm$
+&#8203;^C
+vm$ 
 ```
 
 ???
@@ -56,14 +57,15 @@ re-enter the correct command.
 
 # Case #2: "I'm done entering data"
 
-```
+```terminal
 vm$ sort
-murdock, matt
-stark, tony
-rogers, steve
-banner, bruce
-parker, peter
-romanov, natalya
+&#8203;murdock, matt
+&#8203;stark, tony
+&#8203;rogers, steve
+&#8203;banner, bruce
+&#8203;parker, peter
+&#8203;romanov, natalya
+&#8203;
 ```
 
 ???
@@ -82,22 +84,22 @@ we are done entering input and would like the program to continue its work.
 
 :continued:
 
-```
+```terminal
 vm$ sort
-murdock, matt
-stark, tony
-rogers, steve
+&#8203;murdock, matt
+&#8203;stark, tony
+&#8203;rogers, steve
+&#8203;banner, bruce
+&#8203;parker, peter
+&#8203;romanova, natasha
+&#8203;^D
 banner, bruce
-parker, peter
-romanova, natasha
-^D
-banner, bruce
 murdock, matt
 parker, peter
 rogers, steve
 romanova, natasha
 stark, tony
-vm$
+vm$ 
 ```
 
 ???
@@ -115,8 +117,9 @@ line directly.
 
 # Case #3: "I'd like to do other things while this completes."
 
-```
+```terminal
 vm$ find / -name nemo
+ 
 ```
 
 ???
@@ -130,11 +133,11 @@ inefficient (and may clutter up your desktop environment).
 
 :continued:
 
-```
+```terminal
 vm$ find / -name nemo
-^Z
+&#8203;^Z
 [1]+  Stopped                 find / -name nemo
-vm$
+vm$ 
 ```
 
 ???
@@ -148,13 +151,14 @@ stop (but not exit) and release the terminal.
 
 :continued:
 
-```
+```terminal
 vm$ jobs
 [1]+  Stopped                 find / -name nemo
 vm$ bg 1
 [1]+ find / -name nemo &
 vm$ jobs
 [1]+  Running                 find / -name nemo &
+vm$ 
 ```
 
 ???
@@ -169,10 +173,11 @@ we want by ts "job ID" (`1` in this case).
 
 :continued:
 
-```
+```terminal
 vm$ jobs
 [1]+  Running                 find / -name nemo &
 vm$ fg 1
+ 
 ```
 
 ???

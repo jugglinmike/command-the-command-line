@@ -9,7 +9,7 @@ pieces and then solve each part with generic utilities.
 
 ---
 
-```
+```terminal
 vm$ cat process-wiring.txt
 Process A                                         Process B
 +----------------+                +-----------------------+
@@ -21,7 +21,7 @@ Process A                                         Process B
 |    exit status O---         --> O standard input        |
 |                |                |                       |
 +----------------+                +-----------------------+
-vm$
+vm$ 
 ```
 
 ???
@@ -33,7 +33,7 @@ understanding of input and ouput from :chapter:process-bounds:.
 
 # Capturing Output with Command Substitution
 
-```
+```terminal
 vm$ cat process-wiring-cmd-sub.txt
 Process A                                         Process B
 +----------------+                +-----------------------+
@@ -45,7 +45,7 @@ Process A                                         Process B
 |                O                O                       |
 |                |    command     |                       |
 +----------------+  substitution  +-----------------------+
-vm$
+vm$ 
 ```
 
 ???
@@ -57,14 +57,14 @@ process writes to standard output.
 
 :continued:
 
-```
+```terminal
 vm$ user=`whoami`
 vm$ echo $user
 speaker
 vm$ user=`sudo whoami`
 vm$ echo $user
 root
-vm$
+vm$ 
 ```
 
 ???
@@ -80,14 +80,14 @@ data in the place of the nested command.
 
 :continued:
 
-```
+```terminal
 vm$ find /media/shared -user `whoami`
 /media/shared/music/Cake - You Part the Waters.mp3
 /media/shared/movies/The Royal Tenenbaums.mkv
 vm$ find /media/shared -user `sudo whoami`
 /media/shared/documents/boring-admin-protocol.txt
 /media/shared/documents/usage-statistics.txt
-vm$
+vm$ 
 ```
 
 ???
@@ -99,12 +99,12 @@ feed the output of one command into the options of another.
 
 :continued:
 
-```
+```terminal
 vm$ wc `find /media/documents -user `sudo whoami``
 find: missing argument to `-user'
 wc: sudo: No such file or directory
 wc: whoami: No such file or directory
-vm$
+vm$ 
 ```
 
 ???
@@ -126,12 +126,12 @@ left-to-right:
 
 :continued:
 
-```
+```terminal
 vm$ wc $(find /media/documents -user $(sudo whoami))
   90  510 2816 /media/shared/documents/boring-admin-protocol.txt
   29  174  839 /media/shared/documents/usage-statistics.txt
  119  684 3655 total
-vm$
+vm$ 
 ```
 
 ???
@@ -152,7 +152,7 @@ be aware of each of them.
 
 # Forwarding Exit Status Codes
 
-```
+```terminal
 vm$ cat process-wiring-logical.txt
 Process A                                         Process B
 +----------------+                +-----------------------+
@@ -164,7 +164,7 @@ Process A                                         Process B
 |    exit status O---             O                       |
 |                | logical cntrl  |                       |
 +----------------+   operators    +-----------------------+
-vm$
+vm$ 
 ```
 
 ???
@@ -181,7 +181,7 @@ automating tasks.
 
 # Connecting Streams with Pipes
 
-```
+```terminal
 vm$ cat process-wiring-pipes.txt
 Process A                                         Process B
 +----------------+                +-----------------------+
@@ -193,7 +193,7 @@ Process A                                         Process B
 |                O            --> O standard input        |
 |                |                |                       |
 +----------------+     pipes      +-----------------------+
-vm$
+vm$ 
 ```
 
 ???
@@ -207,10 +207,10 @@ the flow of a stream between two places.
 
 :continued:
 
-```
+```terminal
 vm$ grep papayawhip src/style.css | wc -l
 2
-vm$
+vm$ 
 ```
 
 ???
@@ -227,10 +227,10 @@ text `z-index`, forwarding the result to the `wc` program, which (thanks to the
 
 :continued:
 
-```
+```terminal
 vm$ cat src/style.css | grep papayawhip | wc -l
 2
-vm$
+vm$ 
 ```
 
 ???
@@ -246,7 +246,7 @@ operate on the standard input stream. This usage make's `grep`'s role as a
 
 :continued:
 
-```
+```terminal
 vm$ cat pipeline.txt
 +------------------------+     +---------------------+      +-------+
 |   cat src/style.css    | +-> |   grep papayawhip   |  +-> | wc -l |
@@ -260,7 +260,7 @@ header {                  -+
   background: papayawhip;
   color: #333;
 }
-vm$
+vm$ 
 ```
 
 ???
@@ -275,7 +275,7 @@ slowly over time.
 
 # Gathering Streams Into Options
 
-```
+```terminal
 vm$ cat process-wiring-pipes-and-xargs.txt
 Process A                                         Process B
 +----------------+                +-----------------------+
@@ -287,7 +287,7 @@ Process A                                         Process B
 |                O                O                       |
 |                |                |                       |
 +----------------+ pipes + xargs  +-----------------------+
-vm$
+vm$ 
 ```
 
 ???
@@ -297,11 +297,11 @@ for another command.
 
 ---
 
-```
+```terminal
 vm$ find documents -type f -newermt 'last week'
 documents/year plan.odf
 documents/questionnaire.odf
-vm$
+vm$ 
 ```
 
 ???
@@ -315,11 +315,11 @@ week.
 
 :continued:
 
-```
+```terminal
 vm$ find documents -type f -newermt 'last week' | sed 's/hot dog/banana/g'
 documents/year plan.txt
 documents/questionnaire.txt
-vm$
+vm$ 
 ```
 
 ???
@@ -332,7 +332,7 @@ not the content of the files.
 
 :continued:
 
-```
+```terminal
 vm$ find documents -type f -newermt 'last week' | cat | sed 's/hot dog/banana/g'
 # Year plan
 
@@ -357,14 +357,14 @@ we want to modify each source file in-place.
 
 :continued:
 
-```
+```terminal
 vm$ sed -i 's/hot dog/banana/g' $(find documents -type f -newermt 'last week')
 sed: can't read documents/year: No such file or directory
 sed: can't read plan.txt: No such file or directory
 vm$ sed -i 's/hot dog/banana/g' documents/year plan.txt documents/questionnaire.txt
 sed: can't read documents/year: No such file or directory
 sed: can't read plan.txt: No such file or directory
-vm$
+vm$ 
 ```
 
 ???
@@ -382,7 +382,7 @@ approach is necessary.
 
 # `xargs`
 
-```
+```terminal
 vm$ man xargs
 XARGS(1)              General Commands Manual              XARGS(1)
 
@@ -402,9 +402,9 @@ input.
 
 :continued:
 
-```
+```terminal
 vm$ find documents -type f -newermt 'last week' -print0 | xargs -0 sed -i 's/hot dog/banana/g'
-vm$
+vm$ 
 ```
 
 ???

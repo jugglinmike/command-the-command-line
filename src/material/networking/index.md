@@ -19,7 +19,7 @@ chapter.
 
 # OSI
 
-```
+```terminal
 vm$ cat osi.txt
   # | Name         | Examples         toward user
   --+--------------+-----------------      ^
@@ -31,7 +31,7 @@ vm$ cat osi.txt
   2 | Data Link    | Ethernet, PPP         |
   1 | Physical     | Wi-Fi, Bluetooth      v
                                       toward network
-vm$
+vm$ 
 ```
 
 ???
@@ -49,7 +49,7 @@ tooling, and it even has practical implications for system architecture.
 
 :continued:
 
-```
+```terminal
 vm$ cat osi-traversal.txt
                 .-- 10.0.2.3 ---.   .- 10.0.2.4 -.   .- 10.0.2.5 -.
                 | curl 10.0.2.5 |   |            |   | web server |
@@ -64,7 +64,7 @@ vm$ cat osi-traversal.txt
                 '-------V-------'   '-----^------'   '-----^------'
                         |                 |                |
 ...===== network ===============================================...
-vm$
+vm$ 
 ```
 
 ???
@@ -85,7 +85,7 @@ reformats the message.
 
 :continued:
 
-```
+```terminal
 vm$ cat osi-focus.txt
   # | Name         | Examples
   --+--------------+---------
@@ -98,7 +98,7 @@ vm$ cat osi-focus.txt
 +------------------------------+
   2 | Data Link    |
   1 | Physical     |
-vm$
+vm$ 
 ```
 
 ???
@@ -109,7 +109,7 @@ The concepts in this chapter concern the Transport and Network layers specifical
 
 # `curl`
 
-```
+```terminal
 vm$ man curl
 curl(1)                 Curl Manual                curl(1)
 
@@ -138,7 +138,7 @@ in this chapter.
 
 :continued:
 
-```
+```terminal
 vm$ curl example.com
 <!doctype html>
 <html>
@@ -150,7 +150,7 @@ vm$ curl example.com
     Welcome to example.com!
   </body>
 </html>
-vm$
+vm$ 
 ```
 
 ???
@@ -163,7 +163,7 @@ output.
 
 :continued:
 
-```
+```terminal
 vm$ curl -i www.example.com
 HTTP/1.0 200 OK
 Date: Thu, 28 Jul 1970 13:02:03 GMT
@@ -181,7 +181,7 @@ Last-Modified: Thu, 28 Jul 1970 13:01:57 GMT
     Welcome to example.com!
   </body>
 </html>
-vm$
+vm$ 
 ```
 
 ???
@@ -195,11 +195,11 @@ relevant.
 
 # IP Addresses
 
-```
+```terminal
 vm$ host example.com
 example.com has address 93.184.216.34
 example.com has IPv6 address 2606:2800:220:1:248:1893:25c8:1946
-vm$
+vm$ 
 ```
 
 ???
@@ -221,7 +221,7 @@ a given DNS entry, inluding its corresponding IP address.
 
 # `ifconfig`
 
-```
+```terminal
 vm$ man ifconfig
 IFCONFIG(8)      Linux Programmer's Manual     IFCONFIG(8)
 
@@ -239,7 +239,7 @@ bundled in many Unix-like environments can tell us this information.
 
 :continued:
 
-```
+```terminal
 vm$ ifconfig
 eth0      Link encap:Ethernet  HWaddr 08:00:27:2d:60:65
           inet addr:10.0.2.3   Bcast:10.0.2.255  Mask:255.255.255.0
@@ -258,7 +258,7 @@ lo        Link encap:Local Loopback
           TX packets:61 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0
           RX bytes:5359 (5.3 KB)  TX bytes:5359 (5.3 KB)
-vm$
+vm$ 
 ```
 
 ???
@@ -281,7 +281,7 @@ For now, we'll focus on the loopback address.
 
 # Loopback addresses & `127.0.0.1`
 
-```
+```terminal
 vm$ cat osi-traversal-loopback.txt
                 .---------- 10.0.2.3 ----------.   .- 10.0.2.5 -.
                 | curl 127.0.0.1    web server |   |            |
@@ -296,7 +296,7 @@ vm$ cat osi-traversal-loopback.txt
                 '------------------------------'   '------------'
 
 ...===== network =============================================...
-vm$
+vm$ 
 ```
 
 ???
@@ -320,12 +320,12 @@ and URLs. In fact, we'll use it to run a server right now.
 
 # Running a web server
 
-```
+```terminal
 vm$ webserver
 webserver: command not found
 vm$ webserver --please
 webserver: command not found
-vm$
+vm$ 
 ```
 
 ???
@@ -337,7 +337,7 @@ way to start a local server on Unix-like systems.
 
 :continued:
 
-```
+```terminal
 vm$ which python3
 /usr/bin/python3
 vm$ python3 -m http.server --bind 127.0.0.1
@@ -364,14 +364,14 @@ end of our requests' addresses.
 
 :continued:
 
-```
+```terminal
 vm$ python3 -m http.server --bind 127.0.0.1
 Serving HTTP on 127.0.0.1 port 8000 ...
 ^Z
 [1]+  Stopped                 python3 -m http.server --bind 127.0.0.1
 vm$ bg 1
 [1]+ python3 -m http.server --bind 127.0.0.1 &
-vm$
+vm$ 
 ```
 
 ???
@@ -386,7 +386,7 @@ again.
 
 :continued:
 
-```
+```terminal
 vm$ curl 127.0.0.1:8000
 127.0.0.1 - - [28/Jul/1970 21:09:05] "GET / HTTP/1.1" 200 -
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -410,7 +410,7 @@ directory.
 
 # `localhost`
 
-```
+```terminal
 vm$ host localhost
 localhost has address 127.0.0.1
 localhost has IPv6 address ::1
@@ -435,7 +435,7 @@ It's also a lot more intuitive, so you'll see it used in many web projects.
 
 # Sharing on the network: loopback woes
 
-```
+```terminal
 vm$ cat osi-traversal-loopback-hidden.txt
                 .-- 10.0.2.3 ---.   .-- 10.0.2.5 ----.
                 | web server on |   |                |
@@ -451,7 +451,7 @@ vm$ cat osi-traversal-loopback-hidden.txt
                 '---------------'   '----------------'
 
 ...===== network ==================================...
-vm$
+vm$ 
 ```
 
 ???
@@ -469,7 +469,7 @@ conditions.
 
 :continued:
 
-```
+```terminal
 vm$ cat osi-traversal-loopback-hidden.txt
                 .-- 10.0.2.3 ---.   .-- 10.0.2.5 ----.
                 | web server on |   |                |
@@ -485,7 +485,7 @@ vm$ cat osi-traversal-loopback-hidden.txt
                 '-------^-------'   '------V---------'
                         |                  |
 ...===== network ==================================...
-vm$
+vm$ 
 ```
 
 ???
@@ -498,7 +498,7 @@ such a loopback address, it is very unlikely that the network has assigned
 
 :continued:
 
-```
+```terminal
 vm$ cat osi-traversal-loopback-hidden.txt
                 .-- 10.0.2.3 ---.   .-- 10.0.2.5 ---.
                 | web server on |   |               |
@@ -514,7 +514,7 @@ vm$ cat osi-traversal-loopback-hidden.txt
                 '-------^-------'   '------V--------'
                         |                  |
 ...===== network =================================...
-vm$
+vm$ 
 ```
 
 ???
@@ -532,7 +532,7 @@ interface (as we saw with `ifconfig`, it is using "lo" instead of "eth0").
 
 # Sharing on the network: hard-coding an address
 
-```
+```terminal
 vm$ cat osi-traversal-loopback-hidden.txt
                 .-- 10.0.2.3 ---.   .-- 10.0.2.5 ---.
                 | web server on |   |               |
@@ -548,7 +548,7 @@ vm$ cat osi-traversal-loopback-hidden.txt
                 '-------^-------'   '------V--------'
                         |                  |
 ...===== network =================================...
-vm$
+vm$ 
 ```
 
 ???
@@ -563,7 +563,7 @@ conditions change.
 
 # Sharing on the network: `0.0.0.0`
 
-```
+```terminal
 vm$ cat osi-traversal-zeros.txt
                 .---------- 10.0.2.3 ------------.   .-- 10.0.2.5 ---.
                 |                  web server on |   |               |
@@ -579,7 +579,7 @@ vm$ cat osi-traversal-zeros.txt
                 '-------------------------^------'   '------V--------'
                                           |                 |
 ...===== network ==================================================...
-vm$
+vm$ 
 ```
 
 ???
@@ -600,10 +600,10 @@ speak to the lead developer on the project.
 
 # `/etc/hosts`
 
-```
+```terminal
 vm$ cat /etc/hosts
 127.0.0.1	localhost
-vm$
+vm$ 
 ```
 
 ???
@@ -617,7 +617,7 @@ the corresponding IP address.
 
 :continued:
 
-```
+```terminal
 vm$ host zombo.com
 zombo.com has address 69.16.230.117
 zombo.com mail is handled by 0 zombo.com.
@@ -647,14 +647,14 @@ the local machine--it won't effect anyone else on the network.
 
 :continued:
 
-```
+```terminal
 vm$ cat /etc/hosts
 127.0.0.1 localhost
 192.168.33.40 api.local # Added as an example for
                         # the "Speaking *nix" course
 vm$ curl api.local
 {}
-vm$
+vm$ 
 ```
 
 ???
@@ -695,7 +695,7 @@ process for each service requested.
 
 :continued:
 
-```
+```terminal
 vm$ cat osi-traversal-ports.txt
                 .-------- 10.0.2.3 -------.   .------- 10.0.2.5 ---------.
                 | file server  API server |   | GET / HTTP   $.post('/') |
@@ -711,7 +711,7 @@ vm$ cat osi-traversal-ports.txt
                 '------------^------------'   '------------V-------------'
                              |                             |
 ...===== network ======================================================...
-vm$
+vm$ 
 ```
 
 ???
@@ -758,7 +758,7 @@ an IRC server on port 80.
 
 # Dealing with privilege
 
-```
+```terminal
 vm$ python3 -m http.server --bind 127.0.0.1 5555
 Serving HTTP on 127.0.0.1 port 5555 ...
 ^C

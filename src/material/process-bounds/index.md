@@ -10,7 +10,7 @@ about the way information flows through processes that we haven't covered yet.
 
 ---
 
-```
+```terminal
 vm$ cat ./process-bounds.txt
          options ------+
 environment vars ------+
@@ -21,7 +21,7 @@ standard input -> | Process | -> standard output
                   +---------+
                        |
                        +-------> exit status
-vm$
+vm$ 
 ```
 
 ???
@@ -45,7 +45,7 @@ here are available to all processes (even if they aren't always used).
 
 # Input: Options & Environment Variables
 
-```
+```terminal
 vm$ my_var=123 magic-app --an_option
 ```
 
@@ -59,16 +59,16 @@ We previously discussed options and environment variables in
 
 # Input: Standard Input
 
-```
+```terminal
 vm$ sort
-c
+&#8203;c
+&#8203;a
+&#8203;b
+&#8203;^D
 a
 b
-^D
-a
-b
 c
-vm$
+vm$ 
 ```
 
 ???
@@ -81,7 +81,7 @@ typed.
 
 :continued:
 
-```
+```terminal
 vm$ cat input.txt
 +-----------+
 |           |
@@ -89,7 +89,7 @@ vm$ cat input.txt
 +-----------+                +- Terminal -+     +- sort -+
  \           \ --> stdin --> | ---------> | --> |        |
   +- Keyboard +              +------------+     +--------+
-vm$
+vm$ 
 ```
 
 ???
@@ -107,15 +107,15 @@ moment, this is not always the case.
 
 :continued:
 
-```
+```terminal
 vm$ grep r
 firefox
 firefox
 edge
 chromium
 chromium
-^D
-vm$
+&#8203;^D
+vm$ 
 ```
 
 Many utilities that normally expect a file name as an option will read from
@@ -142,7 +142,7 @@ input stream.
 
 :continued:
 
-```
+```terminal
 vm$ cat cereal.txt
 fruit loops
 lucky charms
@@ -151,7 +151,7 @@ vm$ sort < cereal.txt
 cap'n crunch
 fruit loops
 lucky charms
-vm$
+vm$ 
 ```
 
 ???
@@ -164,7 +164,7 @@ though we had entered them into the terminal directly.
 
 :continued:
 
-```
+```terminal
 vm$ cat input-redirected.txt
 +-----------+
 |           |
@@ -176,7 +176,7 @@ vm$ cat input-redirected.txt
  +-- i.txt --+                               |
  |           | ------------------------------+
  +-----------+
-vm$
+vm$ 
 ```
 
 ???
@@ -188,7 +188,7 @@ stream other than standard input--a file named `i.txt` in this example.
 
 :continued:
 
-```
+```terminal
 vm$ sort < cereal.txt
 cap'n crunch
 fruit loops
@@ -197,7 +197,7 @@ vm$ sort cereal.txt
 cap'n crunch
 fruit loops
 lucky charms
-vm$
+vm$ 
 ```
 
 ???
@@ -210,15 +210,15 @@ negligible.
 
 :continued:
 
-```
+```terminal
 vm$ mail hello@bocoup.com --subject 'Keep it up!'
-Dearest Bocoup,
-
-You are doing wonderful things. Please continue to do them.
-
-Mike
-~.
-vm$
+&#8203;Dearest Bocoup,
+&#8203;
+&#8203;You are doing wonderful things. Please continue to do them.
+&#8203;
+&#8203;Mike
+&#8203;~.
+vm$ 
 ```
 
 ???
@@ -230,7 +230,7 @@ On the other hand, some programs *only* operate on the "standard input" stream.
 
 :continued:
 
-```
+```terminal
 vm$ cat my-message.txt
 Dearest Bocoup,
 
@@ -238,7 +238,7 @@ You are doing wonderful things. Please continue to do them.
 
 Mike
 vm$ mail hello@bocoup.com --subject 'Keep it up!' < my-message.txt
-vm$
+vm$ 
 ```
 
 ???
@@ -252,10 +252,10 @@ send messages from files we created elsewhere.
 
 # Input: Signals
 
-```
+```terminal
 vm$ find / -name dory
-^C
-vm$
+&#8203;^C
+vm$ 
 ```
 
 ???
@@ -268,7 +268,7 @@ and how to send them.
 
 ---
 
-```
+```terminal
 vm$ cat ./process-bounds.txt
          options ------+
 environment vars ------+
@@ -279,7 +279,7 @@ standard input -> | Process | -> standard output
                   +---------+
                        |
                        +-------> exit status
-vm$
+vm$ 
 ```
 
 ???
@@ -297,7 +297,7 @@ are available to all processes.
 
 # Output: Standard Output
 
-```
+```terminal
 vm$ cat my-file.txt
 The `cat` utility writes to standard output.
 vm$ mkdir my-directory
@@ -332,7 +332,7 @@ output to a file.
 
 :continued:
 
-```
+```terminal
 vm$ cat feline-gifs.txt
 cat: feline-gifs.txt: No such file or directory
 vm$ find gifs -name \*cat\* > feline-gifs.txt
@@ -340,6 +340,7 @@ vm$ cat feline-gifs.txt
 gifs/winter/cat-in-snow.gif
 gifs/lunchtime/cat-eating-sandwhich.gif
 gifs/travel/airplane-pilot-is-a-cat.gif
+vm$ 
 ```
 
 ???
@@ -352,7 +353,7 @@ doesn't exist, it will created first.
 
 :continued:
 
-```
+```terminal
 vm$ cat feline-gifs.txt
 gifs/winter/cat-in-snow.gif
 gifs/lunchtime/cat-eating-sandwhich.gif
@@ -360,7 +361,7 @@ gifs/travel/airplane-pilot-is-a-cat.gif
 vm$ find gifs -name \*kitten\* > feline-gifs.txt
 vm$ cat feline-gifs.txt
 gifs/sports/kitten-foosball.gif
-vm$
+vm$ 
 ```
 
 ???
@@ -371,7 +372,7 @@ If the file *does* exist, then its contents will be truncated before writing.
 
 :continued:
 
-```
+```terminal
 vm$ echo 'My feline gifs:' > feline-gifs.txt
 vm$ find gifs -name \*cat\* >> feline-gifs.txt
 vm$ find gifs -name \*kitten\* >> feline-gifs.txt
@@ -380,7 +381,7 @@ gifs/winter/cat-in-snow.gif
 gifs/lunchtime/cat-eating-sandwhich.gif
 gifs/travel/airplane-pilot-is-a-cat.gif
 gifs/sports/kitten-foosball.gif
-vm$
+vm$ 
 ```
 
 ???
@@ -390,7 +391,7 @@ character sequence `>>`.
 
 ---
 
-```
+```terminal
 vm$ node --version >> my-bug-report.txt
 vm$ npm --version >> my-bug-report.txt
 vm$ grunt --version >> my-bug-report.txt
@@ -398,7 +399,7 @@ vm$ cat my-bug-report.txt
 v5.3.0
 3.3.12
 grunt-cli v0.1.13
-vm$
+vm$ 
 ```
 
 ???
@@ -411,12 +412,12 @@ share it with others.
 
 # Output: Standard Error
 
-```
+```terminal
 vm$ ls /home /root
 /home:
 speaker
 ls: cannot open directory /root: Permission denied
-vm$
+vm$ 
 ```
 
 ???
@@ -434,7 +435,7 @@ error.
 
 :continued:
 
-```
+```terminal
 vm$ cat stdio-mux.txt
 +---- ls ----+                +- Terminal -+     +- Display -+
 |   /home    | --> stdout --> | ---------> | --> |   /home   |
@@ -442,7 +443,7 @@ vm$ cat stdio-mux.txt
 +------------+                +------------+     +-----------+
                                                   \           \
                                                    +-----------+
-vm$
+vm$ 
 ```
 
 ???
@@ -454,13 +455,13 @@ difference in this case.
 
 :continued:
 
-```
+```terminal
 vm$ ls /home /root > o.txt
 ls: cannot open directory /root: Permission denied
 vm$ cat o.txt
 /home:
 speaker
-vm$
+vm$ 
 ```
 
 ???
@@ -475,7 +476,7 @@ describing the error is still being printed to the screen.
 
 :continued:
 
-```
+```terminal
 vm$ cat stdio-demux-out.txt
                                                  +-- o.txt --+
                            +-------------------> |   /home   |
@@ -487,7 +488,7 @@ vm$ cat stdio-demux-out.txt
 +------------+                +------------+     +-----------+
                                                   \           \
                                                    +-----------+
-vm$
+vm$ 
 ```
 
 ???
@@ -516,13 +517,13 @@ need to learn a little more syntax first.
 
 :continued:
 
-```
+```terminal
 vm$ ls /home /root 2> e.txt
 /home:
 speaker
 vm$ cat e.txt
 ls: cannot open directory /root: Permission denied
-vm$
+vm$ 
 ```
 
 ???
@@ -534,7 +535,7 @@ then the standard error stream will be redirected to that file.
 
 :continued:
 
-```
+```terminal
 vm$ cat stdio-demux-err.txt
 
 + ls 2> e.txt +                +- Terminal -+     +- Display -+
@@ -546,7 +547,7 @@ vm$ cat stdio-demux-err.txt
                             |                     +-- e.txt --+
                             +-------------------> |   error!  |
                                                   +-----------+
-vm$
+vm$ 
 ```
 
 ???
@@ -559,14 +560,14 @@ redirected the standard error stream.
 :continued:
 
 
-```
+```terminal
 vm$ ls /home /root 2> e.txt > o.txt
 vm$ cat o.txt
 /home:
 speaker
 vm$ cat e.txt
 ls: cannot open directory /root: Permission denied
-vm$
+vm$ 
 ```
 
 ???
@@ -578,7 +579,7 @@ this case, the we specify the redirection targets does not matter.
 
 :continued:
 
-```
+```terminal
 vm$ cat stdio-demux-both.txt
                                               +-- o.txt --+
                            +----------------> |   /home   |
@@ -593,7 +594,7 @@ vm$ cat stdio-demux-both.txt
                            |                  +-- e.txt --+
                            +----------------> |   error!  |
                                               +-----------+
-vm$
+vm$ 
 ```
 
 ???
@@ -604,13 +605,13 @@ In this case, we are completely bypassing the terminal.
 
 :continued:
 
-```
+```terminal
 vm$ ls /home /root > t.txt 2>&1
 vm$ cat t.txt
 /home:
 speaker
 ls: cannot open directory /root: Permission denied
-vm$
+vm$ 
 ```
 
 ???
@@ -624,13 +625,13 @@ standard error to the same location as standard output."
 
 :continued:
 
-```
+```terminal
 vm$ ls /home /root 2>&1 > t.txt
 ls: cannot open directory /root: Permission denied
 vm$ cat t.txt
 /home:
 speaker
-vm$
+vm$ 
 ```
 
 ???
@@ -664,10 +665,10 @@ completing their intended purpose.
 
 :continued:
 
-```
+```terminal
 vm$ cat .
 cat: .: Is a directory
-vm$
+vm$ 
 ```
 
 We've been discussing one way processes communicate this distinction: they often
@@ -679,12 +680,12 @@ exactly what went wrong.
 
 :continued:
 
-```
+```terminal
 vm$ cat .
 cat: .: Is a directory
 vm$ less .
 . is a directory
-vm$
+vm$ 
 ```
 
 ???
@@ -697,7 +698,7 @@ its contents.
 
 :continued:
 
-```
+```terminal
 vm$ pwd
 /home/sally
 vm$ echo $?
@@ -706,8 +707,10 @@ vm$ $ rm ..
 rm: cannot remove ‘..’: Is a directory
 vm$ echo $?
 1
-vm$
+vm$ 
 ```
+
+???
 
 As a process completes, it emits a number that describes the conditions that
 caused it to end. We can access the exit status of the previous command with
@@ -723,7 +726,7 @@ error stream...
 
 :continued:
 
-```
+```terminal
 vm$ cat .
 cat: .: Is a directory
 vm$ echo $?
@@ -732,7 +735,7 @@ vm$ less .
 . is a directory
 vm$ echo $?
 1
-vm$
+vm$ 
 ```
 
 ???
@@ -744,16 +747,16 @@ integer value, there is less room for different "phrasings" between programs.
 
 :continued:
 
-```
+```terminal
 vm$ sleep notanumber
 sleep: invalid time interval ‘notanumber’
 vm$ echo $?
 1
 vm$ sleep 100
-^C
+&#8203;^C
 vm$ echo $?
 130
-vm$
+vm$ 
 ```
 
 ???
@@ -774,14 +777,14 @@ this communication channel is much more useful within shell scripts.
 
 :continued:
 
-```
+```terminal
 vm$ cat .
 cat: .: Is a directory
 vm$ echo $?
 1
 vm$ echo $?
 0
-vm$
+vm$ 
 ```
 
 ???
@@ -794,7 +797,7 @@ overwrite that value.
 
 :continued:
 
-```
+```terminal
 vm$ cat .
 cat: .: Is a directory
 vm$ catresult=$?
@@ -804,7 +807,7 @@ vm$ echo $?
 0
 vm$ echo $catresult
 1
-vm$
+vm$ 
 ```
 
 ???

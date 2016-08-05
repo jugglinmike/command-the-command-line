@@ -14,10 +14,10 @@ There's one more topic that is important to understand: the `sudo` utility.
 
 # Background: Users and permissions
 
-```
+```terminal
 vm$ whoami
 sally
-vm$
+vm$ 
 ```
 
 ???
@@ -34,7 +34,7 @@ it simply displays the name of the user who invoked it.
 
 :continued:
 
-```
+```terminal
 vm$ echo $HOME
 /home/sally
 vm$ ls /home
@@ -42,7 +42,7 @@ larry
 nancy
 sally
 xavier
-vm$
+vm$ 
 ```
 
 ???
@@ -55,10 +55,10 @@ there might be more directories for other people.
 
 :continued:
 
-```
+```terminal
 vm$ ls /home/larry
 ls: cannot open directory /home/larry: Permission denied
-vm$
+vm$ 
 ```
 
 ???
@@ -70,14 +70,14 @@ users.
 
 :continued:
 
-```
+```terminal
 vm$ ls -o /home
 total 102
 drwx------ 72 larry  24576 Jul 01 10:55 larry
 drwx------ 72 nancy  8374  Jul 09 10:55 nancy
 drwx------ 72 sally  39827 Jul 14 10:55 sally
 drwx------ 72 xavier 33432 Jul 11 10:55 xavier
-vm$
+vm$ 
 ```
 
 ???
@@ -106,7 +106,7 @@ file system: `/root`.
 
 :continued:
 
-```
+```terminal
 vm$ rm -rf /bin
 rm: cannot remove ‘/bin/zdiff’: Permission denied
 rm: cannot remove ‘/bin/findmnt’: Permission denied
@@ -129,13 +129,13 @@ malicious program can do when it runs on your behalf.
 
 # `sudo`
 
-```
+```terminal
 vm$ whoami
 sally
 vm$ sudo whoami
-[sudo] password for sally:
+[sudo] password for sally: &#8203;       
 root
-vm$
+vm$ 
 ```
 
 ???
@@ -150,13 +150,13 @@ vm$
 
 :continued:
 
-```
+```terminal
 vm$ whoami
 untrusteduser
 vm$ sudo whoami
-[sudo] password for untrusteduser:
+[sudo] password for untrusteduser: &#8203;       
 untrusteduser is not in the sudoers file.  This incident will be reported.
-vm$
+vm$ 
 ```
 
 ???
@@ -169,9 +169,9 @@ administrator.
 
 :continued:
 
-```
+```terminal
 vm$ sudo echo "After I've authenticated once..."
-[sudo] password for sally:
+[sudo] password for sally: &#8203;       
 After I've authenticated once...
 vm$ date
 Wed Dec 31 1969 19:00:00 EST 1969
@@ -180,9 +180,9 @@ I stay in 'sudo mode' for a little while.
 vm$ date
 Wed Dec 31 1969 19:21:00 EST 1969
 vm$ sudo echo "...but I'll need to re-authenticate every so often."
-[sudo] password for sally:
+[sudo] password for sally: &#8203;       
 ...but I'll need to re-authenticate every so often.
-vm$
+vm$ 
 ```
 
 ???
@@ -196,18 +196,18 @@ This status will expire after a short period (15 minutes by default).
 
 # Using `sudo` safely
 
-```
+```terminal
 vm$ apt-get install cowsay
 E: Could not open lock file /var/lib/dpkg/lock - open (13: Permission denied)
 E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?
 vm$ sudo apt-get install cowsay
-[sudo] password for sally: 
+[sudo] password for sally: &#8203;       
 Reading package lists... Done
 Building dependency tree       
 Reading state information... Done
 cowsay is already the newest version.
 0 upgraded, 0 newly installed, 0 to remove and 23 not upgraded.
-vm$
+vm$ 
 ```
 
 ???
@@ -221,12 +221,12 @@ understand what the command is going to do.
 
 # Avoiding "unsafe" uses of `sudo`
 
-```
+```terminal
 vm$ sudo ./script-i-found-on-the-web.sh
-[sudo] password for sally: 
+[sudo] password for sally:  &#8203;       
 Installing a key logger... Done
 Deleting all your applications... Done
-vm$
+vm$ 
 ```
 
 ???
@@ -239,12 +239,12 @@ untrusted program from the Internet may cause all sorts of problems.
 
 :continued:
 
-```
+```terminal
 vm$ sudo apt-get install the-dependency-i-need
-[sudo] password for sally: 
+[sudo] password for sally: &#8203;       
 vm$ ./script-i-found-on-the-web.sh
 Performing actions as the current (de-privileged) user
-vm$
+vm$ 
 ```
 
 ???

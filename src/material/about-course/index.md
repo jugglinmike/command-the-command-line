@@ -22,11 +22,11 @@ that students will not have to rely on rote memorization to build confidence.
 
 # Conventions
 
-```
+```terminal
 pc$ code blocks like these represent a terminal
 they are intended to demonstrate various commands
 and their effects
-pc$
+pc$ 
 ```
 
 ???
@@ -49,7 +49,7 @@ should be typed.
 
 :continued:
 
-```
+```terminal
 pc$ this command should be run on your system
 this is output from your system
 
