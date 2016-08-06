@@ -7,7 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "jshint build src/scripts/**/*.js",
+    "style": "jscs build src/scripts/**/*.js",
+    "test": "npm run lint && npm run style"
   },
   "repository": {
     "type": "git",
@@ -33,6 +35,8 @@
     "cpr": "^1.1.2",
     "gray-matter": "^2.0.2",
     "handlebars": "^4.0.5",
+    "jscs": "^3.0.7",
+    "jshint": "^2.9.2",
     "mdast-util-to-string": "^1.0.2",
     "memory-fs": "^0.3.0",
     "metalsmith": "^2.1.0",

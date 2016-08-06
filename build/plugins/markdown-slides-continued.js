@@ -21,8 +21,7 @@ function replace(arr, idx, newNodes) {
 module.exports = function continued(processor, options) {
   return function(ast) {
     var children = ast.children;
-    var length = children.length;
-    var prevHeading, node, idx;
+    var prevHeading;
     var pattern = options.pattern;
     var depth = options.depth;
     var replacer = options.replacer;

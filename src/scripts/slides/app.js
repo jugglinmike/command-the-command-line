@@ -24,11 +24,9 @@ function animateExamples() {
   var terminals, simulation, idx, length;
 
   if (slides.length === 0) {
-    console.error('No active slide found.');
-    return;
+    throw new Error('No active slide found.');
   } else if (slides.length > 1) {
-    console.error('Ambiguous active slide.');
-    return;
+    throw new Error('Ambiguous active slide.');
   }
 
   terminals = slides[0].getElementsByClassName('language-terminal');

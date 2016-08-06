@@ -12,11 +12,11 @@ module.exports = function associate(options) {
       .forEach(function(fileName) {
         var file = files[fileName];
         Object.keys(mapping).forEach(function(key) {
-            var other = path.join(path.dirname(fileName), mapping[key]);
-            if (other in files) {
-              file[key] = files[other];
-              delete files[other];
-            }
+          var other = path.join(path.dirname(fileName), mapping[key]);
+          if (other in files) {
+            file[key] = files[other];
+            delete files[other];
+          }
         });
       });
     done();
