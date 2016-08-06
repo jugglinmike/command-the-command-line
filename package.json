@@ -23,7 +23,7 @@
     "shell"
   ],
   "author": "Bocoup, LLC",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/bocoup-education/speaking-nix/issues"
   },

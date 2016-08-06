@@ -21,5 +21,5 @@ To deploy the content to the web (requires permissions to write to the
 - All content contained within the `src/material/` directory is licensed under
   the Creative Commons Attribution-ShareAlike 4.0 International License; see
   LICENSE-CC-BY-SA
-- All code contained within the `src/environment/` directory is licensed under
-  the MIT license; see LICENSE-MIT
+- All code contained with the `src/` directory is copyright 2016 Bocoup LLC.,
+  licensed under the GNU General Public License v3.0; see LICENSE-GPL
