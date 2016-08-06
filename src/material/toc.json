@@ -6,7 +6,8 @@
     {
       "title": "Part II - Getting Your Bearings",
       "toc": [
-        "file-system", "command-invocation", "process-mgmt-1", "sudo"
+        "file-system", "command-invocation", "process-mgmt-1", "sudo",
+        "networking"
       ]
     },
     {

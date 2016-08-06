@@ -1,5 +1,6 @@
 ---
 title: Networking for Web Developers
+layout: chapter.html
 ---
 
 ???
