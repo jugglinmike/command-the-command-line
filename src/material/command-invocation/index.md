@@ -422,7 +422,7 @@ There's just one more piece in this dissection of command patterns.
 
 # Environment Variables
 
-<iframe width="420" height="315" src="https://www.youtube.com/embed/gWPwlMv8lNI" frameborder="0" allowfullscreen>
+<iframe src="https://www.youtube.com/embed/gWPwlMv8lNI?start=176&end=221" frameborder="0" allowfullscreen>
 </iframe>
 
 ???

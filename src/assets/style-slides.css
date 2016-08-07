@@ -48,3 +48,8 @@ code.language-terminal {
   color: inherit;
   display: block;
 }
+
+iframe {
+  width: 100%;
+  height: 30vh;
+}
