@@ -125,6 +125,8 @@ option's behavior.
 
 ---
 
+:continued:
+
 ```terminal
 vm$ cat --number --show-ends my-normal-file.txt
      1 This is the first line of just-another-file.txt$
@@ -138,6 +140,8 @@ vm$
 Many options can be specified at the same time.
 
 ---
+
+:continued:
 
 ```terminal
 vm$ cat -n --show-ends my-normal-file.txt
