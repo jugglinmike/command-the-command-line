@@ -13,6 +13,12 @@ layout: chapter.html
 
 ---
 
+![photograph of papers stacked within a folder](papers-in-folder.jpg)
+
+"[Stacked papers in folder](https://www.flickr.com/photos/auxesis/2965102907/)"
+by [Lindsay Holmwood](https://www.flickr.com/photos/auxesis/) is licensed under
+[CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
+
 ???
 
 - The file system is defined by a hierarchy of "directories".
@@ -193,6 +199,12 @@ have to use it all by itself; it can be used as part of a path, too.
 
 # Backing up
 
+![photograph of a car stuck in a snow bank](stuck-car.jpg)
+
+"[Stuck Car](https://www.flickr.com/photos/beigephotos/3663149/)" by [Michael
+Pereckas](https://www.flickr.com/photos/beigephotos/) is licensed under [CC
+BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)
+
 ???
 
 We've learned how to dive into a directory, but we're kind of stuck once we get
@@ -261,6 +273,12 @@ directory**. We can't move any higher in the file system than the root.
 
 # Paths from the root? Absolutely!
 
+![photograph of a footpath with tree roots running through](rooted-path.jpg)
+
+"[rooted-path](https://www.flickr.com/photos/devlon/24055969569/)" by
+[Devlon Duthie](https://www.flickr.com/photos/devlon/) is licensed under [CC
+BY-NC 2.0](https://creativecommons.org/licenses/by-nc/2.0/).
+
 ???
 
 - Up until now, all the paths we've used have been based on the current working
@@ -316,6 +334,12 @@ vm$
 ---
 
 # Inspecting files
+
+![photograph of a dollar bill viewed under a magnifying glass](not-legal-tender.jpg)
+
+"[Not legal tender](https://www.flickr.com/photos/skycaptaintwo/3128797505/)"
+by [skycaptaintwo](https://www.flickr.com/photos/skycaptaintwo/) is licensed
+under [CC BY-NC 2.0](https://creativecommons.org/licenses/by-nc/2.0/).
 
 ???
 

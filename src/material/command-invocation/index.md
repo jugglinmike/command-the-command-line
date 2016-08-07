@@ -197,6 +197,15 @@ commands.
 
 ---
 
+# Command Options
+
+![dance instructions](dance-instructions.jpg)
+
+"[Dance Steps on
+Broadway](https://www.flickr.com/photos/javacolleen/5456875165/)" by
+[javacolleen](https://www.flickr.com/photos/javacolleen/) is licensed under [CC
+BY-NC-ND 2.0](https://creativecommons.org/licenses/by-nc-nd/2.0/).
+
 ???
 
 We've seen a bunch of examples of options for various programs, but you may be
@@ -325,6 +334,12 @@ the path to the current user's "home" directory.
 ---
 
 # It's All Around You
+
+![photograph of trees extending into the sky](surrounded.jpg)
+
+"[Surrounded](https://www.flickr.com/photos/arvinasadi/9310562017/)" by [Arvin
+Asadi](https://www.flickr.com/photos/arvinasadi/) is licensed under [CC BY
+2.0](https://creativecommons.org/licenses/by/2.0/)
 
 ???
 
