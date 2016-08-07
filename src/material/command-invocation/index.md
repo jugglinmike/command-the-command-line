@@ -125,7 +125,7 @@ option's behavior.
 
 ---
 
-```terminl
+```terminal
 vm$ cat --number --show-ends my-normal-file.txt
      1 This is the first line of just-another-file.txt$
      2 This is the second line of the file!$
