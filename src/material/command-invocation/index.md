@@ -137,7 +137,7 @@ vm$
 
 ???
 
-Many options can be specified at the same time.
+Multiple options can be specified at the same time.
 
 ---
 
