@@ -38,7 +38,7 @@ commercial workstation manufacturers.
 
 ???
 
-The differences between these modified versions of Unix effected the way that
+The differences between these modified versions of Unix affected the way that
 programmers wrote application code. A program written for one "flavor" of Unix
 might not work on another.
 
