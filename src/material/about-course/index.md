@@ -38,7 +38,7 @@ the text that follows the prompt; when typing the command on your system, you
 should not include the prompt.
 
 Lines that do not begin with the prompt are "output" lines. This is text
-produced by the in response to the command.
+produced in response to the command.
 
 Note that terminal examples from other guides use the lone dollar sign
 character (`$`) or even the "hash" character (`#`) as the prompt. Whatever it
