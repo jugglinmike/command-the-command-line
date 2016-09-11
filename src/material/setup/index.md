@@ -28,8 +28,18 @@ required.
 
 # Setup: Procedure
 
-1. Download and install VirtualBox from https://www.virtualbox.org/
-2. Download and install Vagrant from https://www.vagrantup.com/
-3. Download the `Vagrantfile` for this course
-4. Navigate to the directory containing the `Vagrantfile` and enter the command
-   `vagrant up`
+1. Download and install VirtualBox
+   - Freely available at https://www.virtualbox.org/
+   - To verify: run the following command from a terminal window: `virtualbox
+     --help` (this course expects version 4.3.36 or newer).
+2. Download and install Vagrant
+   - Freely available at https://www.vagrantup.com/
+   - To verify: run the following command from a terminal window: `vagrant
+     --version` (this course expects version 1.7.2 or newer).
+3. Download and create the virtual environment for this course
+   - Create a new directory for this course
+   - Run the following commands from a terminal window:
+     - `vagrant init http://boxes.bocoup.com/speaking-nix.box`
+     - `vagrant up`
+   - To verify: run the following command from a terminal window: `vagrant
+     status` (it should report, "The VM is running.")

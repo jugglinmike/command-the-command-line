@@ -121,7 +121,8 @@ within a "virtual machine." Thanks to the free and open source software
 [VirtualBox](https://www.virtualbox.org/),
 [Vagrant](https://www.vagrantup.com/), and [Ubuntu](http://www.ubuntu.com/),
 students can complete the exercises in a purpose-built Unix-like environment
-using their personal computer and at no charge.
+using their personal computer and at no charge. :chapter:setup: includes
+instructions for installing these tools.
 
 The default user account in the exercise environment is named "speaker", and it
 is configured to use the Bash shell. Administrative access requires a password,
