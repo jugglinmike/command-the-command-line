@@ -652,7 +652,8 @@ the local machine--it won't effect anyone else on the network.
 vm$ cat /etc/hosts
 127.0.0.1 localhost
 192.168.33.40 api.local # Added as an example for
-                        # the "Speaking *nix" course
+                        # the "Command the Command
+                        # Line" course
 vm$ curl api.local
 {}
 vm$ 

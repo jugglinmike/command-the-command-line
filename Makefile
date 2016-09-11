@@ -1,4 +1,4 @@
-UPSTREAM := git@github.com:bocoup-education/speaking-nix.git
+UPSTREAM := git@github.com:bocoup-education/command-the-command-line.git
 OUTDIR := out
 OUTDIR_WEB = $(OUTDIR)/web
 

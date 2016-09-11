@@ -97,7 +97,7 @@ by [Eraserhead1](https://commons.wikimedia.org/wiki/User:Eraserhead1),
 ???
 
 The result is an ecosystem of platforms with intertwined histories and
-sometimes-incompatible features. "Speaking \*nix" doesn't require familiarity
+sometimes-incompatible features. Speaking \*nix doesn't require familiarity
 with all the edges, but like any pidgin language, it benefits from some
 appreciation of the history. Hopefully this brief introduction has given you
 the context you'll need to appreciate the nuances of these systems.

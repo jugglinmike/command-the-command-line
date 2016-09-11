@@ -1,5 +1,5 @@
 {
-  "name": "speaking-nix",
+  "name": "command-the-command-line",
   "version": "1.0.0",
   "description": "Educational material covering usage and administration of Unix-like systems.",
   "main": "build/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/bocoup-education/speaking-nix.git"
+    "url": "git+ssh://git@github.com/bocoup-education/comand-the-command-line.git"
   },
   "keywords": [
     "bocoup",
@@ -27,9 +27,9 @@
   "author": "Bocoup, LLC",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/bocoup-education/speaking-nix/issues"
+    "url": "https://github.com/bocoup-education/command-the-command-line/issues"
   },
-  "homepage": "https://github.com/bocoup-education/speaking-nix#readme",
+  "homepage": "https://github.com/bocoup-education/command-the-command-line#readme",
   "dependencies": {
     "async": "^2.0.0",
     "cpr": "^1.1.2",
