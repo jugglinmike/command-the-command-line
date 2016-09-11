@@ -36,6 +36,8 @@ module.exports = function markdown(files, metalsmith, done) {
         withZwsp = value.toString().replace(/&#x26;#8203;/g, '&#8203;');
 
         file.contents = new Buffer(withZwsp);
+        delete files[key];
+        files[key.replace(/md$/i, 'html')] = file;
         done();
       });
   }, done);

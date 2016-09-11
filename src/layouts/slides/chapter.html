@@ -10,7 +10,23 @@
 ### Chapter {{ chapterNumber }}
 # {{ title }}
 
+---
+
 {{{ contents }}}
+
+---
+
+### Chapter {{ chapterNumber }}
+# {{ title }}
+
+{{#if exercise}}
+
+---
+
+# Exercise
+
+{{{ exercise.contents }}}
+{{/if}}
     </textarea>
     <script src="{{ root }}/app.js" /></script>
   </body>
