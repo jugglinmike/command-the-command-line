@@ -10,7 +10,7 @@ aspects of using Unix and its derivatives are non-obvious, and some are
 downright confusing. We hope to help students understand the fundamentals so
 that they can begin to feel more comfortable:
 
-- working from a test-based command prompt
+- working from a text-based command prompt
 - using essential utility applications
 - composing custom scripts to automate work and solve problems
 - perform basic system administration tasks
