@@ -8,7 +8,26 @@
 <body>
 <main>
 	{{> header }}
-	{{> nav}}
+
+	<nav>
+		<ul>
+			{{#each toc }}
+			<li>
+				{{ title }}
+				<ul>
+					{{#each toc}}
+					<li>
+						<a href="{{ ../../root }}/{{ slug }}">
+							Ch. {{ chapterNumber }}: {{ title }}
+						</a>
+					</li>
+					{{/each}}
+				</ul>
+			</li>
+			{{/each}}
+		</ul>
+	</nav>
+
 	<article>
 		<h2>{{ partTitle }}</h2>
 		<h3>{{ title }}</h3>

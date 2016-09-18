@@ -3,14 +3,41 @@
 <head>
 	<meta charset="utf-8" />
 	<title>{{ title }}</title>
+	<link rel="stylesheet" href="{{ root }}/assets/lib/font-awesome/css/font-awesome.css" />
 	<link rel="stylesheet" href="{{ root }}/assets/style-web.css" />
 </head>
 <body>
-<main>
-	{{> header }}
-	{{> nav}}
+<header class="landing">
+	<hgroup>
+		<h1>Command the Command Line</h1>
+	</hgroup>
+</header>
+<main class="index">
 	<article>
 		{{{ contents }}}
+	</article>
+
+	{{#each toc}}
+		<section>
+			<h2><i class="fa {{icon}}" aria-hidden="true"></i>{{title}}</h2>
+			<ul>
+				{{#each toc}}
+				<li>
+					<a href="{{ ../../root }}/{{ slug }}">
+						Ch. {{ chapterNumber }}: {{ title }}
+					</a>
+				</li>
+				{{/each}}
+			</ul>
+		</section>
+	{{/each}}
+
+	<article>
+		"<a href="https://www.flickr.com/photos/greenmambagreenmamba/5233623841/">ISS_Flight_Control_Room_2006</a>"
+		by <a href="https://www.flickr.com/photos/greenmambagreenmamba/">
+			Green Mamba
+		</a> is licensed under
+		<a href="https://creativecommons.org/licenses/by-nd/2.0/">CC BY-ND 2.0</a>.
 	</article>
 	{{> footer }}
 </main>

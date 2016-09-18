@@ -1,10 +1,12 @@
 [
     {
       "title": "Part I - Introduction",
+      "icon": "fa-question-circle-o",
       "toc": ["about-course", "setup", "vagrant", "history"]
     },
     {
       "title": "Part II - Getting Your Bearings",
+      "icon": "fa-compass",
       "toc": [
         "file-system", "command-invocation", "process-mgmt-1", "sudo",
         "networking"
@@ -12,6 +14,7 @@
     },
     {
       "title": "Part III - Improving Your Workflow",
+      "icon": "fa-bolt",
       "toc": [
         "file-mgmt", "process-bounds", "process-combination", "scripting",
         "customization"
@@ -19,6 +22,7 @@
     },
     {
       "title": "Part IV - Managing Systems",
+      "icon": "fa-server",
       "toc": ["process-mgmt-2", "users-and-groups", "fhs", "scheduling"]
     }
   ]

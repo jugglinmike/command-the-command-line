@@ -1,3 +1,8 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: #f2f2f2;
   font-size: 100%;
@@ -10,12 +15,31 @@ a {
   text-decoration: none;
 }
 
-main {
+main, header h1 {
   max-width: 1024px;
   width: 100%;
   margin: 0 auto;
 }
 
+header.landing {
+  width: 100%;
+  height: 14em;
+  overflow: auto;
+
+  background-image: url(control-room.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center middle;
+}
+header.landing hgroup {
+  margin: 2em 0;
+
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #eee;
+}
+header.landing h1 {
+  padding: 1em 0;
+}
 header h1 {
   font-family: monospace;
 }
@@ -38,7 +62,8 @@ nav ul {
 
 main > article {
   width: 70%;
-  float: left;
+  margin: 2em auto;
+  overflow: auto;
 }
 
 main > article img {
@@ -111,4 +136,25 @@ code.language-terminal {
   margin: 0 2%;
 
   vertical-align: middle;
+}
+
+.index section {
+  width: 36%;
+  margin: 0 2% 3em;
+  float: left;
+  padding: 1em 5%;
+
+  background-color: #333;
+  color: #eee;
+  font-family: monospace;
+}
+.index section .fa {
+  margin-right: 1em;
+}
+.index section ul {
+  padding: 0;
+
+  font-size: 1.4em;
+  line-height: 1.6em;
+  list-style-type: none;
 }
