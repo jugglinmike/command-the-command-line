@@ -77,7 +77,7 @@ that students will not have to rely on rote memorization to build confidence.
 
 ---
 
-# Conventions
+# Reading the Code Examples
 
 ```terminal
 pc$ code blocks like these represent a terminal
