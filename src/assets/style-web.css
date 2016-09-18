@@ -101,3 +101,14 @@ code.language-terminal {
 #solution-toggle:checked ~ .solution {
   visibility: visible;
 }
+
+.img-3 {
+  text-align: center;
+}
+.img-3 img {
+  display: inline-block;
+  width: 25%;
+  margin: 0 2%;
+
+  vertical-align: middle;
+}

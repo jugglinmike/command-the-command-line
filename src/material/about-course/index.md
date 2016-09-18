@@ -162,9 +162,11 @@ beyond the abilities of this course's target audience.
 
 # About the exercises
 
-![VirtualBox logo](logo-virtualbox.png)
-![Vagrant logo](logo-vagrant.png)
-![Ubuntu logo](logo-ubuntu.svg)
+<div class="img-3">
+  <img alt="VirtualBox logo" src="logo-virtualbox.png" />
+  <img alt="Vagrant logo" src="logo-vagrant.png" />
+  <img alt="Ubuntu logo" src="logo-ubuntu.svg" />
+</div>
 
 "[Vagrant Logo](https://commons.wikimedia.org/w/index.php?curid=29324827)" by
 [Fco.plj](https://commons.wikimedia.org/w/index.php?title=User:Fco.plj) is
