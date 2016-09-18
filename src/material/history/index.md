@@ -13,6 +13,12 @@ should begin by reviewing the circumstances that brought all this about.
 
 # MULTICS
 
+![A photograph of Stonehenge](stonehenge.jpg)
+
+"[The "Stone"](https://www.flickr.com/photos/slilin/22247144269/) by
+[Slilin](https://www.flickr.com/photos/slilin/) is licensed under [CC BY-NC-ND
+2.0](https://creativecommons.org/licenses/by-nc-nd/2.0/)
+
 ???
 
 AT&T, General Electric, and MIT collaborated on a time-sharing operating system
