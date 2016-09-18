@@ -3,6 +3,14 @@ title: A Brief History of Unix
 layout: chapter.html
 ---
 
+???
+
+From Ubuntu to Max OSX, many popular operating systems are derived from a
+movement that began in the 1970's. To best understand today's systems, we
+should begin by reviewing the circumstances that brought all this about.
+
+---
+
 # MULTICS
 
 ???
