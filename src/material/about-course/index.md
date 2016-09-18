@@ -106,6 +106,34 @@ should be typed.
 
 :continued:
 
+<div class="img-3">
+  <img
+    alt="A Microsoft Windows operating system running a macOS virtual machine"
+    src="vms-win-to-mac.png" />
+  <img
+    alt="A GNU/Linux operating system running a Microsoft Windows virtual machine"
+    src="vms-linux-to-win.png" />
+  <img
+    alt="Any operating system running a GNU/Linux virtual machine"
+    src="vms-yours-to-linux.png" />
+</div>
+
+???
+
+Complete operating systems can be run as standalone processes. These are known
+as "virtual machines," and you can use them to run any operating system within
+any other operating system.
+
+A GNU/Linux virtual machine (specifically, of [the Ubuntu
+distribution](http://ubuntu.com/)) has been prepared for this course. This
+means that regardless of the operating system you are using today, you will
+experiment and learn inside the exact operating system that the course
+requires.
+
+---
+
+:continued:
+
 ```terminal
 pc$ this command should be run on your system
 this is output from your system
@@ -116,10 +144,8 @@ this is output from the virtual machine
 
 ???
 
-This course is designed to use a complete Unix-like system that runs as a
-standalone process on your computer. This process is known as a "virtual
-machine." A small number of commands in this course are intended to be run on
-your system, but most of them should be executed within the virtual machine.
+A small number of commands in this course are intended to be run on your
+system, but most of them should be executed within the virtual machine.
 
 The `pc$` prompt denotes commands that are intended to be run on your system.
 We'll use the `vm$` prompt to denote the commands that are intended for the
