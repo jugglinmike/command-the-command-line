@@ -5,8 +5,65 @@ layout: chapter.html
 
 ???
 
-The goal of this course is to improve familiarity with Unix-like systems. Many
-aspects of using Unix and its derivatives are non-obvious, and some are
+The goal of this course is to improve familiarity with Unix-like operating
+systems. Before we begin, though, we should ask: why do Unix-like operating
+systems matter?
+
+---
+
+# Why "Unix-like"?
+
+![A laptop running the macOS operating system](macos.png)
+
+"macOS Sierra" is copyright Apple, Inc. Used with permission.
+
+???
+
+Chances are, you're running a Unix-like system right now. The popular Apple
+macOS is Unix-like. (Actually, since version 10.5--code named "Leopard"--OSX
+hasn't just been "Unix-like," [it's officially fully
+Unix](http://www.opengroup.org/openbrand/register/brand3555.htm). This
+distinction probably doesn't mean much right now; :chapter:history: has more
+details.)
+
+If you're running Mac OSX, the concepts we cover here will be directly
+applicable to your day-to-day computing.
+
+---
+
+:continued:
+
+![Installation discs for Ubuntu](ubuntu-discs.jpg)
+
+"[Discos de Ubuntu 8.10 (Intrepid
+Ibex)](https://www.flickr.com/photos/sir_gon/3113641967/)" by [Gonzalo
+Díaz](https://www.flickr.com/photos/sir_gon/) is Licensed under [CC BY
+2.0](https://creativecommons.org/licenses/by/2.0/)
+
+???
+
+GNU/Linux is another world-famous Unix-like operating system. Popular variants
+include Debian, Redhat, and Ubuntu (pictured).
+
+While GNU/Linux is not as common on the desktop as Microsoft Windows or Apple
+macOS, it is widely deployed in server technology. Professionals working in the
+field of software development (especially for web-based technologies) will
+likely come across this operating system in the course of deploying their work.
+
+---
+
+# User-unfriendly
+
+![Photograph of a laptop placed in a trash reciptical](laptop-in-garbage.jpg)
+
+"[Schlock. Manchester,
+England](https://www.flickr.com/photos/ndm007/171398958/)" by [Nathan
+Makan](https://www.flickr.com/photos/ndm007/) is licenced under [CC BY-NC-ND
+2.0](https://creativecommons.org/licenses/by-nc-nd/2.0/)
+
+???
+
+Many aspects of using Unix and its derivatives are non-obvious, and some are
 downright confusing. We hope to help students understand the fundamentals so
 that they can begin to feel more comfortable:
 
