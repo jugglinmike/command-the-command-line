@@ -12,6 +12,10 @@ html, body {
   box-shadow: none;
 }
 
+img {
+  max-width: 100%;
+}
+
 /**
  * !important declarations necessary to override element attributes defined by
  * Remark.js.
