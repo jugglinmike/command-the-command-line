@@ -21,13 +21,16 @@ by [Lindsay Holmwood](https://www.flickr.com/photos/auxesis/) is licensed under
 
 ???
 
-- The file system is defined by a hierarchy of "directories".
-- A directory can contain any number of directories (known as
-  "**sub-directories**").
-- For the most part, each directory is itself contained within exactly one
-  directory (know as the "**parent directory**").
-- These concepts are likely familiar because they are also featured in many GUI
-  applications like Windows Explorer and Apple's Finder.
+The file system is defined by a hierarchy of "directories". A directory can
+contain any number of directories (known as "**sub-directories**"). For the
+most part, each directory is itself contained within exactly one directory;
+this is known as the "**parent directory**".
+
+These concepts are likely familiar because they are also featured in many GUI
+applications like Windows Explorer and Apple's Finder. The sample commands in
+this section will be be supported by recordings of equivalent operations
+performed with a graphical interface (specifically, [the GNOME
+Files](http://live.gnome.org/Nautilus) file manager).
 
 ---
 
@@ -72,6 +75,10 @@ vm$ pwd
 vm$ 
 ```
 
+In a GUI:
+
+![Using a graphical interface to see the current working directory](gui-pwd.gif)
+
 ???
 
 - The `pwd` command writes the terminal's current directory to the screen.
@@ -95,6 +102,10 @@ my-normal-file.txt
 vm$ 
 ```
 
+In a GUI:
+
+![Using a graphical interface to see the contents of the current directory](gui-ls-1.gif)
+
 ???
 
 - The `ls` utility lists the contents of a directory--this includes files and
@@ -112,6 +123,10 @@ just-another-file.txt
 vm$ 
 ```
 
+In a GUI:
+
+![Using a graphical interface to see the contents of some other directory](gui-ls-2.gif)
+
 ???
 
 When invoked with a path to another directory, `ls` will display the contents
@@ -127,6 +142,10 @@ vm$ pwd
 /home/sally/my-amazing-subdirectory
 vm$ 
 ```
+
+In a GUI:
+
+![Using a graphical interface to move into a subdirectory](gui-cd-1.gif)
 
 ???
 
@@ -151,6 +170,10 @@ vm$ cd this-directory-doesnt-exist
 cd: this-directory-doesnt-exist: No such file or directory
 vm$ 
 ```
+
+In a GUI:
+
+![Using a graphical interface to move into a subdirectory of a subdirectory](gui-cd-2.gif)
 
 ???
 
@@ -223,6 +246,10 @@ vm$ pwd
 /home/sally/my-amazing-subdirectory
 vm$ 
 ```
+
+In a GUI:
+
+![Using a graphical interface to move into the parent directory](gui-cd-up.gif)
 
 ???
 
