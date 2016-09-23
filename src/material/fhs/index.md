@@ -3,6 +3,14 @@ title: Filesystem Hierarchy Standard
 layout: chapter.html
 ---
 
+???
+
+Spend enough time on a Unix-like system and you will stumble across the "root"
+directories. The typical hierarchy is an intimidating tree of strangely-named
+directories with inscrutable purposes.
+
+---
+
 ```terminal
 vm$ cat fhs.txt
     bin/       usr/            var/
@@ -23,10 +31,6 @@ vm$
 ```
 
 ???
-
-Spend enough time on a Unix-like system and you will stumble across the "root"
-directories. The typical hierarchy is an intimidating tree of strangely-named
-directories with inscrutable purposes.
 
 Some names are repeated (`/bin/`, `/usr/bin/`, and `/usr/local/bin/`), others
 seem vague (`/media/` or `/etc/`), and still others sound more appropriate for

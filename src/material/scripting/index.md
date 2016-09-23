@@ -3,6 +3,8 @@ title: Scripting
 layout: chapter.html
 ---
 
+???
+
 We've accumulated a lot of knowledge about process orchestration. Up to now,
 we've been entering each command into the terminal directly. While this is the
 best way to learn, it is not the way you will use these tools day-to-day.

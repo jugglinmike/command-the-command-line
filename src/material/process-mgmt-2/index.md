@@ -175,6 +175,8 @@ vm$ ps
 vm$ 
 ```
 
+???
+
 This is actually the second time we have run across signals in Unix-like
 systems. Remember that `Ctrl`+`C` sends a `SIGINT`, or "interrupt" signal. We
 can do the same thing for any process using kill.
