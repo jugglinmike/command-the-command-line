@@ -461,11 +461,11 @@ to learn about another utility.
 
 ```terminal
 vm$ whoami
-speaker
+vagrant
 vm$ test $(whoami) = root
 vm$ echo $?
 1
-vm$ test $(whoami) = speaker
+vm$ test $(whoami) = vagrant
 vm$ echo $?
 0
 vm$ 

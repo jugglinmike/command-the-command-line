@@ -209,6 +209,6 @@ students can complete the exercises in a purpose-built Unix-like environment
 using their personal computer and at no charge. :chapter:setup: includes
 instructions for installing these tools.
 
-The default user account in the exercise environment is named "speaker", and it
+The default user account in the exercise environment is named "vagrant", and it
 is configured to use the Bash shell. Administrative access requires a password,
-and that password is "speaker".
+and that password is "vagrant".

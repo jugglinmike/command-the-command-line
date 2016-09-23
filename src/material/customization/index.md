@@ -481,7 +481,7 @@ utilities.
 vm$ ls
 change-prompt.sh
 vm$ ls -l
--rw-rw-r-- 1 speaker speaker   12 Aug  2 18:30 change-prompt.sh
+-rw-rw-r-- 1 vagrant vagrant   12 Aug  2 18:30 change-prompt.sh
 vm$ 
 ```
 
@@ -524,7 +524,7 @@ with alias "values" (the command you wish to be executed).
 ```terminal
 vm$ alias ll='ls -l'
 vm$ ll
--rw-rw-r-- 1 speaker speaker   12 Aug  2 18:30 change-prompt.sh
+-rw-rw-r-- 1 vagrant vagrant   12 Aug  2 18:30 change-prompt.sh
 vm$ 
 ```
 
@@ -542,10 +542,10 @@ the `alias` utility.
 vm$ alias ll='ls -l'
 vm$ ll /tmp
 total 4
--rw-rw-r-- 1 speaker speaker   0 Aug  2 21:50 a-temporary-file-01.txt
--rw-rw-r-- 1 speaker speaker   0 Aug  2 21:50 a-temporary-file-02.txt
--rw-rw-r-- 1 speaker speaker   0 Aug  2 21:50 a-temporary-file-03.txt
--rw-rw-r-- 1 speaker speaker   0 Aug  2 21:50 a-temporary-file-04.txt
+-rw-rw-r-- 1 vagrant vagrant   0 Aug  2 21:50 a-temporary-file-01.txt
+-rw-rw-r-- 1 vagrant vagrant   0 Aug  2 21:50 a-temporary-file-02.txt
+-rw-rw-r-- 1 vagrant vagrant   0 Aug  2 21:50 a-temporary-file-03.txt
+-rw-rw-r-- 1 vagrant vagrant   0 Aug  2 21:50 a-temporary-file-04.txt
 vm$ 
 ```
 
@@ -642,7 +642,7 @@ vm$ ssh our-dev-server.example.com
 # This is your first time logging in to this server,
 # so it's probably not set up the way you like. Feel
 # free to customize the environment however you wish.
-dev$ git clone git@github.com:speaker/dotfiles.git .
+dev$ git clone git@github.com:sally/dotfiles.git .
 Cloning into '.'...
 Checking connectivity... done.
 dev$ source .bashrc

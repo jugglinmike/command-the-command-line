@@ -142,10 +142,10 @@
    vm$
    ```
 
-   This step specifies that the host name `speaker.local` should resolve to our
-   own system. This sounds like a job for the `/etc/hosts` file.
+   This step specifies that the host name `commander.local` should resolve to
+   our own system. This sounds like a job for the `/etc/hosts` file.
 
-   If we try to modify it as the "speaker" user, `nano` will report an error:
+   If we try to modify it as the "vagrant" user, `nano` will report an error:
    "Permission denied."
 
    ```
@@ -158,13 +158,13 @@
    vm$ sudo nano /etc/hosts
    ```
 
-   We'll add the line `127.0.0.1 speaker.local`, which means "redirect requests
-   for the host `speaker.local` to the loopback address." When we're done, the
-   `/etc/hosts` file should look like this:
+   We'll add the line `127.0.0.1 commands.local`, which means "redirect
+   requests for the host `commander.local` to the loopback address." When we're
+   done, the `/etc/hosts` file should look like this:
 
    ```
    127.0.0.1	localhost
-   127.0.0.1	speaker.local
+   127.0.0.1	commander.local
    ```
 
    With the system configured correctly, all that's left is to run the server
@@ -217,7 +217,7 @@
    [1]+  Stopped                 sudo python3 -m http.server 80
    vm$ bg 1
    [1]+ sudo python3 -m http.server 80 &
-   vm$ curl speaker.local
+   vm$ curl commander.local
    127.0.0.1 - - [29/Jul/1970 19:22:39] "GET / HTTP/1.1" 200 -
    <!DOCTYPE>
    <html>

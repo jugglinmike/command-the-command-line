@@ -11,5 +11,5 @@
 
 3. Stop any server jobs you have running (recall the `jobs` command from
    :chapter:process-mgmt-1:). Can you configure your system such that the
-   command `curl speaker.local` returns the contents of
+   command `curl commander.local` returns the contents of
    `/var/www/my-site/index.html`?

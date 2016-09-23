@@ -52,7 +52,7 @@
    Remember that the "forward slash" character (`/`) is the path separator,
    so we should note every digit that follows that character (and ignore the
    rest). We'll use `cd` to move to the appropriate sub-directory of the
-   `/home/speaker/island/cave` directory.
+   `/home/vagrant/island/cave` directory.
 
 6. We can "speak" to the cave dweller by reading the contents of the
    `cave-dweller` file:

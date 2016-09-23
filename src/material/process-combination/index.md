@@ -60,7 +60,7 @@ process writes to standard output.
 ```terminal
 vm$ user=`whoami`
 vm$ echo $user
-speaker
+vagrant
 vm$ user=`sudo whoami`
 vm$ echo $user
 root

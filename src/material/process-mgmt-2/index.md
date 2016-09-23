@@ -44,8 +44,8 @@ running bash and `ps` itself.
 ```terminal
 vm$ ps -u
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-speaker   1892  0.0  0.7  21300  3756 pts/0    Ss   17:31   0:00 -bash
-speaker   1925  0.0  0.2  17168  1272 pts/0    R+   17:33   0:00 ps -u
+vagrant   1892  0.0  0.7  21300  3756 pts/0    Ss   17:31   0:00 -bash
+vagrant   1925  0.0  0.2  17168  1272 pts/0    R+   17:33   0:00 ps -u
 vm$ 
 ```
 
@@ -95,8 +95,8 @@ can see that many of the processes are actually owned by the "root" user.
 
 ```terminal
 vm$ ps -aux | grep sleep
-speaker   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
-speaker   2083  0.0  0.1  10464   892 pts/0    S+   18:31   0:00 grep sleep
+vagrant   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
+vagrant   2083  0.0  0.1  10464   892 pts/0    S+   18:31   0:00 grep sleep
 vm$ 
 ```
 
@@ -113,7 +113,7 @@ a little confusing.
 
 ```terminal
 vm$ ps -aux | grep slee[p]
-speaker   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
+vagrant   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
 vm$ 
 ```
 
@@ -141,7 +141,7 @@ management utilities recognize PIDs as references to processes.
 
 ```terminal
 vm$ ps -aux | grep slee[p]
-speaker   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
+vagrant   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
 vm$ kill 2079
 [1]+  Terminated              sleep 3000
 vm$ ps -aux | grep slee[p]

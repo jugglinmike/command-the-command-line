@@ -425,7 +425,7 @@ share it with others.
 ```terminal
 vm$ ls /home /root
 /home:
-speaker
+vagrant
 ls: cannot open directory /root: Permission denied
 vm$ 
 ```
@@ -470,7 +470,7 @@ vm$ ls /home /root > o.txt
 ls: cannot open directory /root: Permission denied
 vm$ cat o.txt
 /home:
-speaker
+vagrant
 vm$ 
 ```
 
@@ -530,7 +530,7 @@ need to learn a little more syntax first.
 ```terminal
 vm$ ls /home /root 2> e.txt
 /home:
-speaker
+vagrant
 vm$ cat e.txt
 ls: cannot open directory /root: Permission denied
 vm$ 
@@ -574,7 +574,7 @@ redirected the standard error stream.
 vm$ ls /home /root 2> e.txt > o.txt
 vm$ cat o.txt
 /home:
-speaker
+vagrant
 vm$ cat e.txt
 ls: cannot open directory /root: Permission denied
 vm$ 
@@ -619,7 +619,7 @@ In this case, we are completely bypassing the terminal.
 vm$ ls /home /root > t.txt 2>&1
 vm$ cat t.txt
 /home:
-speaker
+vagrant
 ls: cannot open directory /root: Permission denied
 vm$ 
 ```
@@ -640,7 +640,7 @@ vm$ ls /home /root 2>&1 > t.txt
 ls: cannot open directory /root: Permission denied
 vm$ cat t.txt
 /home:
-speaker
+vagrant
 vm$ 
 ```
 
