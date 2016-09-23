@@ -10,6 +10,10 @@ a {
   text-decoration: none;
 }
 
+h1 {
+  font-family: 'Open Sans', sans-serif;
+}
+
 main {
   max-width: 1024px;
   width: 100%;
