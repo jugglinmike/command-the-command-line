@@ -79,6 +79,16 @@ iframe {
 .remark-slide-content {
   background-color: #f2f2f2;
 }
+.remark-slide-content > h1 {
+  margin: 0;
+}
+.remark-slide-content > h1 + h2 {
+  margin: 0;
+
+  font-size: 1em;
+  color: #888;
+  font-style: italic;
+}
 
 .img-3 {
   text-align: center;

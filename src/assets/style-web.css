@@ -45,6 +45,14 @@ main > article {
   float: left;
 }
 
+main > article > h1 + h2 {
+  margin-top: -0.7em;
+
+  font-size: 1em;
+  color: #888;
+  font-style: italic;
+}
+
 main > article img {
   margin: 0 auto;
   max-width: 100%;

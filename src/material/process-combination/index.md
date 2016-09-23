@@ -382,6 +382,8 @@ approach is necessary.
 
 # `xargs`
 
+## Build commands from standard input
+
 ```terminal
 vm$ man xargs
 XARGS(1)              General Commands Manual              XARGS(1)

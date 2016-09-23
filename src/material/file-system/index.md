@@ -76,6 +76,8 @@ vm$
 
 # `pwd`
 
+## Print the current (i.e. "working") directory
+
 ```terminal
 vm$ pwd
 /home/sally
@@ -99,6 +101,8 @@ In a GUI:
 ---
 
 # `ls`
+
+## List directory contents
 
 ```terminal
 vm$ pwd
@@ -142,6 +146,8 @@ of that directory.
 ---
 
 # `cd`
+
+## Change directories
 
 ```terminal
 vm$ cd my-amazing-subdirectory
@@ -346,6 +352,8 @@ when we use it.
 
 # `tree`
 
+## Display directories and their contents
+
 ```terminal
 vm$ tree
 .
@@ -384,6 +392,8 @@ Lets take a look at some tools for learning about files and their contents.
 
 # `cat`
 
+## Display file contents (all at once)
+
 ```terminal
 vm$ ls
 oh-boy-another-directory
@@ -405,6 +415,8 @@ vm$
 ---
 
 # `less`
+
+## Display file contents (with navigation controls)
 
 ```terminal
 vm$ less a-longer-file.txt
@@ -428,6 +440,8 @@ has a lot of special controls, but the most important ones are:
 ---
 
 # `sort`
+
+## Re-order input
 
 ```terminal
 vm$ cat just-another-file.txt

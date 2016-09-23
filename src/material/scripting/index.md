@@ -105,6 +105,8 @@ permission.
 
 # `chmod`
 
+## Change file "mode"
+
 ```terminal
 vm$ man chmod
 HMOD(1)                   User Commands                   CHMOD(1)
@@ -302,7 +304,9 @@ circumstances should be handled.
 
 ---
 
-# Boolean Control Operators: `&&`
+# Boolean Control Operators
+
+## Logical "AND" via `&&`
 
 ```terminal
 vm$ ls
@@ -330,7 +334,9 @@ in "change into the `out` directory **and** remove all the contents."
 
 ---
 
-# Boolean Control Operators: `||`
+# Boolean Control Operators
+
+## Logical "OR" via `||`
 
 ```terminal
 vm$ grep trousers journal/*
@@ -358,6 +364,8 @@ demonstrate our disappointment.'
 ---
 
 # `exit`
+
+## Terminate the current process
 
 ```terminal
 vm$ cat bad.sh

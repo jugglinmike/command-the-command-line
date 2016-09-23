@@ -43,7 +43,9 @@ here are available to all processes (even if they aren't always used).
 
 ---
 
-# Input: Options & Environment Variables
+# Input
+
+## Options & Environment Variables
 
 ```terminal
 vm$ my_var=123 magic-app --an_option
@@ -57,7 +59,9 @@ We previously discussed options and environment variables in
 
 ---
 
-# Input: Standard Input
+# Input
+
+## Standard Input
 
 ```terminal
 vm$ sort
@@ -250,7 +254,9 @@ send messages from files we created elsewhere.
 
 ---
 
-# Input: Signals
+# Input
+
+## Signals
 
 ```terminal
 vm$ find / -name dory
@@ -295,7 +301,9 @@ are available to all processes.
 
 ---
 
-# Output: Standard Output
+# Output
+
+## Standard Output
 
 ```terminal
 vm$ cat my-file.txt
@@ -410,7 +418,9 @@ share it with others.
 
 ---
 
-# Output: Standard Error
+# Output
+
+## Standard Error
 
 ```terminal
 vm$ ls /home /root
@@ -652,7 +662,9 @@ their order matters when using the `2>&1` shorthand:
 
 ---
 
-# Output: Exit status
+# Output
+
+## Exit status
 
 ???
 
