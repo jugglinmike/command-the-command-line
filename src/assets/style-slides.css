@@ -75,6 +75,10 @@ code.language-terminal {
   display: block;
 }
 
+code {
+  font-style: normal;
+}
+
 iframe {
   width: 100%;
   height: 30vh;

@@ -107,6 +107,10 @@ code.language-terminal {
   display: block;
 }
 
+code {
+  font-style: normal;
+}
+
 .solution {
   visibility: hidden;
 }
