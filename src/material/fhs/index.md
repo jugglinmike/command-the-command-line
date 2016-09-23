@@ -63,9 +63,13 @@ system distributors and administrators.
 
 ---
 
-- Applications
-- System
-- Admins
+# Framing: Primary User
+
+```terminal
+1. Directories used by the system itself
+2. Directories used by applications
+3. Directories used by administrators
+```
 
 ???
 
