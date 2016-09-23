@@ -42,6 +42,12 @@ provide a working knowledge of this nuanced topic.
 
 ---
 
+&nbsp;
+
+![A screenshot of the wiki page for the Filesystem Hierarchy Standard](fhs-wiki.png)
+
+???
+
 Just like so many aspects of Unix-like systems, the file system hierarchy we
 see today evolved over the course of many years. It was influenced both by
 legitimate technical constraints (some of which that are no longer relevant)
