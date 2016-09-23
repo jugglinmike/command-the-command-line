@@ -1,5 +1,4 @@
 'use strict';
-var visit = require('unist-util-visit');
 
 /**
  * Invoke a callback function for each Remark.js "slide"--a set of sibling
@@ -24,6 +23,37 @@ function eachSlide(nodes, cb) {
 }
 
 /**
+ * Determine if the given slide should be rendered with a background. The
+ * criteria are that the slide must begin with a paragraph containing a single
+ * image, or if the slide begins with a heading, such a paragraph must
+ * immediately follow that heading. If the slide does not satisfy this
+ * criteria, return `null`.
+ */
+function findBackgroundImage(slideContents) {
+  var candidate = slideContents[0];
+
+  if (!candidate) {
+    return null;
+  }
+
+  if (candidate.type === 'heading') {
+    candidate = slideContents[1];
+  }
+
+  if (!candidate) {
+    return null;
+  }
+
+  if (candidate.type=='paragraph' &&
+    candidate.children.length === 1 &&
+    candidate.children[0].type === 'image') {
+    return candidate.children[0];
+  }
+
+  return null;
+}
+
+/**
  * Re-format markdown for a single-image Remark.js "slide" to declare a
  * full-screen background.
  */
@@ -31,20 +61,18 @@ module.exports = function bgImage() {
   return function(ast) {
     var children = ast.children;
     eachSlide(children, function(slide, idx) {
-      var images = [];
+      var image = findBackgroundImage(slide);
       var slideAnnotation;
 
-      visit({ children: slide }, 'image', function(imageNode) {
-        images.push(imageNode);
-      });
-
-      if (images.length !== 1) { return; }
+      if (!image) {
+        return;
+      }
 
       slideAnnotation = {
         type: 'text',
         value: [
           'class: has-bg',
-          'background-image: url(' + images[0].url + ')'
+          'background-image: url(' + image.url + ')'
         ].join('\n')
       };
 

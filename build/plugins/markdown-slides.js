@@ -14,7 +14,6 @@ module.exports = function markdown(files, metalsmith, done) {
     if (!/\.md$/i.test(key)) { done(); return; }
 
     parser()
-      .use(require('./markdown-slides-bg-image'))
       .use(require('./markdown-slides-render-code'), /terminal/)
       .use(require('./markdown-slides-continued'),
         {
@@ -25,6 +24,7 @@ module.exports = function markdown(files, metalsmith, done) {
           }
         }
       )
+      .use(require('./markdown-slides-bg-image'))
       .process(file.contents.toString(), opts, function(err, value) {
         var withZwsp;
 
