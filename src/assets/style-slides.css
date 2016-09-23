@@ -79,6 +79,15 @@ code {
   font-style: normal;
 }
 
+.continued h1:after {
+  margin-left: 0.7em;
+
+  content: 'cont.';
+  font-size: 0.6em;
+  font-style: italic;
+  font-weight: normal;
+}
+
 iframe {
   width: 100%;
   height: 30vh;
@@ -87,10 +96,12 @@ iframe {
 .remark-slide-content {
   background-color: #f2f2f2;
 }
-.remark-slide-content > h1 {
+.remark-slide-content > h1,
+.continued > h1 {
   margin: 0;
 }
-.remark-slide-content > h1 + h2 {
+.remark-slide-content > h1 + h2,
+.continued > h1 + h2 {
   margin: 0;
 
   font-size: 1em;

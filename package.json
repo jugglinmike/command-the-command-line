@@ -37,6 +37,7 @@
     "handlebars": "^4.0.5",
     "jscs": "^3.0.7",
     "jshint": "^2.9.2",
+    "lodash.clonedeep": "^4.5.0",
     "mdast-util-to-string": "^1.0.2",
     "memory-fs": "^0.3.0",
     "metalsmith": "^2.1.0",

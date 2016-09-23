@@ -18,10 +18,7 @@ module.exports = function markdown(files, metalsmith, done) {
       .use(require('./markdown-slides-continued'),
         {
           pattern: /^:continued:$/,
-          depth: 1,
-          replacer: function(prevHeading) {
-            return '# ' + prevHeading + ' cont.';
-          }
+          depth: 1
         }
       )
       .use(require('./markdown-slides-bg-image'))
