@@ -34,20 +34,27 @@ Files](http://live.gnome.org/Nautilus) file manager).
 
 ---
 
-```
-/top-level/sub-directory/another directory!
+```terminal
+Path:         /top-level/sub-directory/another directory!/
+              |         |             |                  |
+--------------+---------+-------------+------------------+
+              |         |             |                  |
+              |         |             |                  |
+Directories:   top-level              |                  |
+                         sub-directory                   |
+                                       another directory!
 ```
 
 ???
 
-- On Unix-like systems, the forward slash character (`/`) separates directory
-  names.
-- This means that the forward slash character cannot be used in a directory
-  name, but everything else is fair game.
-- So the example above describes a path where `top-level` is a directory that
-  contains `sub-directory`. Inside `sub-directory` is a third directory named
-  `and another!` (yes: the name includes the space character and the
-  exclamation mark).
+On Unix-like systems, the forward slash character (`/`) separates directory
+names. This means that the forward slash character cannot be used in a
+directory name, but everything else is fair game.
+
+The example above describes a path where `top-level` is a directory that
+contains `sub-directory`. Inside `sub-directory` is a third directory named
+`and another!` (yes: the name includes the space character and the exclamation
+mark).
 
 ---
 
