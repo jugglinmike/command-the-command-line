@@ -35,22 +35,26 @@ h1 {
   bottom: 0.8em;
   left: 0;
 
-  padding: 0.2em 0.4em;
+  padding: 0 0.4em 0.5em;
 
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   color: #eee;
   text-align: right;
 }
 
 .has-bg p {
   position: absolute;
-  left: 0;
-  bottom: 1em;
-  right: 0;
+  bottom: 2.2em;
+  right: 0.5em;
+
+  padding: 0.5em 1em;
 
   font-size: 0.7em;
-  padding: 0.5em 1em;
   text-align: right;
+}
+.has-bg p,
+.has-bg p a {
+  color: #ccc;
 }
 
 pre {
