@@ -39,7 +39,7 @@ required.
 3. Download and create the virtual environment for this course
    - Create a new directory for this course
    - Run the following commands from a terminal window:
-     - `vagrant init http://boxes.bocoup.com/speaking-nix.box`
+     - `vagrant init http://boxes.bocoup.com/command-the-command-line.box`
      - `vagrant up`
    - To verify: run the following command from a terminal window: `vagrant
      status` (it should report, "The VM is running.")
