@@ -373,13 +373,16 @@ demonstrate our disappointment.'
 vm$ cat bad.sh
 #!/bin/bash
 
+echo This command will always be executed.
+
 exit 23
 
 echo This command will never be executed.
-$vm ./bad.sh
-$vm echo $?
+vm$ ./bad.sh
+This command will always be executed.
+vm$ echo $?
 23
-$vm
+vm$
 ```
 
 ???
