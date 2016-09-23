@@ -76,7 +76,13 @@ code.language-terminal {
 }
 
 code {
+  padding: 0.1em 0.2em;
+
+  background-color: #ddd;
+  border-radius: 0.3em;
+  font-family: monospace;
   font-style: normal;
+  font-weight: normal;
 }
 
 .continued h1:after {
