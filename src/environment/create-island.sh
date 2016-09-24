@@ -2,7 +2,21 @@
 
 function footpath_branch() {
   local current=$1
-  touch sign.txt
+  cat > sign.txt <<SIGN
+            .--.
+.-----------|__|------------.
+|                           |
+| This is a useless sign.   |
+|             Keep looking! |
+|                           |
+'---------------------------'
+            |  |
+            |  |
+            |  |
+            |  |
+            |  |
+           .|__|.
+SIGN
   if [ "$current" = 0 ]; then
     return
   fi
@@ -18,10 +32,37 @@ function footpath_branch() {
 function footpath() {
   footpath_branch 5
 
-  echo "Go back 2 steps and straight 2 more." > \
-    right/straight/left/right/sign.txt
-  echo "Go to \$MAGIC_PORTAL" > \
-    right/straight/straight/straight/sign.txt
+  cat > right/straight/left/right/sign.txt <<SIGN
+            .--.
+.-----------|__|------------.
+|                           |
+|    Go back 2 steps and    |
+|    straight two more.     |
+|                           |
+'---------------------------'
+            |  |
+            |  |
+            |  |
+            |  |
+            |  |
+           .|__|.
+SIGN
+
+  cat > right/straight/straight/straight/sign.txt <<SIGN
+            .--.
+.-----------|__|------------.
+|                           |
+|    Go to \$MAGIC_PORTAL    |
+|                           |
+|                           |
+'---------------------------'
+            |  |
+            |  |
+            |  |
+            |  |
+            |  |
+           .|__|.
+SIGN
 }
 
 function cave() {
@@ -31,13 +72,30 @@ function cave() {
   for place in $places; do
     mkdir $place
     touch $place/cave-dweller
+    cat > $place/cave-dweller <<SPEECH
+ .--------------------------------------.
+/                                        \ 
+|   Welcome to my cave! I have nothing   |
+|       interesting to tell you.         |
+\                                        /
+ '--. .---------------------------------'
+    |/
+SPEECH
   done
   cat > 22/cave-dweller <<HERE
-The forest contains a great many things. I tried to take stock of them all, but
-I quickly became overwhelmed. Now it's just simple cave life for me. Anyway, I
-left my 'inventory' behind--you might find it interesting.
+ .--------------------------------------.
+/                                        \ 
+|   The forest contains a great many     |
+|   things. I tried to take stock of     |
+|    them all, but I quickly became      |
+|   overwhelmed. Now it's just simple    |
+|   cave life for me. Anyway, I left     |
+|   my "inventory" behind--you might     |
+|         find it interesting.           |
+\                                        /
+ '--. .---------------------------------'
+    |/
 HERE
-
 
   mkdir -p '2/4?4/5\|5-9/9:4[]4/0))1/2@!3'
   cat > '2/4?4/5\|5-9/9:4[]4/0))1/2@!3/sand.txt' <<HERE

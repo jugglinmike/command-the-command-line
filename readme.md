@@ -1,4 +1,4 @@
-# Speaking \*nix
+# Command the Command Line
 
 Educational material covering usage and administration of Unix-like systems.
 

@@ -110,6 +110,8 @@ The concepts in this chapter concern the Transport and Network layers specifical
 
 # `curl`
 
+## Issue web requests and inspect reponses
+
 ```terminal
 vm$ man curl
 curl(1)                 Curl Manual                curl(1)
@@ -221,6 +223,8 @@ a given DNS entry, inluding its corresponding IP address.
 ---
 
 # `ifconfig`
+
+## Configure network interfaces
 
 ```terminal
 vm$ man ifconfig
@@ -434,7 +438,9 @@ It's also a lot more intuitive, so you'll see it used in many web projects.
 
 ---
 
-# Sharing on the network: loopback woes
+# Sharing on the network
+
+## Loopback woes
 
 ```terminal
 vm$ cat osi-traversal-loopback-hidden.txt
@@ -531,7 +537,9 @@ interface (as we saw with `ifconfig`, it is using "lo" instead of "eth0").
 
 ---
 
-# Sharing on the network: hard-coding an address
+# Sharing on the network
+
+## Hard-coding an address
 
 ```terminal
 vm$ cat osi-traversal-loopback-hidden.txt
@@ -562,7 +570,9 @@ conditions change.
 
 ---
 
-# Sharing on the network: `0.0.0.0`
+# Sharing on the network
+
+## `0.0.0.0`
 
 ```terminal
 vm$ cat osi-traversal-zeros.txt
@@ -652,7 +662,8 @@ the local machine--it won't effect anyone else on the network.
 vm$ cat /etc/hosts
 127.0.0.1 localhost
 192.168.33.40 api.local # Added as an example for
-                        # the "Speaking *nix" course
+                        # the "Command the Command
+                        # Line" course
 vm$ curl api.local
 {}
 vm$ 

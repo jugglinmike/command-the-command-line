@@ -18,6 +18,8 @@ processes.
 
 # `ps`
 
+## Display process status
+
 ```terminal
 vm$ ps
   PID TTY          TIME CMD
@@ -135,6 +137,8 @@ management utilities recognize PIDs as references to processes.
 
 # `kill`
 
+## Send a signal to a process by PID
+
 ```terminal
 vm$ ps -aux | grep slee[p]
 speaker   2079  0.0  0.1   5916   616 pts/0    S    18:31   0:00 sleep 3000
@@ -170,6 +174,8 @@ vm$ ps
  2529 pts/0    00:00:00 ps
 vm$ 
 ```
+
+???
 
 This is actually the second time we have run across signals in Unix-like
 systems. Remember that `Ctrl`+`C` sends a `SIGINT`, or "interrupt" signal. We
@@ -212,6 +218,8 @@ exit gracefully. Keep this in mind as it may not be acceptable in all cases.
 ---
 
 # `killall`
+
+## Send a signal to a process by process name
 
 ```terminal
 vm$ ps
@@ -263,6 +271,8 @@ pc$
 ---
 
 # `top`
+
+## Display a table of processes
 
 ```terminal
 vm$ top

@@ -238,7 +238,9 @@ context. While it may be a little technical, it's not magic!
 
 ---
 
-# Shell invocation modes: conventional examples
+# Shell invocation modes
+
+## Conventional examples
 
 ```terminal
 vm$ cat shell-classifications-examples.txt
@@ -267,7 +269,9 @@ be particularly relevant.
 
 ---
 
-# Shell invocation modes: files sourced
+# Shell invocation modes
+
+## Files sourced
 
 mode      | bash                                                          | sh                                 | zsh
 ----------|---------------------------------------------------------------|------------------------------------|-----------------------------------------------------------------------------------------------------

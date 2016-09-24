@@ -1,1 +1,30 @@
-This is the index.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href="{{ root }}/assets/style-slides.css" />
+</head>
+<body>
+<main>
+	<nav>
+		<ul>
+			{{#each toc }}
+			<li>
+				{{ title }}
+				<ul>
+					{{#each toc}}
+					<li>
+						<a href="{{ ../../root }}/{{ slug }}/index.html">
+							Ch. {{ chapterNumber }}: {{ title }}
+						</a>
+					</li>
+					{{/each}}
+				</ul>
+			</li>
+			{{/each}}
+		</ul>
+	</nav>
+</main>
+</body>
+</html>

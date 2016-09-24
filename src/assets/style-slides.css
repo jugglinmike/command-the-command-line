@@ -1,3 +1,21 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.remark-container {
+  background-color: #000;
+}
+
+.remark-slide-scaler {
+  box-shadow: none;
+}
+
+img {
+  max-width: 100%;
+}
+
 /**
  * !important declarations necessary to override element attributes defined by
  * Remark.js.
@@ -11,28 +29,36 @@
   display: none;
 }
 
+h1 {
+  font-family: 'Open Sans';
+}
+
 .has-bg h1 {
   position: absolute;
   right: 0;
   bottom: 0.8em;
   left: 0;
 
-  padding: 0.2em 0.4em;
+  padding: 0 0.4em 0.5em;
 
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   color: #eee;
   text-align: right;
 }
 
 .has-bg p {
   position: absolute;
-  left: 0;
-  bottom: 1em;
-  right: 0;
+  bottom: 2.2em;
+  right: 0.5em;
+
+  padding: 0.5em 1em;
 
   font-size: 0.7em;
-  padding: 0.5em 1em;
   text-align: right;
+}
+.has-bg p,
+.has-bg p a {
+  color: #ccc;
 }
 
 pre {
@@ -49,7 +75,52 @@ code.language-terminal {
   display: block;
 }
 
+code {
+  padding: 0.1em 0.2em;
+
+  background-color: #ddd;
+  border-radius: 0.3em;
+  font-family: monospace;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.continued h1:after {
+  margin-left: 0.7em;
+
+  content: 'cont.';
+  font-size: 0.6em;
+  font-style: italic;
+  font-weight: normal;
+}
+
 iframe {
   width: 100%;
   height: 30vh;
+}
+
+.remark-slide-content {
+  background-color: #f2f2f2;
+}
+.remark-slide-content > h1,
+.continued > h1 {
+  margin: 0;
+}
+.remark-slide-content > h1 + h2,
+.continued > h1 + h2 {
+  margin: 0;
+
+  font-size: 1em;
+  color: #888;
+  font-style: italic;
+}
+
+.img-3 {
+  text-align: center;
+}
+.img-3 img {
+  width: 25%;
+  margin: 0 2%;
+
+  vertical-align: middle;
 }

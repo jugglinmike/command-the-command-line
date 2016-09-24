@@ -3,6 +3,14 @@ title: Filesystem Hierarchy Standard
 layout: chapter.html
 ---
 
+???
+
+Spend enough time on a Unix-like system and you will stumble across the "root"
+directories. The typical hierarchy is an intimidating tree of strangely-named
+directories with inscrutable purposes.
+
+---
+
 ```terminal
 vm$ cat fhs.txt
     bin/       usr/            var/
@@ -24,10 +32,6 @@ vm$
 
 ???
 
-Spend enough time on a Unix-like system and you will stumble across the "root"
-directories. The typical hierarchy is an intimidating tree of strangely-named
-directories with inscrutable purposes.
-
 Some names are repeated (`/bin/`, `/usr/bin/`, and `/usr/local/bin/`), others
 seem vague (`/media/` or `/etc/`), and still others sound more appropriate for
 a mechanical device than a computer (`/run/`, `/var/lock/`).
@@ -37,6 +41,12 @@ for a system administrator. As with the rest of this course, the aim is to
 provide a working knowledge of this nuanced topic.
 
 ---
+
+&nbsp;
+
+![A screenshot of the wiki page for the Filesystem Hierarchy Standard](fhs-wiki.png)
+
+???
 
 Just like so many aspects of Unix-like systems, the file system hierarchy we
 see today evolved over the course of many years. It was influenced both by
@@ -53,9 +63,13 @@ system distributors and administrators.
 
 ---
 
-- Applications
-- System
-- Admins
+# Framing: Primary User
+
+```terminal
+1. Directories used by the system itself
+2. Directories used by applications
+3. Directories used by administrators
+```
 
 ???
 

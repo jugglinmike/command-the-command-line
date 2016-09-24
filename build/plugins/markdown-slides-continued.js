@@ -1,6 +1,7 @@
 'use strict';
 var remark = require('remark');
 var toString = require('mdast-util-to-string');
+var cloneDeep = require('lodash.clonedeep');
 
 function replace(arr, idx, newNodes) {
   var args = [idx, 1].concat(newNodes);
@@ -14,35 +15,35 @@ function replace(arr, idx, newNodes) {
  * @param {RegExp} options.pattern - describes the text patterns to be replaced
  * @param {Number} options.depth - heading depth to consider, an integer value
  *                                 between 1 and 6 (inclusive)
- * @param {function} options.replacer - function that returns the markdown to
- *                                      insert; invoked with the value of the
- *                                      preceeding heading.
  */
 module.exports = function continued(processor, options) {
   return function(ast) {
     var children = ast.children;
-    var prevHeading;
     var pattern = options.pattern;
     var depth = options.depth;
-    var replacer = options.replacer;
+    var prevHeading, node, idx;
 
-    children.forEach(function(node, idx, siblings) {
-      var newNodes;
+    for (idx = 0; idx < children.length; ++idx) {
+      node = children[idx];
+
       if (node.type === 'heading' && node.depth === depth) {
         prevHeading = node;
-        return;
+        continue;
       }
 
       if (!pattern.test(toString(node))) {
-        return;
+        continue;
       }
 
       if (!prevHeading) {
         throw new Error('No preceeding heading at depth ' + depth);
       }
 
-      newNodes = remark().parse(replacer(toString(prevHeading))).children;
-      replace(siblings, idx, newNodes);
-    });
+      replace(children, idx, [
+        {type: 'html', value: '.continued['},
+        cloneDeep(prevHeading),
+        {type: 'text', value: ']'}
+      ]);
+    }
   };
 };

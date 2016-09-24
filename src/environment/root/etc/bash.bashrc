@@ -6,7 +6,7 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-# Speaking *nix:
+# Command the Command Line:
 # Define a simple prompt as demonstrated by the course's code examples
 PS1='vm$ '
 

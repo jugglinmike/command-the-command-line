@@ -21,30 +21,40 @@ by [Lindsay Holmwood](https://www.flickr.com/photos/auxesis/) is licensed under
 
 ???
 
-- The file system is defined by a hierarchy of "directories".
-- A directory can contain any number of directories (known as
-  "**sub-directories**").
-- For the most part, each directory is itself contained within exactly one
-  directory (know as the "**parent directory**").
-- These concepts are likely familiar because they are also featured in many GUI
-  applications like Windows Explorer and Apple's Finder.
+The file system is defined by a hierarchy of "directories". A directory can
+contain any number of directories (known as "**sub-directories**"). For the
+most part, each directory is itself contained within exactly one directory;
+this is known as the "**parent directory**".
+
+These concepts are likely familiar because they are also featured in many GUI
+applications like Windows Explorer and Apple's Finder. The sample commands in
+this section will be be supported by recordings of equivalent operations
+performed with a graphical interface (specifically, [the GNOME
+Files](http://live.gnome.org/Nautilus) file manager).
 
 ---
 
-```
-/top-level/sub-directory/another directory!
+```terminal
+Path:         /top-level/sub-directory/another directory!/
+              |         |             |                  |
+--------------+---------+-------------+------------------+
+              |         |             |                  |
+              |         |             |                  |
+Directories:   top-level              |                  |
+                         sub-directory                   |
+                                       another directory!
 ```
 
 ???
 
-- On Unix-like systems, the forward slash character (`/`) separates directory
-  names.
-- This means that the forward slash character cannot be used in a directory
-  name, but everything else is fair game.
-- So the example above describes a path where `top-level` is a directory that
-  contains `sub-directory`. Inside `sub-directory` is a third directory named
-  `and another!` (yes: the name includes the space character and the
-  exclamation mark).
+On Unix-like systems, the forward slash character (`/`) separates directory
+names. This means that the forward slash character cannot be used in a
+directory name, but everything else is fair game.
+
+The example above describes a path where `top-level` is a directory that
+contains `sub-directory`. Inside `sub-directory` is a third directory named
+`and another!` (yes: the name includes the space character and the exclamation
+mark).
 
 ---
 
@@ -66,11 +76,17 @@ vm$
 
 # `pwd`
 
+## Print the current (i.e. "working") directory
+
 ```terminal
 vm$ pwd
 /home/sally
 vm$ 
 ```
+
+In a GUI:
+
+![Using a graphical interface to see the current working directory](gui-pwd.gif)
 
 ???
 
@@ -86,6 +102,8 @@ vm$
 
 # `ls`
 
+## List directory contents
+
 ```terminal
 vm$ pwd
 /home/sally
@@ -94,6 +112,10 @@ my-amazing-subdirectory
 my-normal-file.txt
 vm$ 
 ```
+
+In a GUI:
+
+![Using a graphical interface to see the contents of the current directory](gui-ls-1.gif)
 
 ???
 
@@ -112,6 +134,10 @@ just-another-file.txt
 vm$ 
 ```
 
+In a GUI:
+
+![Using a graphical interface to see the contents of some other directory](gui-ls-2.gif)
+
 ???
 
 When invoked with a path to another directory, `ls` will display the contents
@@ -121,12 +147,18 @@ of that directory.
 
 # `cd`
 
+## Change directories
+
 ```terminal
 vm$ cd my-amazing-subdirectory
 vm$ pwd
 /home/sally/my-amazing-subdirectory
 vm$ 
 ```
+
+In a GUI:
+
+![Using a graphical interface to move into a subdirectory](gui-cd-1.gif)
 
 ???
 
@@ -151,6 +183,10 @@ vm$ cd this-directory-doesnt-exist
 cd: this-directory-doesnt-exist: No such file or directory
 vm$ 
 ```
+
+In a GUI:
+
+![Using a graphical interface to move into a subdirectory of a subdirectory](gui-cd-2.gif)
 
 ???
 
@@ -223,6 +259,10 @@ vm$ pwd
 /home/sally/my-amazing-subdirectory
 vm$ 
 ```
+
+In a GUI:
+
+![Using a graphical interface to move into the parent directory](gui-cd-up.gif)
 
 ???
 
@@ -312,6 +352,8 @@ when we use it.
 
 # `tree`
 
+## Display directories and their contents
+
 ```terminal
 vm$ tree
 .
@@ -350,6 +392,8 @@ Lets take a look at some tools for learning about files and their contents.
 
 # `cat`
 
+## Display file contents (all at once)
+
 ```terminal
 vm$ ls
 oh-boy-another-directory
@@ -371,6 +415,8 @@ vm$
 ---
 
 # `less`
+
+## Display file contents (with navigation controls)
 
 ```terminal
 vm$ less a-longer-file.txt
@@ -394,6 +440,8 @@ has a lot of special controls, but the most important ones are:
 ---
 
 # `sort`
+
+## Re-order input
 
 ```terminal
 vm$ cat just-another-file.txt

@@ -33,6 +33,8 @@ this course, we're concerned with the mainline use cases; you can consult the
 
 # `mv`
 
+## Move files and directories
+
 ```terminal
 vm$ ls good-guys
 dent-harvey.jpg
@@ -115,6 +117,8 @@ directory.
 
 # `rm`
 
+## Remove files and directories
+
 ```terminal
 vm$ ls
 my-directory
@@ -154,6 +158,8 @@ often protects you from accidentally deleting things.
 
 # `mkdir`
 
+## Make directories
+
 ```terminal
 vm$ mkdir my-new-directory
 vm$ ls
@@ -186,6 +192,8 @@ ways to inspect their contents.
 
 # `wc`
 
+## Calculate word counts
+
 ```terminal
 vm$ cat just-another-file.txt
 This is the first line of just-another-file.txt
@@ -202,6 +210,8 @@ newlines, words, and bytes in a given file. The output is pretty terse, though!
 ---
 
 # `grep`
+
+## Search for patterns in text
 
 ```terminal
 vm$ grep CSSConf index.html
@@ -253,6 +263,8 @@ though, so don't worry if you're not comfortable using them.
 ---
 
 # `find`
+
+## Locate files by meta-data
 
 ```terminal
 vm$ find src -name index.html
@@ -331,6 +343,8 @@ Finally, we'll take a look at a few tools for modifying file contents.
 
 # `nano`
 
+## Edit text files interactively
+
 ```terminal
 vm$ nano hello.txt
   GNU nano 2.2.6        File: hello.txt
@@ -359,6 +373,8 @@ somewhat truncated in the example above due to space limitations.
 ---
 
 # `sed`
+
+## Replace text in "streams"
 
 ```terminal
 vm$ cat quote.txt
@@ -419,6 +435,8 @@ powerful way to automate text file transformations.
 ---
 
 # `awk`
+
+## Display and modify text using a powerful scripting language
 
 ```terminal
 vm$ cat src/foo.css 

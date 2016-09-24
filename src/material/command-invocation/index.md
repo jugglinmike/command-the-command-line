@@ -218,6 +218,8 @@ Fortunately, there are tools available for discovery.
 
 # `man`
 
+## Reference manual pages (documentation)
+
 ```terminal
 vm$ man ls
 (1)                  User Commands                 LS(1)
@@ -252,6 +254,8 @@ DESCRIPTION
 ---
 
 # `help`
+
+## Find information on built-in commands
 
 ```terminal
 vm$ help cd
@@ -309,7 +313,9 @@ is sometimes referred to as "the interpreter."
 
 ---
 
-# Shell Expansion: `~`
+# Shell Expansion
+
+## The `~` character
 
 
 ```
@@ -354,6 +360,8 @@ because shell expansion happens *before* program invocation, it will work for
 
 # `echo`
 
+## Print text to the screen
+
 ```terminal
 vm$ echo Whatever we type here will be printed to the screen.
 Whatever we type here will be printed to the screen.
@@ -369,7 +377,9 @@ experiment with shell substitution.
 
 ---
 
-# Shell Expansion: `*`
+# Shell Expansion
+
+## The `*` character
 
 ```terminal
 vm$ ls music
@@ -401,7 +411,9 @@ with a list of files that match the rest of the characters.
 
 ---
 
-# Shell Expansion: Opting out
+# Shell Expansion
+
+## Opting out
 
 ```terminal
 vm$ echo I have ~ 2 oranges
@@ -455,7 +467,9 @@ aspect of the system that effect the behavior of many commands.
 
 ---
 
-# Environment Variables: Definition
+# Environment Variables
+
+## Syntax for Definition
 
 ```terminal
 vm$ export myVariable=my-variable-value
@@ -470,8 +484,9 @@ We can use the `export` utility to create and modify environment variables.
 
 ---
 
-# Environment Variables: Inspection
+# Environment Variables
 
+## Syntax for Inspection
 
 ```terminal
 vm$ export myVariable=variable-value
@@ -492,7 +507,9 @@ To inspect them, another shell substitution feature comes to the rescue.
 
 ---
 
-# Environment Variables: Process Isolation
+# Environment Variables
+
+## Process Isolation
 
 ```terminal
 vm$ export foo=bar
@@ -516,7 +533,9 @@ just close the terminal window and try again with a new one.
 
 ---
 
-# Under the hood: the `PATH` environment variable
+# Shells: under the hood
+
+## The `PATH` environment variable
 
 ```terminal
 vm$ echo $PATH
@@ -543,7 +562,9 @@ We can modify this value at our peril.
 
 ---
 
-# Under the hood: the `PS1` environment variable
+# Shells: under the hood
+
+## The `PS1` environment variable
 
 ```terminal
 vm$ echo Prompt: $PS1

@@ -16,7 +16,7 @@ var options = {
   }
 };
 
-var slideshow = window.remark.create();
+var slideshow = window.remark.create({ cloneTarget: 'remark' });
 var simulations = [];
 
 function animateExamples() {

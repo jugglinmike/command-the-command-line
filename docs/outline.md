@@ -1,4 +1,4 @@
-# Speaking \*nix outline
+# Command the Command Line outline
 
 ## 1 Introduction
 

@@ -3,6 +3,8 @@ title: Scripting
 layout: chapter.html
 ---
 
+???
+
 We've accumulated a lot of knowledge about process orchestration. Up to now,
 we've been entering each command into the terminal directly. While this is the
 best way to learn, it is not the way you will use these tools day-to-day.
@@ -104,6 +106,8 @@ permission.
 ---
 
 # `chmod`
+
+## Change file "mode"
 
 ```terminal
 vm$ man chmod
@@ -302,7 +306,9 @@ circumstances should be handled.
 
 ---
 
-# Boolean Control Operators: `&&`
+# Boolean Control Operators
+
+## Logical "AND" via `&&`
 
 ```terminal
 vm$ ls
@@ -330,7 +336,9 @@ in "change into the `out` directory **and** remove all the contents."
 
 ---
 
-# Boolean Control Operators: `||`
+# Boolean Control Operators
+
+## Logical "OR" via `||`
 
 ```terminal
 vm$ grep trousers journal/*
@@ -359,17 +367,22 @@ demonstrate our disappointment.'
 
 # `exit`
 
+## Terminate the current process
+
 ```terminal
 vm$ cat bad.sh
 #!/bin/bash
 
+echo This command will always be executed.
+
 exit 23
 
 echo This command will never be executed.
-$vm ./bad.sh
-$vm echo $?
+vm$ ./bad.sh
+This command will always be executed.
+vm$ echo $?
 23
-$vm
+vm$
 ```
 
 ???

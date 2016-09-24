@@ -5,12 +5,69 @@ layout: chapter.html
 
 ???
 
-The goal of this course is to improve familiarity with Unix-like systems. Many
-aspects of using Unix and its derivatives are non-obvious, and some are
+The goal of this course is to improve familiarity with Unix-like operating
+systems. Before we begin, though, we should ask: why do Unix-like operating
+systems matter?
+
+---
+
+# Why "Unix-like"?
+
+![A laptop running the macOS operating system](macos.png)
+
+"macOS Sierra" is copyright Apple, Inc. Used with permission.
+
+???
+
+Chances are, you're running a Unix-like system right now. The popular Apple
+macOS is Unix-like. (Actually, since version 10.5--code named "Leopard"--OSX
+hasn't just been "Unix-like," [it's officially fully
+Unix](http://www.opengroup.org/openbrand/register/brand3555.htm). This
+distinction probably doesn't mean much right now; :chapter:history: has more
+details.)
+
+If you're running Mac OSX, the concepts we cover here will be directly
+applicable to your day-to-day computing.
+
+---
+
+:continued:
+
+![Installation discs for Ubuntu](ubuntu-discs.jpg)
+
+"[Discos de Ubuntu 8.10 (Intrepid
+Ibex)](https://www.flickr.com/photos/sir_gon/3113641967/)" by [Gonzalo
+Díaz](https://www.flickr.com/photos/sir_gon/) is Licensed under [CC BY
+2.0](https://creativecommons.org/licenses/by/2.0/)
+
+???
+
+GNU/Linux is another world-famous Unix-like operating system. Popular variants
+include Debian, Redhat, and Ubuntu (pictured).
+
+While GNU/Linux is not as common on the desktop as Microsoft Windows or Apple
+macOS, it is widely deployed in server technology. Professionals working in the
+field of software development (especially for web-based technologies) will
+likely come across this operating system in the course of deploying their work.
+
+---
+
+# User-unfriendly
+
+![Photograph of a laptop placed in a trash reciptical](laptop-in-garbage.jpg)
+
+"[Schlock. Manchester,
+England](https://www.flickr.com/photos/ndm007/171398958/)" by [Nathan
+Makan](https://www.flickr.com/photos/ndm007/) is licenced under [CC BY-NC-ND
+2.0](https://creativecommons.org/licenses/by-nc-nd/2.0/)
+
+???
+
+Many aspects of using Unix and its derivatives are non-obvious, and some are
 downright confusing. We hope to help students understand the fundamentals so
 that they can begin to feel more comfortable:
 
-- working from a test-based command prompt
+- working from a text-based command prompt
 - using essential utility applications
 - composing custom scripts to automate work and solve problems
 - perform basic system administration tasks
@@ -20,7 +77,7 @@ that students will not have to rely on rote memorization to build confidence.
 
 ---
 
-# Conventions
+# Reading the Code Examples
 
 ```terminal
 pc$ code blocks like these represent a terminal
@@ -49,6 +106,34 @@ should be typed.
 
 :continued:
 
+<div class="img-3">
+  <img
+    alt="A Microsoft Windows operating system running a macOS virtual machine"
+    src="vms-win-to-mac.png" />
+  <img
+    alt="A GNU/Linux operating system running a Microsoft Windows virtual machine"
+    src="vms-linux-to-win.png" />
+  <img
+    alt="Any operating system running a GNU/Linux virtual machine"
+    src="vms-yours-to-linux.png" />
+</div>
+
+???
+
+Complete operating systems can be run as standalone processes. These are known
+as "virtual machines," and you can use them to run any operating system within
+any other operating system.
+
+A GNU/Linux virtual machine (specifically, of [the Ubuntu
+distribution](http://ubuntu.com/)) has been prepared for this course. This
+means that regardless of the operating system you are using today, you will
+experiment and learn inside the exact operating system that the course
+requires.
+
+---
+
+:continued:
+
 ```terminal
 pc$ this command should be run on your system
 this is output from your system
@@ -59,10 +144,8 @@ this is output from the virtual machine
 
 ???
 
-This course is designed to use a complete Unix-like system that runs as a
-standalone process on your computer. This process is known as a "virtual
-machine." A small number of commands in this course are intended to be run on
-your system, but most of them should be executed within the virtual machine.
+A small number of commands in this course are intended to be run on your
+system, but most of them should be executed within the virtual machine.
 
 The `pc$` prompt denotes commands that are intended to be run on your system.
 We'll use the `vm$` prompt to denote the commands that are intended for the
@@ -105,9 +188,11 @@ beyond the abilities of this course's target audience.
 
 # About the exercises
 
-![VirtualBox logo](logo-virtualbox.png)
-![Vagrant logo](logo-vagrant.png)
-![Ubuntu logo](logo-ubuntu.svg)
+<div class="img-3">
+  <img alt="VirtualBox logo" src="logo-virtualbox.png" />
+  <img alt="Vagrant logo" src="logo-vagrant.png" />
+  <img alt="Ubuntu logo" src="logo-ubuntu.svg" />
+</div>
 
 "[Vagrant Logo](https://commons.wikimedia.org/w/index.php?curid=29324827)" by
 [Fco.plj](https://commons.wikimedia.org/w/index.php?title=User:Fco.plj) is
@@ -121,7 +206,8 @@ within a "virtual machine." Thanks to the free and open source software
 [VirtualBox](https://www.virtualbox.org/),
 [Vagrant](https://www.vagrantup.com/), and [Ubuntu](http://www.ubuntu.com/),
 students can complete the exercises in a purpose-built Unix-like environment
-using their personal computer and at no charge.
+using their personal computer and at no charge. :chapter:setup: includes
+instructions for installing these tools.
 
 The default user account in the exercise environment is named "speaker", and it
 is configured to use the Bash shell. Administrative access requires a password,

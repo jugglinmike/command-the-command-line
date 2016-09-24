@@ -10,6 +10,10 @@ a {
   text-decoration: none;
 }
 
+h1 {
+  font-family: 'Open Sans', sans-serif;
+}
+
 main {
   max-width: 1024px;
   width: 100%;
@@ -39,6 +43,14 @@ nav ul {
 main > article {
   width: 70%;
   float: left;
+}
+
+main > article > h1 + h2 {
+  margin-top: -0.7em;
+
+  font-size: 1em;
+  color: #888;
+  font-style: italic;
 }
 
 main > article img {
@@ -95,9 +107,24 @@ code.language-terminal {
   display: block;
 }
 
+code {
+  font-style: normal;
+}
+
 .solution {
   visibility: hidden;
 }
 #solution-toggle:checked ~ .solution {
   visibility: visible;
+}
+
+.img-3 {
+  text-align: center;
+}
+.img-3 img {
+  display: inline-block;
+  width: 25%;
+  margin: 0 2%;
+
+  vertical-align: middle;
 }

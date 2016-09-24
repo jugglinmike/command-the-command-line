@@ -3,7 +3,21 @@ title: A Brief History of Unix
 layout: chapter.html
 ---
 
+???
+
+From Ubuntu to Max OSX, many popular operating systems are derived from a
+movement that began in the 1970's. To best understand today's systems, we
+should begin by reviewing the circumstances that brought all this about.
+
+---
+
 # MULTICS
+
+![A photograph of Stonehenge](stonehenge.jpg)
+
+"[The "Stone"](https://www.flickr.com/photos/slilin/22247144269/) by
+[Slilin](https://www.flickr.com/photos/slilin/) is licensed under [CC BY-NC-ND
+2.0](https://creativecommons.org/licenses/by-nc-nd/2.0/)
 
 ???
 
@@ -97,7 +111,7 @@ by [Eraserhead1](https://commons.wikimedia.org/wiki/User:Eraserhead1),
 ???
 
 The result is an ecosystem of platforms with intertwined histories and
-sometimes-incompatible features. "Speaking \*nix" doesn't require familiarity
+sometimes-incompatible features. Speaking \*nix doesn't require familiarity
 with all the edges, but like any pidgin language, it benefits from some
 appreciation of the history. Hopefully this brief introduction has given you
 the context you'll need to appreciate the nuances of these systems.

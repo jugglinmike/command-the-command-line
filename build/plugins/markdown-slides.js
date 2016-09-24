@@ -14,17 +14,14 @@ module.exports = function markdown(files, metalsmith, done) {
     if (!/\.md$/i.test(key)) { done(); return; }
 
     parser()
-      .use(require('./markdown-slides-bg-image'))
       .use(require('./markdown-slides-render-code'), /terminal/)
       .use(require('./markdown-slides-continued'),
         {
           pattern: /^:continued:$/,
-          depth: 1,
-          replacer: function(prevHeading) {
-            return '# ' + prevHeading + ' cont.';
-          }
+          depth: 1
         }
       )
+      .use(require('./markdown-slides-bg-image'))
       .process(file.contents.toString(), opts, function(err, value) {
         var withZwsp;
 
@@ -36,6 +33,8 @@ module.exports = function markdown(files, metalsmith, done) {
         withZwsp = value.toString().replace(/&#x26;#8203;/g, '&#8203;');
 
         file.contents = new Buffer(withZwsp);
+        delete files[key];
+        files[key.replace(/md$/i, 'html')] = file;
         done();
       });
   }, done);
