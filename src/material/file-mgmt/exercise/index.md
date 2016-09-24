@@ -1,4 +1,5 @@
-The project in the `webapp` directory is a mess! Let's clean it up a bit.
+The project in the `/var/www/my-site` directory is a mess! Let's clean it up a
+bit.
 
 1. The files `layout.html` and `style.css` look like temporary work. Maybe you
    were in the middle of an experiment? We don't want to lose that work, so
