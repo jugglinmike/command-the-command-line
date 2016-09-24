@@ -16,6 +16,16 @@ To deploy the content to the web (requires permissions to write to the
 
     $ make deploy
 
+To build and deploy the Vagrant "box":
+
+    $ make deploy-box
+
+Note that this target relies on the Amazon AWS CLI (`aws`), and it will operate
+with the current user's default profile. This can be controlled at deploy time
+via the `AWS_DEFAULT_PROFILE` environment variable, as in:
+
+    $ AWS_DEFAULT_PROFILE=bocoup make deploy-box
+
 ## License
 
 - All content contained within the `src/material/` directory is licensed under
