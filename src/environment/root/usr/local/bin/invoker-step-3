@@ -5,8 +5,9 @@ function help() {
 Step 3: Options
 
 I support the "--word" option and the "short" version "-w". I also support the
-"-x" option. There are six unique ways to specify these options, even though
-each version means the same thing. Can you invoke me with all of them?
+"-x" option. There are six unique ways to execute this command with both
+options, even though each version means the same thing. Can you invoke me with
+all of them?
 HERE
   exit 1
 }
