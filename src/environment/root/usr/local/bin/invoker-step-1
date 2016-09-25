@@ -2,10 +2,14 @@
 
 function help() {
   cat <<HERE
-Step 1: Expansions
-
-Please invoke me with every file in the "/bin" directory that contains the
-letter "t" and/or that ends with the letter "s".
+.-----------------.---------------.-------------.------------------.
+|  1: Expansions  |  2: Escaping  | 3: Options  |  4: Environment  |
+|                 '-----------------------------------------------------------.
+|                                                                             |
+| Please invoke me with every file in the "/bin" directory that contains the  |
+| letter "t" and/or that ends with the letter "s".                            |
+|                                                                             |
+'-----------------------------------------------------------------------------'
 HERE
   exit 1
 }

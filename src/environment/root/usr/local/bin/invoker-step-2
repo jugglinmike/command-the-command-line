@@ -2,12 +2,15 @@
 
 function help() {
   cat <<HERE
-Step 2: Escaping
-
-Please invoke me with the following options:
-
-    Making the big \$bucks.
-
+.-----------------.---------------.-------------.------------------.
+|  1: Expansions  |  2: Escaping  | 3: Options  |  4: Environment  |
+|---------------------------------'             '-----------------------------.
+|                                                                             |
+| Please invoke me with the following options:                                |
+|                                                                             |
+|   Making the big \$bucks.                                                    |
+|                                                                             |
+'-----------------------------------------------------------------------------'
 HERE
   exit 1;
 }

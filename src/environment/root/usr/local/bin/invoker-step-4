@@ -10,14 +10,20 @@ function help() {
   fi
 
   cat <<HERE
-Step 4: Environment variables
-
-Please invoke me with the "TODAY" environment variable set to the current day
-of the week and the "cat_or_dog" environment variable set to either "CAT" or
-"DOG", depending on which of the following lines in marked with an "x":
-
-   $is_cat CAT
-   $is_dog DOG
+.-----------------.---------------.-------------.------------------.
+|  1: Expansions  |  2: Escaping  | 3: Options  |  4: Environment  |
+|-----------------------------------------------'                  '----------.
+| Step 4: Environment variables                                               |
+|                                                                             |
+| Please invoke me with the "TODAY" environment variable set to the current   |
+| day of the week and the "cat_or_dog" environment variable set to either     |
+| "CAT" or "DOG", depending on which of the following lines in marked with an |
+| "x":                                                                        |
+|                                                                             |
+|    $is_cat CAT                                                                    |
+|    $is_dog DOG                                                                    |
+|                                                                             |
+'-----------------------------------------------------------------------------'
 HERE
   exit 1
 }
