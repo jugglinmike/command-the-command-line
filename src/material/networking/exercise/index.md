@@ -10,6 +10,6 @@
    directory but using the same port number? Why or why not?
 
 3. Stop any server jobs you have running (recall the `jobs` command from
-   :chapter:process-mgmt-1:). Can you configure your system such that the
-   command `curl commander.local` returns the contents of
-   `/var/www/my-site/index.html`?
+   :chapter:process-mgmt-1:). Run a new server on port `80`. Can you configure
+   your system such that the command `curl commander.local` returns the
+   contents of `/var/www/my-site/index.html`?
