@@ -49,19 +49,23 @@ function footpath() {
 SIGN
 
   cat > right/straight/straight/straight/sign.txt <<SIGN
-            .--.
-.-----------|__|------------.
-|                           |
-|    Go to \$MAGIC_PORTAL    |
-|                           |
-|                           |
-'---------------------------'
-            |  |
-            |  |
-            |  |
-            |  |
-            |  |
-           .|__|.
+             .--.
+.------------|__|------------.
+|                            |
+|  What ho! A mysterious     |
+|  doorway to another place. |
+|  Take a deep breath and    |
+|  move into:                |
+|                            |
+|     \$MAGIC_PORTAL          |
+|                            |
+'----------------------------'
+             |  |
+             |  |
+             |  |
+             |  |
+             |  |
+            .|__|.
 SIGN
 }
 
