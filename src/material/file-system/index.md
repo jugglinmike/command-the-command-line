@@ -478,3 +478,4 @@ and displays the result.
   - `cat` - display file contents ("con**cat**enate")
   - `less` - display file contents with controls
   - `sort` - re-order the lines of a file and display the results
+  - `tree` - display files within a directory and its children in a visual manner
