@@ -13,7 +13,7 @@ echo "Updating package repository"
 apt-get update >/dev/null 2>&1
 
 echo "Installing utilities"
-apt-get install tree
+apt-get install -y tree nano
 
 echo "Copying files"
 rsync --recursive /mnt/vagrant/root/ /
