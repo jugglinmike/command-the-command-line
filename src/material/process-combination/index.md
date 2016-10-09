@@ -297,6 +297,8 @@ for another command.
 
 ---
 
+:continued:
+
 ```terminal
 vm$ find documents -type f -newermt 'last week'
 documents/year plan.odf
