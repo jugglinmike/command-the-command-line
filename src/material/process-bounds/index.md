@@ -684,6 +684,8 @@ cat: .: Is a directory
 vm$ 
 ```
 
+???
+
 We've been discussing one way processes communicate this distinction: they often
 output different information to the standard output stream and the standard
 error stream. In the best cases, this allows programs to concisely describe
