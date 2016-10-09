@@ -14,7 +14,7 @@ module.exports = function markdown(files, metalsmith, done) {
     if (!/\.md$/i.test(key)) { done(); return; }
 
     parser()
-      .use(require('./markdown-slides-render-code'), /terminal/)
+      .use(require('./markdown-slides-prevent-highlighting'), /terminal/)
       .use(require('./markdown-slides-continued'),
         {
           pattern: /^:continued:$/,

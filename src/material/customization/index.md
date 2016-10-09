@@ -118,12 +118,12 @@ is sometimes referred to as "**sourcing a file**."
 :continued:
 
 ```terminal
-vm$ cat change-prompt.sh 
+vm$ cat change-prompt.sh
 # Set the command prompt to a Microsoft Windows-style
 # value. It's just a bunch of characters, after all!
 PS1='C:\> '
-vm$ . change-prompt.sh 
-C:\> 
+vm$ . change-prompt.sh
+C:\> &#8203;
 ```
 
 ???
@@ -313,7 +313,7 @@ sources from their `~/.bashrc` file.
 vm$ echo "PS1='NEW$ '" > ~/.bashrc
 vm$ exit
 pc$ vagrant ssh
-NEW$ 
+NEW$ &#8203;
 ```
 
 ???
@@ -471,7 +471,7 @@ vm$
 
 This practice is dangerous because it allows scripts in the current directory
 (which may have been created by any user) to take precedence over common system
-utilities. 
+utilities.
 
 ---
 
@@ -499,7 +499,8 @@ other commands.
 :continued:
 
 ```terminal
-vm$ alias: alias [-p] [name[=value] ... ]
+vm$ help alias
+alias: alias [-p] [name[=value] ... ]
     Define or display aliases.
 
     Without arguments, `alias' prints the list of aliases in
@@ -590,7 +591,7 @@ vm$
 ???
 
 Another common use-case for aliases is shortening lengthy commands. For
-example, the `git` application is notorious for its complex interface. Aliases
+example, the "git" application is notorious for its complex interface. Aliases
 can significantly reduce the amount of typing required for common workflow
 tasks.
 
@@ -623,6 +624,7 @@ documentation provided by `man`.
 vm$ git add .npmrc
 vm$ git commit -m 'Add config file for npm package manager.'
 vm$ git push origin master
+vm$ 
 ```
 
 ???
@@ -642,10 +644,10 @@ vm$ ssh our-dev-server.example.com
 # This is your first time logging in to this server,
 # so it's probably not set up the way you like. Feel
 # free to customize the environment however you wish.
-dev$ git clone git@github.com:sally/dotfiles.git .
+dev$ &#8203;git clone git@github.com:sally/dotfiles.git .
 Cloning into '.'...
 Checking connectivity... done.
-dev$ source .bashrc
+dev$ &#8203;source .bashrc
 vm$ 
 ```
 

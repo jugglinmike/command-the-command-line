@@ -113,10 +113,10 @@ moment, this is not always the case.
 
 ```terminal
 vm$ grep r
+&#8203;firefox
 firefox
-firefox
-edge
-chromium
+&#8203;edge
+&#8203;chromium
 chromium
 &#8203;^D
 vm$ 
@@ -311,6 +311,7 @@ The `cat` utility writes to standard output.
 vm$ mkdir my-directory
 vm$ echo But mkdir does not.
 But mkdir does not.
+vm$ 
 ```
 
 ???

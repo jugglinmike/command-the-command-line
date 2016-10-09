@@ -116,6 +116,7 @@ Stallman - Free Software Song.ogg
 Ace of Base - I Saw the Sign.mp3
 Santana - Smooth.mp3
 Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
+vm$ 
 ```
 
 ???
@@ -367,6 +368,7 @@ vm$ echo Whatever we type here will be printed to the screen.
 Whatever we type here will be printed to the screen.
 vm$ echo Please expand the tilde character ~ there.
 Please expand the tilde character /home/sally there.
+vm$ 
 ```
 
 ???
@@ -568,11 +570,11 @@ We can modify this value at our peril.
 
 ```terminal
 vm$ echo Prompt: $PS1
-Prompt: $
+Prompt: vm$
 vm$ export PS1="my awesome prompt "
-my awesome prompt echo Strange...
+my awesome prompt &#8203;echo Strange...
 Strange...
-my awesome prompt 
+my awesome prompt &#8203;
 ```
 
 ???

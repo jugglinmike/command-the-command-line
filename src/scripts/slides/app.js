@@ -5,7 +5,10 @@ require('./lib/remark');
 var options = {
   promptRe: /^(vm\$ |pc\$ |.*\u200b)/,
   prepText: function(text) {
-    return text.replace(/\n$/, '');
+    return text.replace(/\n$/, '')
+      // In the process of copying `<textarea>` content into place, Remark.js
+      // implicitly trims trailing white space from code examples.
+      .replace(/(vm\$|pc\$)$/, '$1 ');
   },
   getHeight: function(el) {
     var parent = el.parentNode;

@@ -91,6 +91,7 @@ vm$ ls
 fries-victor.jpg
 kyle-selina.jpg
 twoface.jpg
+vm$ 
 ```
 
 ???
@@ -106,6 +107,7 @@ from "moving" it between two names.
 ```terminal
 vm$ cd ..
 vm$ mv bad-guys/twoface.jpg good-guys/dent-harvey.jpg
+vm$ 
 ```
 
 ???
@@ -219,6 +221,7 @@ vm$ grep CSSConf index.html
 CSSConf is a conference dedicated to the designers, developers and engineers
 edge techniques, and tools. CSSConf US part of the international family of
 CSSConfs, and is organized by Bocoup in collaboration with conference founder
+vm$ 
 ```
 
 ???
@@ -423,6 +426,7 @@ option.
 
 ```terminal
 vm$ sed -r s/(moz|webkit)R(equestAnimationFrame)/r\2/ -i src/utils/raf.js
+vm$ 
 ```
 
 ???
@@ -439,7 +443,7 @@ powerful way to automate text file transformations.
 ## Display and modify text using a powerful scripting language
 
 ```terminal
-vm$ cat src/foo.css 
+vm$ cat src/foo.css
 body {
   margin-left: 0;
   padding: 0;

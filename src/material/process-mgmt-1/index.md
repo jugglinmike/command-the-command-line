@@ -17,7 +17,7 @@ processes and how you can regain control of the terminal in each.
 
 ```terminal
 vm$ find / -name nemo
- 
+&#8203;
 ```
 
 ???
@@ -119,7 +119,7 @@ line directly.
 
 ```terminal
 vm$ find / -name nemo
- 
+&#8203;
 ```
 
 ???
@@ -177,7 +177,7 @@ we want by ts "job ID" (`1` in this case).
 vm$ jobs
 [1]+  Running                 find / -name nemo &
 vm$ fg 1
- 
+&#8203;
 ```
 
 ???

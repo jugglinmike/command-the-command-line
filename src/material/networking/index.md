@@ -372,7 +372,7 @@ end of our requests' addresses.
 ```terminal
 vm$ python3 -m http.server --bind 127.0.0.1
 Serving HTTP on 127.0.0.1 port 8000 ...
-^Z
+&#8203;^Z
 [1]+  Stopped                 python3 -m http.server --bind 127.0.0.1
 vm$ bg 1
 [1]+ python3 -m http.server --bind 127.0.0.1 &
@@ -773,12 +773,13 @@ an IRC server on port 80.
 ```terminal
 vm$ python3 -m http.server --bind 127.0.0.1 5555
 Serving HTTP on 127.0.0.1 port 5555 ...
-^C
+&#8203;^C
 Keyboard interrupt received, exiting.
 vm$ python3 -m http.server --bind 127.0.0.1 80
 PermissionError: [Errno 13] Permission denied
 vm$ sudo python3 -m http.server --bind 127.0.0.1 80
 Serving HTTP on 127.0.0.1 port 80 ...
+&#8203;
 ```
 
 ???
