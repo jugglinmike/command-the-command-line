@@ -69,12 +69,12 @@ vm$
 
 ???
 
-By using the backtick character (<code>\`</code>), we can place commands in
-locations that up to now, we have only placed values. Before executing the
-"outer" command, the shell will intervene by creating new process for the
-"nested" command. It will gather up all the data the "nested" process writes to
-the standard output stream, and when the process exits, it will insert that
-data in the place of the nested command.
+By using the backtick character, we can place commands in locations that up to
+now, we have only placed values. Before executing the "outer" command, the
+shell will intervene by creating new process for the "nested" command. It will
+gather up all the data the "nested" process writes to the standard output
+stream, and when the process exits, it will insert that data in the place of
+the nested command.
 
 ---
 
