@@ -203,7 +203,7 @@ E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?
 vm$ sudo apt-get install cowsay
 [sudo] password for sally: &#8203;       
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 cowsay is already the newest version.
 0 upgraded, 0 newly installed, 0 to remove and 23 not upgraded.
