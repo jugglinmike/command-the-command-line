@@ -189,16 +189,16 @@ can do the same thing for any process using kill.
 vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
- 2698 pts/0    00:00:03 rouge-process
+ 2698 pts/0    00:00:03 rogue-process
  2699 pts/0    00:00:00 ps
 vm$ kill 2698
 vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
- 2698 pts/0    00:00:03 rouge-process
+ 2698 pts/0    00:00:03 rogue-process
  2701 pts/0    00:00:00 ps
 vm$ kill -s sigkill 2698
-[1]+  Killed                  rouge-process
+[1]+  Killed                  rogue-process
 vm$ ps
   PID TTY          TIME CMD
  1892 pts/0    00:00:00 bash
