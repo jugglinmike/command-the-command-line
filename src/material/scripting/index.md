@@ -344,8 +344,8 @@ in "change into the `out` directory **and** remove all the contents."
 vm$ grep trousers journal/*
 vm$ echo $?
 1
-vm$ grep trousers journal/* || echo No mention of trousers :/ >&2
-No mention of trousers :/
+vm$ grep trousers journal/* || echo No mention of trousers >&2
+No mention of trousers
 vm$ 
 ```
 
