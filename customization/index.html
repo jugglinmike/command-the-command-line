@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Customization</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part III - Improving Your Workflow</h2>
+		<h3>Customization</h3>
+
+		<p>In this chapter, we'll look at various ways to customize the environment
+provided by a Unix-like system. These techniques can help maintain awareness of
+the system state, increase productivity, or simply make the terminal look
+nicer.</p>
+<h1>Re-cap:</h1>
+<pre><code class="language-terminal">vm$ sh ./greet.sh
+Hello.
+vm$ ./greet.sh
+./greet.sh: Permission denied
+vm$ chmod +x ./greet.sh
+vm$ ./greet.sh
+Hello.
+vm$ 
+</code></pre>
+<p>In <a href="../scripting">Chapter 13 - Scripting</a>, we saw how a shell script could be invoked from the
+command line. This pattern is much more convenient than using the script as
+an input to the shell utility, but it hides an important detail: in both cases,
+the script is executed as a standalone process.</p>
+<h1>The hidden process</h1>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally
+vm$ cat change-env.sh
+#!/bin/bash
+FOO=8
+cd /
+vm$ ./change-env.sh
+vm$ echo [ $FOO ]
+[ ]
+vm$ pwd
+/home/sally
+vm$ 
+</code></pre>
+<p>If the script's purpose is to modify the <em>system</em> state (e.g. by modifying
+files, starting processes, etc.), then this distinction is not very important.
+However, if we want to use the script to modify the <em>environment</em>, then the
+process boundary is a problem.</p>
+<p>A script executed in this way might set environment variables or change
+directories, but this will not effect the "calling" context. The goal of this
+chapter is to automatically modify our shell's environment, so we'll need to
+learn a new way of executing scripts before we can go any further.</p>
+<h1>"Sourcing" files with <code>.</code></h1>
+<pre><code class="language-terminal">vm$ help .
+.: . filename [arguments]
+    Execute commands from a file in the current shell.
+
+    Read and execute commands from FILENAME in the current shell.
+    The entries in $PATH are used to find the directory
+    containing FILENAME. If any ARGUMENTS are supplied, they
+    become the positional parameters when FILENAME is executed.
+
+    Exit Status:
+    Returns the status of the last command executed in FILENAME;
+    fails if FILENAME cannot be read.
+vm$ 
+</code></pre>
+<p><code>.</code> (a.k.a. "dot") is a standard (though oddly-named) shell utility that does
+exactly this.</p>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally
+vm$ cat change-env.sh
+#!/bin/bash
+FOO=8
+vm$ . change-env.sh
+vm$ echo [ $FOO ]
+[ 8 ]
+cd /
+vm$ pwd
+/
+vm$ 
+</code></pre>
+<p>Using the "dot" utility is essentially saying, "interpret the commands in this
+file as though I entered them directly into this terminal window myself." This
+is sometimes referred to as "<strong>sourcing a file</strong>."</p>
+<pre><code class="language-terminal">vm$ cat change-prompt.sh
+# Set the command prompt to a Microsoft Windows-style
+# value. It's just a bunch of characters, after all!
+PS1='C:\> '
+vm$ . change-prompt.sh
+C:\> &#8203;
+</code></pre>
+<p>We can use this right away to start writing scripts that customize our
+environment. (Recall the <code>$PS1</code> variable discussed in
+<a href="../command-invocation">Chapter 6 - Command Invocation</a>.) Our current knowledge of customizations is
+still limited, but even now, we can appreciate a problem with this approach.
+Running a configuration script like this every time we logged in the system
+would become tiresome very quickly.</p>
+<p>Thankfully, we can instruct the system to automatically run our configuration
+scripts on our behalf. Accomplishing this is somewhat more complicated than it
+might seem at first, so we'll take some time to discuss the details before
+returning to more customization options.</p>
+<h1>Startup scripts</h1>
+<ul>
+<li>bash: <code>~/.bash_profile</code>, <code>~/,bash_login</code>, <code>~/.profile</code>, <code>~/.bashrc</code></li>
+<li>tcsh: <code>~/.tcshrc</code>, <code>~/.cshrc</code>, <code>~/.login</code></li>
+<li>zsh:  <code>$ZDOTDIR/.zshenv</code>, <code>$ZDOTDIR/.zprofile</code>, <code>$ZDOTDIR/.zshrc</code>,
+<code>$ZDOTDIR/.zlogin</code></li>
+</ul>
+<p>To facilitate environment customation, every shell has a different set of
+hidden files that it will execute as it initializes. The file we should modify
+depends not only on the shell we are using, but also the "invocation mode" of
+the shell.</p>
+<h1>Shell invocation modes</h1>
+<pre><code class="language-terminal">vm$ cat shell-classifications.txt
+                |     Login     |    Non-login    |
+----------------+---------------+-----------------+
+Interactive     |               |                 |
+                |               |                 |
+----------------+---------------+-----------------+
+Non-interactive |               |                 |
+                |               |                 |
+----------------+---------------+-----------------+
+vm$ 
+</code></pre>
+<p>Whether <code>bash</code>, <code>sh</code>, <code>zsh</code>, or some other application, all shells recognize
+two orthogonal "invocation modes": interactive versus non-interactive, and
+login versus non-login. These modes effect how the shell behaves as it starts.</p>
+<blockquote>
+<p>If you open a shell or terminal (or switch to one), and it asks you to log in
+(Username? Password?) before it gives you a prompt, it's a login shell.</p>
+</blockquote>
+<p><a href="https://askubuntu.com/questions/155865/what-are-login-and-non-login-shells">https://askubuntu.com/questions/155865/what-are-login-and-non-login-shells</a></p>
+<p>This is a frequently-discussed topic on the web, but even among those supplying
+answers, there is some confusion about what this means.</p>
+<h1>Shell invocation mode considerations</h1>
+<ul>
+<li>The <strong>conventional meaning</strong> of the mode</li>
+<li>The <strong>requirements</strong> for a new shell process to qualify for the mode</li>
+<li>The <strong>effect</strong> the mode has on the shell's behavior</li>
+</ul>
+<p>The best way to understand these distinctions is via three different
+considerations.</p>
+<h1>"Login" shells</h1>
+<ul>
+<li><strong>Conventional meaning</strong> - this process is a user's connection to the system</li>
+<li>
+<p><strong>Requirements</strong> - one of:</p>
+<ul>
+<li>the value of the <code>$0</code> variable begins with a "dash" character (<code>-</code>)</li>
+<li>the shell was invoked with the <code>-l</code> option</li>
+</ul>
+</li>
+<li><strong>Effect</strong> - the shell runs startup scripts designated for "login" sessions</li>
+</ul>
+<h1>"Interactive" shells</h1>
+<ul>
+<li><strong>Conventional meaning</strong> - the standard input stream of this process is
+connected to a keyboard, and the user will enter commands over time</li>
+<li>
+<p><strong>Requirements</strong> - one of:</p>
+<ul>
+<li>the shell was invoked without options and the standard input is connected
+to a terminal</li>
+<li>the shell was invoked with the <code>-i</code> option but not the <code>-c</code> option</li>
+</ul>
+</li>
+<li><strong>Effect</strong> - the shell runs startup scripts designated for "interactive"
+sessions</li>
+</ul>
+<p>We separate "conventional meaning" from "requirements" because given the
+correct options, a shell can be run in any  "mode" regardless of the current
+context. While it may be a little technical, it's not magic!</p>
+<h1>Shell invocation modes</h1>
+<h2>Conventional examples</h2>
+<pre><code class="language-terminal">vm$ cat shell-classifications-examples.txt
+                |     Login     |    Non-login    |
+----------------+---------------+-----------------+
+Interactive     | connecting    | opening a       |
+                | via SSH       | terminal window |
+----------------+---------------+-----------------+
+Non-interactive | very rare     | running a       |
+                | circumstances | shell script    |
+----------------+---------------+-----------------+
+vm$ 
+</code></pre>
+<p>All this means that the different invocation modes simply determine which files
+a shell "sources" as it starts up. The distinctions exist to allow for
+fine-grained control over how the system prepares the environment in different
+contexts.</p>
+<p>However, the distinction between "login" and "non-login" contexts is largely a
+vestige from the past, when terminals were slow and computing time was
+expensive. For our purposes, whether or not a shell is a "login shell" will not
+be particularly relevant.</p>
+<h1>Shell invocation modes</h1>
+<h2>Files sourced</h2>
+<table>
+<thead>
+<tr>
+<th>mode</th>
+<th>bash</th>
+<th>sh</th>
+<th>zsh</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>login</td>
+<td><code>/etc/profile</code>
+ 
+<code>~/.bash_profile</code>
+ 
+<code>~/.bash_login</code>
+ 
+<code>~/.profile</code></td>
+<td><code>/etc/profile</code>
+ 
+<code>~/.profile</code>
+ 
+<code>$ENV</code></td>
+<td><code>/etc/zprofile</code>
+ 
+<code>$ZDOTDIR/.zprofile</code>
+ 
+<code>/etc/zshrc</code>
+ 
+<code>$ZDOTDIR/.zshrc</code>
+ 
+<code>/etc/zlogin</code>
+ 
+<code>$ZDOTDIR/.zlogin</code></td>
+</tr>
+<tr>
+<td>non-login</td>
+<td><code>~/.bashrc</code></td>
+<td><code>$ENV</code></td>
+<td><code>/etc/zshrc</code>
+ 
+<code>$ZDOTDIR/.zshrc</code></td>
+</tr>
+</tbody>
+</table>
+<p>Many shells source the same files regardless of whether they have been run in
+"login" contexts. This is not a consideration for users of these shells.
+However, Bash sources two separate locations.</p>
+<pre><code class="language-terminal">vm$ cat ~/.bash_profile
+# This file is sourced by "login" Bash shells, but "non-login"
+# Bash shells source the `~/.bashrc` file. To promote
+# consistency between those two contexts, manage configuration
+# settings in `~/.bashrc`, and source that file from
+# `~/.bash_profile`.
+if [ -f ~/.bashrc ]
+then
+  . ~/.bashrc
+fi
+vm$ 
+</code></pre>
+<p>Bash users can account for this by writing a short <code>~/.bash_profile</code> file that
+sources from their <code>~/.bashrc</code> file.</p>
+<pre><code class="language-terminal">vm$ echo "PS1='NEW$ '" > ~/.bashrc
+vm$ exit
+pc$ vagrant ssh
+NEW$ &#8203;
+</code></pre>
+<p>As we begin working with these files, remember that the shell sources them
+during initialization only. This means any changes we make will not effect the
+current shell process. In order to see the effect of our changes, we'll need to
+create a new shell (e.g. by logging out and logging back in) or explicitly
+source the file using the "dot" utility.</p>
+<h1>Shell customization: Paths</h1>
+<pre><code class="language-terminal">vm$ cd projects/dragonweb
+vm$ ../scripts/my-component-scaffold.sh
+Creating scaffolding for new component...
+Done!
+vm$ 
+</code></pre>
+<p><a href="../scripting">Chapter 13 - Scripting</a> detailed how shell scripts can be created to automate
+repetitive tasks. Although traits like the "execute" permission and the
+"shebang" make scripts easier to use, invoking the scripts can still be
+cumbersome. We need to specify the full path to the script each time we want to
+invoke it.</p>
+<pre><code class="language-terminal">vm$ cd projects/dragonweb
+vm$ mv ../scripts/my-component-scaffold.sh ~
+vm$ ~/my-component-scaffold.sh
+Creating scaffolding for new component...
+Done!
+vm$ 
+</code></pre>
+<p>We can mitigate this somewhat by placing scripts in our <code>HOME</code> directory. That
+allows us take advantage of shell expansion and reference the script relative
+to the special tilde character (<code>~</code>). However, the approach tends to add
+clutter to the <code>HOME</code> directory, and it still requires a few more keystrokes
+than invoking a system-provided utility like <code>grep</code>.</p>
+<pre><code class="language-terminal">vm$ echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/sbin
+vm$ which ls
+/bin/ls
+vm$ which man
+/usr/bin/man
+vm$ 
+</code></pre>
+<p>Recall from <a href="../command-invocation">Chapter 6 - Command Invocation</a> that the <code>PATH</code> environment variable
+is a colon-separated list of directories that the shell will reference when
+searching for applications.</p>
+<pre><code class="language-terminal">vm$ cd projects/dragonweb
+vm$ echo "PATH=$PATH:~/projects/scripts" >> ~/.bashrc
+vm$ . ~/.bashrc
+vm$ my-component-scaffold.sh
+Creating scaffolding for new component...
+Done!
+vm$ 
+</code></pre>
+<p>By adding a directory to that list, we can designate a personal directory for
+our scripts. Any executable file placed in that directory may then be invoked
+without a complete path because the shell now has the information it needs to
+find it.</p>
+<pre><code class="language-terminal">vm$ fetch webrtc
+fetch: command not found
+vm$ echo "PATH=$PATH:/opt/google/depot_tools" >> ~/.bashrc
+vm$ . ~/.bashrc
+vm$ fetch webrtc
+Running: gclient root
+Running: gclient sync --with_branch_heads
+vm$ 
+</code></pre>
+<p>Some projects include a set of tools required for development. For instance,
+the <a href="https://www.chromium.org/">Chromium</a> and
+<a href="https://developers.google.com/v8/">V8</a> projects both rely on <a href="https://www.chromium.org/developers/how-tos/depottools">Google's Depot
+Tools</a>.</p>
+<h1>PATH security</h1>
+<pre><code class="language-terminal">vm$ ls
+deploy.sh  src  test
+vm$ echo "PATH=.:$PATH" >> ~/.bashrc
+vm$ . ~/.bashrc
+vm$ deploy.sh
+Now running local "deploy" script
+Deploy complete!
+vm$ 
+</code></pre>
+<p>Many of the commands issued so far have been prefixed with the characters <code>./</code>,
+which instructs the shell to search for the file in the current directory.</p>
+<p>Some users place relative paths in their <code>PATH</code> variable. This is a convenience
+that makes the leading <code>./</code> unnecessary.</p>
+<pre><code class="language-terminal">vm$ ls dangerous-directory
+ls
+vm$ cd dangerous-directory
+vm$ ls
+Because "." is at the beginning of your PATH, you have
+just invoked the "local" script named `ls`. It might
+delete your files, read your passwords, or any number
+of other malicious things.
+vm$ 
+</code></pre>
+<p>This practice is dangerous because it allows scripts in the current directory
+(which may have been created by any user) to take precedence over common system
+utilities.</p>
+<h1>Shell customization: Aliases</h1>
+<pre><code class="language-terminal">vm$ ls
+change-prompt.sh
+vm$ ls -l
+-rw-rw-r-- 1 vagrant vagrant   12 Aug  2 18:30 change-prompt.sh
+vm$ 
+</code></pre>
+<p>As you grow familiar with various utilities, you may find that you are
+consistently using certain options. For example, the <code>-l</code> option of <code>ls</code>
+enables a "long listing" format.</p>
+<p>Aliases are user-defined commands that can be thought of as "shortcuts" for
+other commands.</p>
+<pre><code class="language-terminal">vm$ help alias
+alias: alias [-p] [name[=value] ... ]
+    Define or display aliases.
+
+    Without arguments, `alias' prints the list of aliases in
+    the reusable form `alias NAME=VALUE' on standard output.
+
+    Otherwise, an alias is defined for each NAME whose VALUE
+    is given A trailing space in VALUE causes the next word
+    to be checked for alias substitution when the alias is
+    expanded.
+vm$ 
+</code></pre>
+<p>Use the <code>alias</code> utility to define alias "names" (the command you wish to type)
+with alias "values" (the command you wish to be executed).</p>
+<pre><code class="language-terminal">vm$ alias ll='ls -l'
+vm$ ll
+-rw-rw-r-- 1 vagrant vagrant   12 Aug  2 18:30 change-prompt.sh
+vm$ 
+</code></pre>
+<p>When the shell encounters a command that has been defined as an alias, it
+substitutes the name of the alias with the definition originally provided to
+the <code>alias</code> utility.</p>
+<pre><code class="language-terminal">vm$ alias ll='ls -l'
+vm$ ll /tmp
+total 4
+-rw-rw-r-- 1 vagrant vagrant   0 Aug  2 21:50 a-temporary-file-01.txt
+-rw-rw-r-- 1 vagrant vagrant   0 Aug  2 21:50 a-temporary-file-02.txt
+-rw-rw-r-- 1 vagrant vagrant   0 Aug  2 21:50 a-temporary-file-03.txt
+-rw-rw-r-- 1 vagrant vagrant   0 Aug  2 21:50 a-temporary-file-04.txt
+vm$ 
+</code></pre>
+<p>Because aliases are expanded by the shell, additional options "pass through" to
+the underlying command.</p>
+<pre><code class="language-terminal">vm$ alias desktop='cd ~/Desktop'
+vm$ pwd
+/home/sally
+vm$ desktop
+vm$ pwd
+/home/sally/Desktop
+vm$ 
+</code></pre>
+<p>Unlike shell scripts, aliases are executed in the current shell. This avoids
+the "sourcing" issue discussed previously, making aliases a good choice for
+environment-modifying tasks like changing directories.</p>
+<pre><code class="language-terminal">vm$ git checkout dev
+Switched to branch 'dev'
+vm$ alias co='git checkout'
+vm$ co master
+Switched to branch 'master'
+vm$ 
+</code></pre>
+<p>Another common use-case for aliases is shortening lengthy commands. For
+example, the "git" application is notorious for its complex interface. Aliases
+can significantly reduce the amount of typing required for common workflow
+tasks.</p>
+<h1>Application customizations</h1>
+<pre><code class="language-terminal">vm$ ls -a ~
+.   .asunder  .gitconfig  .npmrc  .xinputrc
+..  .bashrc   .hgrc       .vimrc  .zshrc
+vm$ 
+</code></pre>
+<p>Many applications support customization through so-called "dot files." The
+abilities and syntax of these files vary greatly between applications, but the
+general convention is that they are "hidden" text files placed in your <code>HOME</code>
+directory.</p>
+<p>For more details on a given application's configuration files, consult the
+documentation provided by <code>man</code>.</p>
+<pre><code class="language-terminal">vm$ git add .npmrc
+vm$ git commit -m 'Add config file for npm package manager.'
+vm$ git push origin master
+vm$ 
+</code></pre>
+<p>Your configuration is likely to change and grow over time. It can be a good
+idea to maintain these files in a version control system like git. This helps
+to recover from mistakes like typos and deleted files.</p>
+<pre><code class="language-terminal">vm$ ssh our-dev-server.example.com
+# Welcome to the dev server!
+#
+# This is your first time logging in to this server,
+# so it's probably not set up the way you like. Feel
+# free to customize the environment however you wish.
+dev$ &#8203;git clone git@github.com:sally/dotfiles.git .
+Cloning into '.'...
+Checking connectivity... done.
+dev$ &#8203;source .bashrc
+vm$ 
+</code></pre>
+<p>Synchronizing your changes with a remote repository can greatly simplify the
+process of configuring a branch new system (or initially logging in to an
+existing system).</p>
+<h1>In Review</h1>
+<ul>
+<li>If we want to modify our environment using the commands in another file, we
+"source" that file using the "dot" utility, <code>.</code>, as in <code>. conf-file</code>.</li>
+<li>Shells automatically source certain files as they starts up. The exact files
+may change depending on the context, but for most shells, there is a single
+configuration file that applies to all the contexts we are interested in.
+The name of this file is different for each shell--consult the documentation
+provided by <code>man</code>.</li>
+<li>The Bash shell has a more complicated mechanism for configuration files. Most
+Bash users should place their configuration in <code>~/.bashrc</code> and create a
+<code>~/.profile</code> file that sources <code>~/.bashrc</code>.</li>
+<li>
+<p>Customizations</p>
+<ul>
+<li><code>PS1</code> variable - defines the contents of the command prompt; it may have
+dynamic information like the current user's name or the current directory</li>
+<li><code>PATH</code> variable - controls how the shell locates executable files;
+extending it can make it much easier to invoke whole sets of commands</li>
+<li>Aliases - text "shortcuts," useful for long-but-frequently-used commands</li>
+<li>Dot files - special text-based files used to customize many applications;
+the location and features of these files are generally described by each
+application's documentation in <code>man</code></li>
+</ul>
+</li>
+</ul>
+
+
+		<section>
+			<h3>Exercise</h3>
+			<p>In order to complete these exercises, configure your environment to apply these
+settings automatically.</p>
+<ol>
+<li>
+<p>Customize your shell to greet you when you first log in (but not when you
+run a script or execute a new shell in the same session).</p>
+</li>
+<li>
+<p>Update your command prompt to include the current date, as provided by the
+<code>date</code> utility. This prompt should also be used if you execute <code>bash</code> from
+the command line.</p>
+</li>
+<li>
+<p>The <code>ls</code> utility supports an option named <code>--color</code> that causes the program
+to display certain kinds of files with fancy colors. Override the built-in
+<code>ls</code> utility with a custom alias that enables this option.</p>
+</li>
+<li>
+<p>Define an alias for the <code>alias</code> command that is named <code>alias</code>.</p>
+</li>
+<li>
+<p>You may find that you are commonly leaving "to-do" notes to yourself in your
+files. <code>nano</code> can help you avoid forgetting about them by highlighting
+special text. Customize <code>nano</code> to <code>color</code> the text "TODO" in black with a
+yellow background.</p>
+<p>A few hints:</p>
+<ul>
+<li>Start with <code>man nano</code>.</li>
+<li>Your final solution will need a "regular expression" for file names--use
+the value <code>".*"</code> (including quotation marks) to enable this highlighting
+for all files.</li>
+</ul>
+</li>
+</ol>
+
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			<ol>
+<li>
+<p>The virtual environment is using <code>bash</code>. As we've seen, that shell invokes
+the <code>~/.profile</code> file only when users log in. If we place the "greeting"
+command (e.g. <code>echo Hello</code>) in that file, it will only be executed only
+then.</p>
+<p>We can verify this by logging out of the virtual machine and running
+<code>vagrant up</code>. The greeting should be displayed here. If we run <code>bash</code>, the
+greeting should <em>not</em> be displayed.</p>
+</li>
+<li>
+<p>We've seen how the <code>PS1</code> value controls the contents of the command prompt.
+We also know that command substitution allows us to store the output of a
+command in an environment variable.</p>
+<p>We could place the following text in <code>~/.profile</code>:</p>
+<pre><code>PS1="$(date) $ "
+</code></pre>
+<p>But this has a couple of problems.</p>
+<p>First, the value is "static." It describes the time when the file was
+sourced, but it doesn't update as time goes by (press the <code>Enter</code> key a few
+times to see this). We can address this by "escaping" the dollar sign
+character (<code>$</code>) in the command substitution syntax. This way, the shell will
+not expand it when the configuration file is first sourced:</p>
+<pre><code>PS1="\$(date) $ "
+</code></pre>
+<p>Now the value of <code>PS1</code> should be re-interpreted every time a new prompt is
+displayed.</p>
+<p>The instructions specifically say that this prompt should also apply when we
+invoke <code>bash</code> from the terminal. Our current solution does not satisfy this
+requirement:</p>
+<pre><code>Wed Aug  3 16:58:15 UTC 1970 $ bash
+vm$
+</code></pre>
+<p>When we start a new shell by invoking Bash, the new shell is <em>not</em> a "login
+shell." As we've seen, Bash only sources <code>~/.profile</code> for login
+shells--otherwise it sources <code>~/.bashrc</code>. We can start by moving the <code>PS1</code>
+definition to a new file named <code>~/.bashrc</code>, but then we would have the
+opposite problem: the command prompt would be modified <em>only</em> when we invoke
+<code>bash</code> from the command line. We could define the variable in both files,
+but maintaining the duplication would be a hassle. Instead, we'll source the
+<code>~/.bashrc</code> file from the <code>~/.profile</code> file by adding the following line to
+<code>~/.profile</code>:</p>
+<pre><code>[ -f ~/.bashrc ] &#x26;&#x26; . ~/.bashrc
+</code></pre>
+<p>We're using the "test" command (written here with the open bracket
+character) to be extra safe--we will only source that file if it is defined.</p>
+</li>
+<li>
+<p>We've seen that the system provides an executable file named <code>ls</code>:</p>
+<pre><code>vm$ which ls
+/bin/ls
+</code></pre>
+<p>So it may be surprising that we are defining an alias with the same name.
+This is perfectly valid, though--when we issue commands, the alias will take
+precedence over the executable file.</p>
+<p>In this case, the alias "name" is <code>ls</code>, and the alias "value" is <code>ls --color</code>. Place the following alias definition in the new <code>~/.bashrc</code> file.</p>
+<pre><code>alias ls="ls --color"
+</code></pre>
+</li>
+<li>
+<p>This alias is a little odd (and generally useless), but it's technically
+valid. The "name" is <code>alias</code> and the "value" is <code>alias</code>. Place the following
+alias definition in the <code>~/.bashrc</code> file:</p>
+<pre><code>alias alias=alias
+</code></pre>
+</li>
+<li>
+<p>The <code>man</code> page for <code>nano</code> has a section named "INITIALIZATION FILE" that
+references a separate page named "nanorc". <code>man nanorc</code> is full of
+documentation for how a file named <code>~/.nanorc</code> can modify the application's
+behavior. We'll want to create that file and insert the following text:</p>
+<pre><code>syntax "todo" ".*"
+color black,yellow "TODO"
+</code></pre>
+</li>
+</ol>
+
+		</section>
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

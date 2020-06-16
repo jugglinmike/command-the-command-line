@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>About the course</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part I - Introduction</h2>
+		<h3>About the course</h3>
+
+		<p>The goal of this course is to improve familiarity with Unix-like operating
+systems. Before we begin, though, we should ask: why do Unix-like operating
+systems matter?</p>
+<h1>Why "Unix-like"?</h1>
+<p><img src="macos.png" alt="A laptop running the macOS operating system"></p>
+<p>"macOS Sierra" is copyright Apple, Inc. Used with permission.</p>
+<p>Chances are, you're running a Unix-like system right now. The popular Apple
+macOS is Unix-like. (Actually, since version 10.5--code named "Leopard"--OSX
+hasn't just been "Unix-like," <a href="http://www.opengroup.org/openbrand/register/brand3555.htm">it's officially fully
+Unix</a>. This
+distinction probably doesn't mean much right now; <a href="../history">Chapter 4 - A Brief History of Unix</a> has more
+details.)</p>
+<p>If you're running Mac OSX, the concepts we cover here will be directly
+applicable to your day-to-day computing.</p>
+<p><img src="ubuntu-discs.jpg" alt="Installation discs for Ubuntu"></p>
+<p>"<a href="https://www.flickr.com/photos/sir_gon/3113641967/">Discos de Ubuntu 8.10 (Intrepid
+Ibex)</a>" by <a href="https://www.flickr.com/photos/sir_gon/">Gonzalo
+Díaz</a> is Licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC BY
+2.0</a></p>
+<p>GNU/Linux is another world-famous Unix-like operating system. Popular variants
+include Debian, Redhat, and Ubuntu (pictured).</p>
+<p>While GNU/Linux is not as common on the desktop as Microsoft Windows or Apple
+macOS, it is widely deployed in server technology. Professionals working in the
+field of software development (especially for web-based technologies) will
+likely come across this operating system in the course of deploying their work.</p>
+<h1>User-unfriendly</h1>
+<p><img src="laptop-in-garbage.jpg" alt="Photograph of a laptop placed in a trash reciptical"></p>
+<p>"<a href="https://www.flickr.com/photos/ndm007/171398958/">Schlock. Manchester,
+England</a>" by <a href="https://www.flickr.com/photos/ndm007/">Nathan
+Makan</a> is licenced under <a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">CC BY-NC-ND
+2.0</a></p>
+<p>Many aspects of using Unix and its derivatives are non-obvious, and some are
+downright confusing. We hope to help students understand the fundamentals so
+that they can begin to feel more comfortable:</p>
+<ul>
+<li>working from a text-based command prompt</li>
+<li>using essential utility applications</li>
+<li>composing custom scripts to automate work and solve problems</li>
+<li>perform basic system administration tasks</li>
+</ul>
+<p>Whenever possible, we try to explain the rationale behind the system design so
+that students will not have to rely on rote memorization to build confidence.</p>
+<h1>Reading the Code Examples</h1>
+<pre><code class="language-terminal">pc$ code blocks like these represent a terminal
+they are intended to demonstrate various commands
+and their effects
+pc$ 
+</code></pre>
+<p>Lines that begin with <code>pc$</code> describe commands that are intended to be entered
+into your system's terminal. The <code>pc$</code> is sometimes referred to as the
+"prompt", and it is intended to designate input lines. The "command" is all
+the text that follows the prompt; when typing the command on your system, you
+should not include the prompt.</p>
+<p>Lines that do not begin with the prompt are "output" lines. This is text
+produced in response to the command.</p>
+<p>Note that terminal examples from other guides use the lone dollar sign
+character (<code>$</code>) or even the "hash" character (<code>#</code>) as the prompt. Whatever it
+looks like, the prompt's purpose is the same: to designate the command that
+should be typed.</p>
+<div class="img-3">
+  <img
+    alt="A Microsoft Windows operating system running a macOS virtual machine"
+    src="vms-win-to-mac.png" />
+  <img
+    alt="A GNU/Linux operating system running a Microsoft Windows virtual machine"
+    src="vms-linux-to-win.png" />
+  <img
+    alt="Any operating system running a GNU/Linux virtual machine"
+    src="vms-yours-to-linux.png" />
+</div>
+<p>Complete operating systems can be run as standalone processes. These are known
+as "virtual machines," and you can use them to run any operating system within
+any other operating system.</p>
+<p>A GNU/Linux virtual machine (specifically, of <a href="http://ubuntu.com/">the Ubuntu
+distribution</a>) has been prepared for this course. This
+means that regardless of the operating system you are using today, you will
+experiment and learn inside the exact operating system that the course
+requires.</p>
+<pre><code class="language-terminal">pc$ this command should be run on your system
+this is output from your system
+
+vm$ this command should be run in the virtual machine
+this is output from the virtual machine
+</code></pre>
+<p>A small number of commands in this course are intended to be run on your
+system, but most of them should be executed within the virtual machine.</p>
+<p>The <code>pc$</code> prompt denotes commands that are intended to be run on your system.
+We'll use the <code>vm$</code> prompt to denote the commands that are intended for the
+virtual machine.</p>
+<h1>A note on shells</h1>
+<table>
+<thead>
+<tr>
+<th>Executable</th>
+<th>Name</th>
+<th>Year Created</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bash</code></td>
+<td>Bourne-again shel l</td>
+<td>1989</td>
+</tr>
+<tr>
+<td><code>csh</code></td>
+<td>C shell</td>
+<td>1978</td>
+</tr>
+<tr>
+<td><code>dash</code></td>
+<td>Debian Almquist shell</td>
+<td>1997</td>
+</tr>
+<tr>
+<td><code>ksh</code></td>
+<td>Korn shell</td>
+<td>1983</td>
+</tr>
+<tr>
+<td><code>sh</code></td>
+<td>Bourne shell</td>
+<td>1977</td>
+</tr>
+<tr>
+<td><code>tcsh</code></td>
+<td>TENEX C shell</td>
+<td>1981</td>
+</tr>
+<tr>
+<td><code>zsh</code></td>
+<td>Z shell</td>
+<td>1990</td>
+</tr>
+</tbody>
+</table>
+<p>The terms of Unix-like systems, the word "<strong>shell</strong>" refers to any program that
+provides a text interface to the system. There are <em>many</em> shell applications
+available (this is just a partial list), and they differ substantially.</p>
+<p>Because all interaction is mediated by the shell (<a href="../command-invocation">Chapter 6 - Command Invocation</a>
+has a more complete discussion of this), the distinction between features
+provided by the system and features provided by the shell can be subtle.</p>
+<p>This course focuses on system-provided functionality because that is relevant
+regardless of one's chosen shell. Whenever course content describes
+shell-provided functionality, this distinction is explicitly described. In
+these cases, content is limited to the feature set that is shared by the more
+common shells: <code>bash</code>, <code>sh</code>, and <code>zsh</code>.</p>
+<p>Students who are interested in using shell-specific features have advanced
+beyond the abilities of this course's target audience.</p>
+<h1>About the exercises</h1>
+<div class="img-3">
+  <img alt="VirtualBox logo" src="logo-virtualbox.png" />
+  <img alt="Vagrant logo" src="logo-vagrant.png" />
+  <img alt="Ubuntu logo" src="logo-ubuntu.svg" />
+</div>
+<p>"<a href="https://commons.wikimedia.org/w/index.php?curid=29324827">Vagrant Logo</a>" by
+<a href="https://commons.wikimedia.org/w/index.php?title=User:Fco.plj">Fco.plj</a> is
+licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a></p>
+<p>In order to provide a consistent experience for all students across all
+platforms, interactive exercises for this course are authored to be completed
+within a "virtual machine." Thanks to the free and open source software
+<a href="https://www.virtualbox.org/">VirtualBox</a>,
+<a href="https://www.vagrantup.com/">Vagrant</a>, and <a href="http://www.ubuntu.com/">Ubuntu</a>,
+students can complete the exercises in a purpose-built Unix-like environment
+using their personal computer and at no charge. <a href="../setup">Chapter 2 - Setup</a> includes
+instructions for installing these tools.</p>
+<p>The default user account in the exercise environment is named "vagrant", and it
+is configured to use the Bash shell. Administrative access requires a password,
+and that password is "vagrant".</p>
+<h1>About the course</h1>
+<p>Command the Command Line was created in 2016 at <a href="https://bocoup.com">Bocoup</a>.
+It is currently maintained by <a href="https://mikepennisi.com">Mike Pennisi</a>.</p>
+
+
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

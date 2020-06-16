@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Process Management I</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part II - Getting Your Bearings</h2>
+		<h3>Process Management I</h3>
+
+		<p>After invoking a program and starting a process, there are a number of reasons
+you may want to move on before the process is complete. However, these
+processes generally maintain control of the terminal window until they
+terminate. In this section, we'll cover the most common cases of long-running
+processes and how you can regain control of the terminal in each.</p>
+<h1>Case #1: "I want to cancel this work"</h1>
+<pre><code class="language-terminal">vm$ find / -name nemo
+&#8203;
+</code></pre>
+<p>Occasionally, you may mis-type a command and accidentally start a process that
+takes a very long time to complete. In this example, we're using the <code>find</code>
+command to search for all files named "nemo" in the entire file system. We most
+likely intended to limit our search to a more specific location (e.g. our $HOME
+directory).</p>
+<p>We could simply open a new terminal window and re-enter the command. But in the
+mean time, we will have a useless terminal window open, busy doing unnecessary
+work.</p>
+<p>Instead, we'll send a "signal" to the active process.</p>
+<pre><code class="language-terminal">vm$ find / -name nemo
+&#8203;^C
+vm$ 
+</code></pre>
+<p>By holding the <code>Ctrl</code> key and then processing the <code>c</code> key, we can send a
+special "SIGINT" signal to the current process. Most applications (including
+<code>find</code>) will respond to this by terminating.</p>
+<p>Now that we've cancelled that work, we can use the same terminal window to
+re-enter the correct command.</p>
+<h1>Case #2: "I'm done entering data"</h1>
+<pre><code class="language-terminal">vm$ sort
+&#8203;murdock, matt
+&#8203;stark, tony
+&#8203;rogers, steve
+&#8203;banner, bruce
+&#8203;parker, peter
+&#8203;romanov, natalya
+&#8203;
+</code></pre>
+<p>Many applications that accept files as arguments can also operate on "standard
+input." In these cases, instead of reading the contents of the file, the
+program accepts input from the terminal directly. <code>sort</code> is one such
+application.</p>
+<p>The problem is that we need some way to signal that we are done. If we try the
+same approach as the previous use case and press <code>Ctrl</code>+<code>C</code>, the process will
+terminate without giving us results. In this case, we need a way to signal that
+we are done entering input and would like the program to continue its work.</p>
+<pre><code class="language-terminal">vm$ sort
+&#8203;murdock, matt
+&#8203;stark, tony
+&#8203;rogers, steve
+&#8203;banner, bruce
+&#8203;parker, peter
+&#8203;romanova, natasha
+&#8203;^D
+banner, bruce
+murdock, matt
+parker, peter
+rogers, steve
+romanova, natasha
+stark, tony
+vm$ 
+</code></pre>
+<p>By holding the <code>Ctrl</code> key and pressing the <code>d</code> key, we are sending the "end of
+file" character. This is a little counter intuitive; just remember that these
+programs are written to accept files as input, and the "end of file" character
+makes more sense in that context.</p>
+<p>Most shells interpret this as an indication that the user is done entering
+commands, so this will close the terminal window if you enter it on the command
+line directly.</p>
+<h1>Case #3: "I'd like to do other things while this completes."</h1>
+<pre><code class="language-terminal">vm$ find / -name nemo
+&#8203;
+</code></pre>
+<p>You will sometimes intentionally run processes that you expect to take a long
+time to complete. In these cases, you may like to get other additional work
+done while you wait. You could open another terminal window, but this can be
+inefficient (and may clutter up your desktop environment).</p>
+<pre><code class="language-terminal">vm$ find / -name nemo
+&#8203;^Z
+[1]+  Stopped                 find / -name nemo
+vm$ 
+</code></pre>
+<p>By holding the <code>Ctrl</code> key and then processing the <code>z</code> key, we can send a
+special "SIGTSTP" signal to the current process. This causes the process to
+stop (but not exit) and release the terminal.</p>
+<p>We can go back to entering more commands, but the "stopped" command will wait
+in the background forever. We can get it to continue working <em>without</em> tying up
+the terminal again, but doing that will take a new command.</p>
+<pre><code class="language-terminal">vm$ jobs
+[1]+  Stopped                 find / -name nemo
+vm$ bg 1
+[1]+ find / -name nemo &#x26;
+vm$ jobs
+[1]+  Running                 find / -name nemo &#x26;
+vm$ 
+</code></pre>
+<p>The <code>find</code> process is known as a "job," and we can verify that it is still
+present (but "stopped") with the <code>jobs</code> command. If we had used <code>Ctrl</code>+<code>z</code> with
+other commands, then they'd be listed here, too.</p>
+<p>While a process is "stopped", it is no longer doing any work. We can use the
+<code>bg</code> command to set it running again. There can be any number of jobs running
+at once, so we need to refer to the job we want by ts "job ID" (<code>1</code> in this
+case).</p>
+<pre><code class="language-terminal">vm$ jobs
+[1]+  Running                 find / -name nemo &#x26;
+vm$ fg 1
+&#8203;
+</code></pre>
+<p>Finally, if we want to return to the job before it is finished, we can use the
+<code>fg</code> command (again, referencing it by "job ID").</p>
+<h1>In Review</h1>
+<ul>
+<li>
+<p>Key combinations</p>
+<ul>
+<li><code>Ctrl</code>+<code>c</code> - terminate the current process</li>
+<li><code>Ctrl</code>+<code>d</code> - signal that you are done entering text</li>
+<li><code>Ctrl</code>+<code>z</code> - make the current process into a "background job"</li>
+</ul>
+</li>
+<li>
+<p>Utilities</p>
+<ul>
+<li><code>jobs</code> - list all active jobs (note: "active" does not mean "running")</li>
+<li><code>bg</code> - change a job's status from "stopped" to "running"</li>
+<li><code>fg</code> - bring a background job to the foreground</li>
+</ul>
+</li>
+</ul>
+
+
+		<section>
+			<h3>Exercise</h3>
+			<p><code>tac</code> is a program that collects input and prints it out in reverse. It's like
+<code>cat</code> but backwards (which might explain the silly name).</p>
+<pre><code class="language-terminal">vm$ tac
+&#8203;first
+&#8203;second
+&#8203;third
+&#8203;fourth
+&#8203;^D
+fourth
+third
+second
+first
+vm$ 
+</code></pre>
+<p>Let's use <code>tac</code> to practice with managing multiple concurrent processes.</p>
+<p>We'll be sending signals to the <code>tac</code> command in this exercise, but it's easy
+to make a mistake and send the signal to the shell instead. That may cause you
+to log out of the virtual machine. Remember: the <code>vm$</code> prompt lets you know
+that you're executing commands inside the virtual machine. If you see a
+different prompt, then you have likely logged out. You can reconnect to the
+virtual machine using the <code>vagrant ssh</code> command. For a refresher on this, refer
+back to <a href="../../vagrant">Chapter 3 - Using Vagrant</a>.</p>
+<ol>
+<li>
+<p>Run <code>tac</code> and type <code>1</code> followed by a new line, then <code>2</code> followed by a new
+line, and finally <code>3</code> followed by a new line. Now put the <code>tac</code> process into
+the background. What is the process's "job" ID?</p>
+</li>
+<li>
+<p>Run <code>tac</code> again. This time, type <code>a</code> followed by a new line, then <code>b</code>
+followed by a new line, and finally <code>c</code> followed by a new line. Now put this
+second <code>tac</code> process into the background. What is the process's "job" ID?</p>
+</li>
+<li>
+<p>Bring the first <code>tac</code> process into the foreground. (You'll need your answer
+to question number 1 to do this.)</p>
+</li>
+<li>
+<p>Type <code>4</code> followed by a new line. If you send a "SIGINT" signal to this
+process, what do you expect to see printed to the terminal? Send a SIGINT
+signal. What was printed?</p>
+</li>
+<li>
+<p>Bring the second <code>tac</code> process into the foreground. (You'll need your answer
+to question number 2 to do this).</p>
+</li>
+<li>
+<p>Type <code>d</code> followed by a new line. If you send the "end of file" character to
+this process, what do you expect to see printed to the terminal? Send the
+"end of file" character to the process. What was printed?</p>
+</li>
+</ol>
+
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			<ol>
+<li>
+<p>To "background" a process, hold the <code>Ctrl</code> key and then press the <code>z</code> key.
+The terminal will print out a message telling you that the process is
+stopped; the job ID is the number enclosed in square braces, e.g. <code>[1]</code>.</p>
+</li>
+<li>
+<p>See above. The job ID for this process should be different than the ID
+assigned to the first one (most likely one greater), e.g. <code>[2]</code>.</p>
+</li>
+<li>
+<p>Type <code>fg</code>, followed by a space, followed by the job ID from step one, and
+then finally <code>Enter</code>/<code>Return</code>.</p>
+</li>
+<li>
+<p>To send the "SIGINT" signal, hold the <code>Ctrl</code> key and then press the <code>c</code> key.
+After receiving this signal, the process should exit without printing
+anything to the screen.</p>
+</li>
+<li>
+<p>Type <code>fg</code> followed by a space, followed by the job ID from step two, and
+then finally <code>Enter</code>/<code>Return</code>.</p>
+</li>
+<li>
+<p>To send the "end of file" character, hold the <code>Ctrl</code> key and then press the
+<code>d</code> key. After receiving this character, the <code>tac</code> program should print out
+each line you entered in reverse. Remember that this is the same process you
+created in step 2, so the complete output will include the lines you entered
+back then:</p>
+<pre><code>d
+c
+b
+a
+</code></pre>
+</li>
+</ol>
+
+		</section>
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+body {
+  background-color: #f2f2f2;
+  font-size: 100%;
+  line-height: 1.125em;
+  font-family: Georgia, serif;
+}
+
+a {
+  color: #24b4ca;
+  text-decoration: none;
+}
+
+h1 {
+  font-family: 'Open Sans', sans-serif;
+}
+
+main {
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+header h1 {
+  font-family: monospace;
+}
+header h1:before {
+  content: '$ ';
+}
+header h1 a {
+  color: #333;
+  text-decoration: none;
+}
+
+nav {
+  width: 30%;
+  float: left;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+main > article {
+  width: 70%;
+  float: left;
+}
+
+main article p {
+  line-height: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+main > article > h1 + h2 {
+  margin-top: -0.7em;
+
+  font-size: 1em;
+  color: #888;
+  font-style: italic;
+}
+
+main > article img {
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 50vh;
+  display: block;
+}
+
+footer {
+  float: left;
+  padding: 1em 0;
+
+  font-size: 0.8em;
+}
+
+footer img {
+  border-width: 0;
+}
+
+footer .about, footer .license {
+	width: 45%;
+
+	float: left;
+}
+
+footer .about {
+	margin-right: 10%;
+}
+
+footer .about img {
+	margin-right: 2em;
+
+	float: left;
+}
+
+pre {
+  padding: 1em;
+
+  background-color: #333;
+  color: #eee;
+  font-size: 1.34em;
+  overflow-x: auto;
+}
+
+/**
+ * When REPL animation is enabled, the height of each `code` block is
+ * explicitly set to its initially-calculated value. This ensures that the
+ * element size remains constant as the animation proceeds. `display: block`
+ * ensures that the element is actually rendered with the calculated height
+ * value.
+ */
+code.language-terminal {
+  display: block;
+}
+
+code {
+  font-style: normal;
+}
+
+.solution {
+  visibility: hidden;
+}
+#solution-toggle:checked ~ .solution {
+  visibility: visible;
+}
+
+.img-3 {
+  text-align: center;
+}
+.img-3 img {
+  display: inline-block;
+  width: 25%;
+  margin: 0 2%;
+
+  vertical-align: middle;
+}

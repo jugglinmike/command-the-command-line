@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Filesystem Hierarchy Standard</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part IV - Managing Systems</h2>
+		<h3>Filesystem Hierarchy Standard</h3>
+
+		<p>Spend enough time on a Unix-like system and you will stumble across the "root"
+directories. The typical hierarchy is an intimidating tree of strangely-named
+directories with inscrutable purposes.</p>
+<pre><code class="language-terminal">vm$ cat fhs.txt
+    bin/       usr/            var/
+    boot/         bin/            account/
+    dev/          include/        cache/
+    etc/          lib/            crash/
+    home/         local/          games/
+    lib/             bin/         lib/
+    media/           lib/         lock/
+    mnt/             sbin/        log/
+    opt/          sbin/           mail/
+    root/         share/          opt/
+    run/          src/            run/
+    sbin/                         spool/
+    srv/                          tmp/
+    tmp/
+vm$ 
+</code></pre>
+<p>Some names are repeated (<code>/bin/</code>, <code>/usr/bin/</code>, and <code>/usr/local/bin/</code>), others
+seem vague (<code>/media/</code> or <code>/etc/</code>), and still others sound more appropriate for
+a mechanical device than a computer (<code>/run/</code>, <code>/var/lock/</code>).</p>
+<p>This chapter is an overview that explores the significance of each directory
+for a system administrator. As with the rest of this course, the aim is to
+provide a working knowledge of this nuanced topic.</p>
+<p> </p>
+<p><img src="fhs-wiki.png" alt="A screenshot of the wiki page for the Filesystem Hierarchy Standard"></p>
+<p>Just like so many aspects of Unix-like systems, the file system hierarchy we
+see today evolved over the course of many years. It was influenced both by
+legitimate technical constraints (some of which that are no longer relevant)
+and the disparate whims of siloed developers.</p>
+<p><strong>The Filesystem Hierarchy Standard</strong> (FHS) is a document that attempts to
+recognize the meaningful conventions between Unix-like systems and define a
+normalized structure. It is maintained by <a href="http://www.linuxfoundation.org/">the Linux
+Foundation</a> and <em>not</em> <a href="http://www.opengroup.org/">the Open
+Group</a>, so it is not part of POSIX nor a requirement
+to qualify for the Unix trademark. It is, however, widely observed by Unix-like
+system distributors and administrators.</p>
+<h1>Framing: Primary User</h1>
+<pre><code class="language-terminal">1. Directories used by the system itself
+2. Directories used by applications
+3. Directories used by administrators
+</code></pre>
+<p>We will discuss these directories in terms of their primary user. This
+distinction is not perfect, though: many directories have more than one
+use-case. Even so, this framework makes for a helpful lens to view the whole
+tree.</p>
+<h1>System Directories</h1>
+<pre><code class="language-terminal">vm$ cat fhs-system.txt
+  * = directories for system use
+
+    bin/       usr/            var/
+  * boot/         bin/            account/
+  * dev/          include/        cache/
+    etc/          lib/            crash/
+    home/         local/          games/
+    lib/             bin/         lib/
+    media/           lib/         lock/
+    mnt/             sbin/        log/
+    opt/             share/       mail/
+    root/         sbin/           opt/
+    run/          share/          run/
+    sbin/                         spool/
+    srv/                          tmp/
+    tmp/
+vm$ 
+</code></pre>
+<p>The system controls a few of the directories:</p>
+<ul>
+<li><code>/boot/</code> - short for <strong>boot loader</strong>; contains the files required to start
+the system</li>
+<li><code>/dev/</code> - short for <strong>device</strong>; contains the system's device files</li>
+</ul>
+<p>Only in rare circumstances will an administrator need to manage these
+directories.</p>
+<ul>
+<li><code>/dev/null</code> - reading never returns data, writing has no effect; useful for
+silencing "noisy" commands</li>
+<li><code>/dev/urandom</code> - returns random bytes</li>
+</ul>
+<h1>Administrative Directories</h1>
+<pre><code class="language-terminal">vm$ cat fhs-admin.txt
+  * = directories for administrators
+
+    bin/       usr/            var/
+    boot/         bin/            account/
+    dev/          include/        cache/
+    etc/          lib/            crash/
+  * home/       * local/          games/
+    lib/             bin/         lib/
+  * media/           lib/         lock/
+  * mnt/             sbin/        log/
+  * opt/             share/       mail/
+  * root/         sbin/           opt/
+    run/          share/          run/
+    sbin/                         spool/
+    srv/                          tmp/
+    tmp/
+vm$ 
+</code></pre>
+<ul>
+<li><code>/home/</code> - stores directories dedicated to individual user accounts; creating
+a new user often entails creating a sub-directory of <code>/home/</code></li>
+<li><code>/media/</code> - mounted file systems for removable media</li>
+<li><code>/mnt/</code> - a mount point intended for temporary use</li>
+<li><code>/opt/</code> - software packages installed by the administrator; specifically
+installed within self-contained sub-directories, eschewing the
+recommendations of the FHS; "package manager" applications generally install
+software across the
+filesystem according to the recommendations of the FHS (e.g. within <code>/usr/</code>
+or <code>/usr/local/</code>)</li>
+<li><code>/root/</code> - the root user's "HOME" directory</li>
+<li><code>/usr/local/</code> - software packages installed by the administrator; follows the
+same conventions of distribution-provided software (e.g. <code>bin/</code>, <code>sbin/</code>,
+<code>lib/</code>, and <code>share/</code>)</li>
+</ul>
+<h1>Application Directories</h1>
+<pre><code class="language-terminal">vm$ cat fhs-applications.txt
+  * = directories for application use
+
+  * bin/       usr/          * var/
+    boot/       * bin/            account/
+    dev/        * include/        cache/
+  * etc/        * lib/            crash/
+    home/         local/          games/
+  * lib/             bin/         lib/
+    media/           lib/         lock/
+    mnt/             sbin/        log/
+    opt/             share/       mail/
+    root/       * sbin/           opt/
+    run/        * share/          run/
+  * sbin/                         spool/
+    srv/                          tmp/
+  * tmp/
+vm$ 
+</code></pre>
+<ul>
+<li><code>/bin/</code>, <code>/usr/bin/</code> - short for <strong>bin</strong>aries; executable binaries; intended
+for general-purpose use</li>
+<li><code>/etc/</code> - short for <strong>et c</strong>etera; configuration files</li>
+<li><code>/lib/</code>, <code>/usr/lib/</code> - short for <strong>lib</strong>raries; compiled library code</li>
+<li><code>/usr/include/</code> - compiled "header" files</li>
+<li><code>/sbin/</code>, <code>/usr/sbin/</code> - short for <strong>s</strong>ystem <strong>bin</strong>aries; executable
+binaries; intended for system
+administrators</li>
+<li><code>/tmp/</code> - temporary files</li>
+<li><code>/var/</code> - short for <strong>var</strong>iable; data files (e.g. no code) that are intended
+to change without system administrator intervention</li>
+</ul>
+<p>System administrators regularly interact with many of the files created by
+applications.</p>
+<ul>
+<li><code>/etc/</code> - modify the behavior of system services like web servers (e.g.
+<code>/etc/nginx/nginx.conf</code>, <code>/etc/apache2/sites-available/</code>)</li>
+<li><code>/tmp/</code> - useful for certain scripting tasks; see the <code>mktemp</code> utility for a
+safe way to interact with this directory</li>
+<li><code>/bin/</code>, <code>/sbin/</code>, <code>/usr/bin/</code>, <code>/usr/sbin/</code> - executable files intended for
+general use; these directories should be in your <code>PATH</code> environment variable
+(see <a href="../customization">Chapter 14 - Customization</a>)</li>
+<li><code>/var/log/</code> - process log files; essential for troubleshooting; see the
+<code>tail</code> utility for a way to read the final lines of a file (especially as
+more lines are added over time)</li>
+</ul>
+<h1>Application Distinctions: Start-up time</h1>
+<p><img src="diver.jpg" alt="swimmer at diving block"></p>
+<p>"<a href="https://www.flickr.com/photos/30464264@N08/4585416463/">day one hundred twenty
+six</a>" by
+<a href="https://www.flickr.com/photos/30464264@N08/">stefuhnee_kayy</a> is licensed under
+<a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">CC BY-NC-ND 2.0</a></p>
+<p>Some of the directories names in the "root" directory are also present in
+<code>/usr/</code>, namely <code>bin/</code>, <code>sbin/</code>, and <code>lib/</code>.</p>
+<p>The size of the file system mounted on the "root" directory can effect system
+start-up time. Historically, the time to start up could be significantly
+reduced by deferring the loading of some binaries. Placing non-essential
+binaries within a dedicated directory (<code>/sbin/</code>) allowed for that.</p>
+<p>Today, the time savings enabled by this optimization are greatly reduced, and
+many applications no longer honor the distinction. <a href="https://www.freedesktop.org/wiki/Software/systemd/TheCaseForTheUsrMerge/">There is a movement to make
+these directories one and the
+same.</a></p>
+<h1>Application Distinctions: Admin vs. user</h1>
+<p><img src="dog-power-tool.jpg" alt="small dog eyeing a power tool"></p>
+<p>"<a href="https://www.flickr.com/photos/lovine/7239960700/">Power Tools</a>" by <a href="https://www.flickr.com/photos/lovine/">Paul
+Lovine</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">CC BY-NC-ND
+2.0</a></p>
+<p>Some tools are really only appropriate for system administrators. None of the
+POSIX-defined utilities fit this description, but common administrative
+applications include <code>adduser</code> (for creating new users), <code>cron</code> (for scheduling
+commands), and <code>fdisk</code> (for managing partitions). In defining dedicated
+directories for each "type" of executable, the FHS makes it easier for
+developers and administrators to label and protect the more dangerous tools.</p>
+<p>This is the motivation for the <code>bin/</code> and <code>sbin/</code> directories, as available
+within the "root" directory, within <code>/usr/</code>, and within <code>/usr/local/</code>.</p>
+<h1>Application Distinctions: Installer</h1>
+<p><img src="fix-toy.jpg" alt="boy fixing a toy"></p>
+<p>"<a href="https://www.flickr.com/photos/mightyb/3622927130/">Ben fixing his ride</a>" by
+<a href="https://www.flickr.com/photos/mightyb/">Brian Brodeur</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc/2.0/">CC
+BY-NC 2.0</a></p>
+<p>POSIX-defined utilities can be considered inherent to the system and available
+in all Unix-like environments. If a system includes any additional application,
+then that application must have been installed by some authority. The authority
+may be a so-called "distribution" (e.g. Apple Inc. in the case of OSX or the
+maintainers of Ubuntu in the case of Ubuntu GNU/Linux). It may also be an
+administrator of the local system.</p>
+<p>Understanding the identity of the software's installer makes it easier to
+reason across systems of the same distribution (e.g. knowing that all Debian
+installations include the <code>adduser</code> utility) and within specific systems (e.g.
+discovering that a particular Debian installation has the <code>ansible</code> application
+installed).</p>
+<p>The FHS encourages systems to make this distinction by installing software to
+either <code>/usr/</code> or <code>/usr/local/</code>.</p>
+<h1>In Review</h1>
+<ul>
+<li>The Filesystem Hierarchy Standard is an attempt to unify conventions that
+have evolved over many years and across many Unix-like distributions</li>
+<li>Some of the directories are intended for system use and do not need to be
+inspected during routine operation</li>
+<li>Some of the directories are intended to facilitate system maintenance</li>
+<li>The majority of the directories are defined according to the needs of
+software applications; familiarity with these directories allows an
+administrator to configure and troubleshoot</li>
+</ul>
+
+
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

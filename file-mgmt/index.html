@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>File Management</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part III - Improving Your Workflow</h2>
+		<h3>File Management</h3>
+
+		<p>Unix-like systems trade in files. A great deal of their configuration and even
+their <em>state</em> is stored in files spread across the file system. This is
+distinct from Microsoft Windows, for instance, where much of the analogous
+information is stored in a global "registry" database.</p>
+<p>So not only is comfort with files an essential part of improving your workflow,
+its also crucial to understanding and interacting with the operating system
+itself.</p>
+<h1>Overview</h1>
+<ul>
+<li>File organization: <code>mv</code>, <code>rm</code>, <code>mkdir</code></li>
+<li>File inspection: <code>wc</code>, <code>grep</code>, <code>find</code></li>
+<li>File manipulation: <code>nano</code>, <code>sed</code>, <code>awk</code></li>
+</ul>
+<p>We're going to cover a whole bunch of utilities in this section. With the
+exception of <code>nano</code>, these programs are included in the POSIX standard. For
+this course, we're concerned with the mainline use cases; you can consult the
+<code>man</code> pages for details on all the capabilities of each tool.</p>
+<h1><code>mv</code></h1>
+<h2>Move files and directories</h2>
+<pre><code class="language-terminal">vm$ ls good-guys
+dent-harvey.jpg
+fries-victor.jpg
+gordon-jim.jpg
+kyle-selina.jpg
+nigma-edward.jpg
+vm$ ls bad-guys
+vm$ mv good-guys/dent-harvey.jpg bad-guys
+vm$ ls good-guys
+fries-victor.jpg
+gordon-jim.jpg
+kyle-selina.jpg
+vm$ ls bad-guys
+dent-harvey.jpg
+vm$ 
+</code></pre>
+<p>We'll use the <code>mv</code> utility to <strong>m</strong>o<strong>v</strong>e files and directories around. The
+first option is the source and the second is the destination.</p>
+<pre><code class="language-terminal">vm$ mv good-guys/fries-victor.jpg good-guys/kyle-selina.jpg bad-guys
+vm$ ls good-guys
+gordon-jim.jpg
+vm$ ls bad-guys
+dent-harvey.jpg
+fries-victor.jpg
+kyle-selina.jpg
+vm$ 
+</code></pre>
+<p>We can use <code>mv</code> to move multiple files at once. If there are more than two file
+options, the very last will be interpreted as the destination directory for all
+of the others. This feature can be very helpful when used with the <code>*</code> shell
+expansion character.</p>
+<pre><code class="language-terminal">vm$ cd bad-guys
+vm$ mv dent-harvey.jpg twoface.jpg
+vm$ ls
+fries-victor.jpg
+kyle-selina.jpg
+twoface.jpg
+vm$ 
+</code></pre>
+<p><code>mv</code> is also commonly used to rename files. This might seem a little
+counter-intuitive, though. Just remember that renaming a file is no different
+from "moving" it between two names.</p>
+<pre><code class="language-terminal">vm$ cd ..
+vm$ mv bad-guys/twoface.jpg good-guys/dent-harvey.jpg
+vm$ 
+</code></pre>
+<p>...and there is nothing stopping us from renaming a file as we change its
+directory.</p>
+<h1><code>rm</code></h1>
+<h2>Remove files and directories</h2>
+<pre><code class="language-terminal">vm$ ls
+my-directory
+my-first-file
+my-second-file
+vm$ rm my-first-file my-second-file
+vm$ ls
+my-directory
+vm$ 
+</code></pre>
+<p>We'll use <code>rm</code> to <strong>r</strong>e<strong>m</strong>ove files and directories.</p>
+<pre><code class="language-terminal">vm$ ls
+my-directory
+vm$ rm my-directory
+rm: cannot remove ‘dir’: Is a directory
+vm$ rm -r my-directory
+vm$ ls
+vm$ 
+</code></pre>
+<p>By default, <code>rm</code> will <em>not</em> remove directory--we'll need to use the <code>r</code> option
+to remove <strong>r</strong>ecursively. This extra option may seem inconvenient, but it
+often protects you from accidentally deleting things.</p>
+<h1><code>mkdir</code></h1>
+<h2>Make directories</h2>
+<pre><code class="language-terminal">vm$ mkdir my-new-directory
+vm$ ls
+my-new-directory
+vm$ ls my-new-directory
+vm$ 
+</code></pre>
+<p><code>mkdir</code> creates a new empty directory.</p>
+<h1>Overview</h1>
+<ul>
+<li>
+<p>File organization:</p>
+<ul>
+<li><code>mv</code> - change the location of files and directories (as in "<strong>m</strong>o<strong>v</strong>")</li>
+<li><code>rm</code> - delete files and directories (as in "<strong>r</strong>e<strong>m</strong>ove")</li>
+<li><code>mkdir</code> - create directories (as in "<strong>m</strong>a<strong>k</strong>e <strong>dir</strong>ectories")</li>
+</ul>
+</li>
+<li>File inspection: <code>wc</code>, <code>grep</code>, <code>find</code></li>
+<li>File manipulation: <code>nano</code>, <code>sed</code>, <code>awk</code></li>
+</ul>
+<p>Now that we know a little more about organizing files, we'll learn about a few
+ways to inspect their contents.</p>
+<h1><code>wc</code></h1>
+<h2>Calculate word counts</h2>
+<pre><code class="language-terminal">vm$ cat just-another-file.txt
+This is the first line of just-another-file.txt
+This is the second line of the file!
+The file only has three lines, and this is the last one!
+vm$ wc just-another-file.txt
+  3  27 142 just-another-file.txt
+vm$ 
+</code></pre>
+<p>The <code>wc</code> utility (short for "<strong>w</strong>ord <strong>c</strong>ount") displays the number of
+newlines, words, and bytes in a given file. The output is pretty terse, though!</p>
+<h1><code>grep</code></h1>
+<h2>Search for patterns in text</h2>
+<pre><code class="language-terminal">vm$ grep CSSConf index.html
+&#x3C;h3 class="work-hed">&#x3C;a href="http://2016.cssconf.com">CSSConf&#x3C;/a>&#x3C;/h3>
+CSSConf is a conference dedicated to the designers, developers and engineers
+edge techniques, and tools. CSSConf US part of the international family of
+CSSConfs, and is organized by Bocoup in collaboration with conference founder
+vm$ 
+</code></pre>
+<p><code>grep</code> allows us to search for text inside a file. By default, it displays each
+line of text that contains the provided value.</p>
+<p><code>grep</code>'s name comes from its historic context (based on a command for the <code>ed</code>
+text editor), so this is a case where rote memorization may be necessary.</p>
+<pre><code class="language-terminal">vm$ grep -E '&#x3C;h[1-5]' index.html
+&#x3C;h1 class="logo">
+&#x3C;h2 class="mission">Open Design &#x26; Technology Services for
+&#x3C;h3 class="section-hed">&#x3C;strong>Partner with us&#x3C;/strong>
+&#x3C;h3 class="work-hed">&#x3C;a href="https://bocoup.com/services
+&#x3C;h3 class="work-hed">&#x3C;a href="https://bocoup.com/services
+&#x3C;h3 class="work-hed">&#x3C;a href="https://bocoup.com/services
+&#x3C;h3 class="section-hed">We work across industries to brin
+&#x3C;h3 class="work-hed">&#x3C;a href="https://bocoup.com/work/lyr
+&#x3C;h3 class="work-hed">&#x3C;a href="https://bocoup.com/work/jsi
+&#x3C;h3 class="work-hed">&#x3C;a href="https://bocoup.com/work/hbr
+&#x3C;h3 class="work-hed">&#x3C;a href="https://bocoup.com/work/rue
+&#x3C;h3 class="section-hed">We create events to bring communi
+&#x3C;h3 class="work-hed">&#x3C;a href="http://2016.cssconf.com">CS
+&#x3C;h3 class="section-hed">Our team &#x3C;strong>creates, champio
+&#x3C;h2 class="section-hed">We'd love to hear from you. &#x3C;stro
+&#x3C;h2>Join our newsletter for Bocoup news you can use!&#x3C;/h2>
+vm$ 
+</code></pre>
+<p><code>grep</code> also accepts regular expressions, which are a very powerful way to
+express text queries. Regular expressions are beyond the scope of this course,
+though, so don't worry if you're not comfortable using them.</p>
+<h1><code>find</code></h1>
+<h2>Locate files by meta-data</h2>
+<pre><code class="language-terminal">vm$ find src -name index.html
+src/index.html
+src/birds/index.html
+src/birds/penguins/index.html
+src/birds/puffins/index.html
+src/cereal/index.html
+src/cereal/capn-crunch/index.html
+src/cereal/fruit-loops/index.html
+vm$ 
+</code></pre>
+<p><code>find</code> is also useful for locating files. Unlike <code>grep</code> (which is geared
+towards searching through files by their content), <code>find</code> is built to search
+for files according to meta-data such as file name and file type. If the
+provided path is a directory, <code>find</code> will search through all the files and
+directories inside.</p>
+<p>Remember that every utility defines its own rules for command-line options. As
+mentioned in the previous chapter, this allows for some inconsistency. <code>find</code>
+is an example--notice how <code>-name</code> is a "long" option with only <em>one</em> leading
+hyphen character.</p>
+<p>This is one small case where Unix's complicated history has negatively impacted
+the user experience.</p>
+<pre><code class="language-terminal">vm$ find documents/recipes -name *carrot*
+vm$ echo *carrot*
+giant-carrot.jpg
+vm$ echo \*carrot\*
+*carrot*
+vm$ find documents/recipes -name \*carrot\*
+documents/recipes/appetizers/cold-carrot-soup.pdf
+documents/recipes/carrot-free
+documents/recipes/desserts/carrot-cake.odt
+documents/recipes/sides/carrots.pdf
+vm$ 
+</code></pre>
+<p><code>find</code> interprets the asterisk character (<code>*</code>) in the same way that our shell
+does. As we've seen, though, the shell normally substitutes that pattern
+<em>before</em> invoking the command. Because we want the asterisk character to make
+it all the way to the <code>find</code> program, we need to escape it with the backslash
+character (<code>\</code>).</p>
+<h1>Overview</h1>
+<ul>
+<li>
+<p>File organization:</p>
+<ul>
+<li><code>mv</code> - change the location of files and directories (as in "<strong>m</strong>o<strong>v</strong>")</li>
+<li><code>rm</code> - delete files and directories (as in "<strong>r</strong>e<strong>m</strong>ove")</li>
+<li><code>mkdir</code> - create directories (as in "<strong>m</strong>a<strong>k</strong>e <strong>dir</strong>ectories")</li>
+</ul>
+</li>
+<li>
+<p>File inspection</p>
+<ul>
+<li><code>wc</code> - display statistics for a text file, including details like number of
+words and number of lines ("<strong>w</strong>ord <strong>c</strong>ount")</li>
+<li><code>grep</code> - find text within a file</li>
+<li><code>find</code> - find files and directories based on meta data</li>
+</ul>
+</li>
+<li>File manipulation: <code>nano</code>, <code>sed</code>, <code>awk</code></li>
+</ul>
+<p>Finally, we'll take a look at a few tools for modifying file contents.</p>
+<h1><code>nano</code></h1>
+<h2>Edit text files interactively</h2>
+<pre><code class="language-terminal">vm$ nano hello.txt
+  GNU nano 2.2.6        File: hello.txt
+
+Hello, world!
+
+
+
+
+                       [ Read 1 line ]
+^G Get Hel^O WriteOu^R Read Fi^Y Prev Pa^K Cut Tex^C Cur Pos
+^X Exit   ^J Justify^W Where I^V Next Pa^U UnCut T^T To Spell
+</code></pre>
+<p><code>nano</code> is a text editor program that is available on many systems. There are a
+great number of alternative editors available (for instance, <code>vim</code> and <code>emacs</code>),
+but <code>nano</code> is commonly considered the most straightforward. This makes it a great
+choice when first getting started.</p>
+<p>Editor commands are performed using the <code>Ctrl</code> modifier key. <code>nano</code> displays
+the most essential commands at the very bottom of the terminal window. These are
+somewhat truncated in the example above due to space limitations.</p>
+<h1><code>sed</code></h1>
+<h2>Replace text in "streams"</h2>
+<pre><code class="language-terminal">vm$ cat quote.txt
+It's 106 miles to Chicago, we got a full tank of gas, half a pack of
+cigarettes, it's dark... and we're wearing sunglasses. 
+vm$ sed s/Chicago/Boston/ quote.txt
+It's 106 miles to Boston, we got a full tank of gas, half a pack of
+cigarettes, it's dark... and we're wearing sunglasses. 
+vm$ 
+</code></pre>
+<p>The <code>sed</code> utility allows us to replace text matching one pattern with another.
+The search pattern is the string between the first and second forward slash
+character (<code>/</code>), and the replacement pattern the string between the second and
+third forward slash character.</p>
+<pre><code class="language-terminal">vm$ cat quote.txt
+It's 106 miles to Chicago, we got a full tank of gas, half a pack of
+cigarettes, it's dark... and we're wearing sunglasses. 
+vm$ sed --in-place s/Chicago/Boston/ quote.txt
+vm$ cat quote.txt
+It's 106 miles to Boston, we got a full tank of gas, half a pack of
+cigarettes, it's dark... and we're wearing sunglasses. 
+vm$ 
+</code></pre>
+<p>By default, <code>sed</code> prints the result on the terminal. Because it is such a
+powerful tool, we may want to verify the effect of our command before actually
+changing any files. Once we're confident that the change meets our expectation,
+we can instruct <code>sed</code> to modify the file "in place" with the <code>-i</code>/<code>--in-place</code>
+option.</p>
+<pre><code class="language-terminal">vm$ sed -r s/(moz|webkit)R(equestAnimationFrame)/r\2/ -i src/utils/raf.js
+vm$ 
+</code></pre>
+<p>Like <code>grep</code>, <code>sed</code> recognizes regular expressions. Actually, the behavior of
+<code>sed</code> can be controlled with an entire scripting language! The topic of writing
+<code>sed</code> scripts is outside the scope of this course, but it is an extremely
+powerful way to automate text file transformations.</p>
+<h1><code>awk</code></h1>
+<h2>Display and modify text using a powerful scripting language</h2>
+<pre><code class="language-terminal">vm$ cat src/foo.css
+body {
+  margin-left: 0;
+  padding: 0;
+}
+table.data {
+  color: red;
+  margin: 0 1em;
+}
+vm$ awk '/\{/ { s = $0 } /margin/ { print s "\n" $0 "\n}" }' src/foo.css
+body {
+  margin-left: 0;
+}
+table.data {
+  margin: 0 1em;
+}
+vm$ 
+</code></pre>
+<p>The <code>awk</code> utility performs a similar function to <code>sed</code>, but it implements a
+programming language that some feel is much more maintainable. We won't go into
+the details of using <code>awk</code> in the course, but this is a good tool to reach for
+when you need to perform advanced text manipulation.</p>
+<h1>In Review</h1>
+<ul>
+<li>
+<p>File organization:</p>
+<ul>
+<li><code>mv</code> - change the location of files and directories (as in "<strong>m</strong>o<strong>v</strong>")</li>
+<li><code>rm</code> - delete files and directories (as in "<strong>r</strong>e<strong>m</strong>ove")</li>
+<li><code>mkdir</code> - create directories (as in "<strong>m</strong>a<strong>k</strong>e <strong>dir</strong>ectories")</li>
+</ul>
+</li>
+<li>
+<p>File inspection</p>
+<ul>
+<li><code>wc</code> - display statistics for a text file, including details like number of
+words and number of lines ("<strong>w</strong>ord <strong>c</strong>ount")</li>
+<li><code>grep</code> - find text within a file</li>
+<li><code>find</code> - find files and directories based on meta data</li>
+</ul>
+</li>
+<li>
+<p>File manipulation</p>
+<ul>
+<li><code>nano</code> - text editor</li>
+<li><code>sed</code> - find and replace text (as in "<strong>s</strong>tream <strong>ed</strong>itor")</li>
+<li><code>awk</code> - find and replace text</li>
+</ul>
+</li>
+</ul>
+
+
+		<section>
+			<h3>Exercise</h3>
+			<p>The project in the <code>/var/www/sportistician</code> directory is a mess! Let's clean it
+up a bit.</p>
+<ol>
+<li>
+<p>The files <code>layout.html</code> and <code>style.css</code> look like temporary work. Maybe you
+were in the middle of an experiment? We don't want to lose that work, so
+lets get them out of the way for now. Create a temporary directory and move
+those two files into it.</p>
+</li>
+<li>
+<p>The rest of the HTML files look good, but they probably shouldn't be strewn
+about in this directory. Make a directory within <code>src</code> named <code>templates</code>,
+and move all the HTML files there.</p>
+</li>
+<li>
+<p>The <code>src</code> directory has a <code>flash</code> sub-directory that no one has used in
+eight years. Lets delete it and everything inside.</p>
+</li>
+<li>
+<p>This directory has a bunch of hidden files. They aren't being used for
+anything, so please remove them.</p>
+</li>
+<li>
+<p>We maintain the <code>src/styles/legacy.css</code> file to support older web browsers.
+How many declarations does that file have for the <code>&#x3C;blink></code> tag?</p>
+</li>
+<li>
+<p>Another programmer left their editor's temporary files hanging around.
+They're all over the place, but at least all their names look similar--they
+all end in the tilde character (<code>~</code>). Could you remove them?</p>
+</li>
+<li>
+<p>This used to be a web application for tracking sports statistics, but the
+company pivoted and it is now a baking application. Let's update the
+<code>readme.md</code> file to reflect this--replace all occurrences of the word
+"stats" with "cupcakes".</p>
+</li>
+<li>
+<p>Finally, lets retrieve those experimental files. Move them from the
+temporary directory you created back to the project directory.</p>
+</li>
+</ol>
+
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			<ol>
+<li>
+<p>First, we need to make a temporary directory using the <code>mktemp</code> utility</p>
+<pre><code>$ mktemp -d
+</code></pre>
+<p>That command should print a directory name to the screen. This is the path
+to the new temporary directory. We'll use that as the destination for the
+files--replace <code>{destination}</code> with the path to the temporary directory in
+the following command:</p>
+<pre><code>$ mv layout.html style.css {destination}
+</code></pre>
+</li>
+<li>
+<p>The <code>mkdir</code> utility will create a directory at whatever path we provide:</p>
+<pre><code>$ mkdir src/templates
+</code></pre>
+<p>...now we can move the HTML files. That's a lot of files, though! We could
+type them all out, but it will be much quicker to use the <code>*</code> character
+(remember: that tells our shell to substitute all the files that match)</p>
+<pre><code>$ mv *.html src/templates
+</code></pre>
+</li>
+<li>
+<p>This sounds like a job for <code>rm</code>. We'll get an error if we try to use it on
+a directory without any options, so we need to explicitly say we're looking
+to delete a directory:</p>
+<pre><code>$ rm -r src/flash
+</code></pre>
+</li>
+<li>
+<p>It's tempting to use the <code>*</code> character here, too, but that won't quite work.
+If we use <code>echo</code> to see how the expansion works...</p>
+<pre><code>$ echo .*
+. .. .a .b .c .d
+</code></pre>
+<p>...we can see that this includes the <code>.</code> and <code>..</code> directories. Practically
+speaking, this is okay because <code>rm</code> will fail to delete those, report
+errors, and continue deleting the others. But if we want to be precise,
+we're better off explicitly deleting each of the others:</p>
+<pre><code>$ rm -r .a .b .c .d
+</code></pre>
+</li>
+<li>
+<p>We'll use <code>grep</code> to find the references:</p>
+<pre><code>$ grep blink src/styles/legacy.css
+</code></pre>
+<p>There are a bunch of false positives here, though. They are easy to spot,
+but we can use a more advanced query to do that work for us:</p>
+<pre><code>$ grep -E '\bblink\b' src/styles/legacy.css
+</code></pre>
+</li>
+<li>
+<p>This is a two-parter. First, we'll use <code>find</code> to locate the files we want to
+remove:</p>
+<p>   $ find src -name '*~'</p>
+<p>Next, we'll remove each of those files:</p>
+</li>
+</ol>
+<p>   This was better than manually inspecting the contents of each directory with
+<code>ls</code>, but it was still a little bit of a hassle to remove each file. Later
+on, we'll see how we can wire these two commands together.</p>
+<ol start="7">
+<li>
+<p>Whenever you want to replace text, <code>sed</code> should come to mind.</p>
+<p>$ sed s/stats/cupcakes/ readme.md</p>
+</li>
+<li>
+<p>This is the reverse of the first step, just remember the name of the
+temporary directory!</p>
+<pre><code>$ mv {destination}/layout.html .
+$ mv {destination}/style.css .
+</code></pre>
+</li>
+</ol>
+
+		</section>
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

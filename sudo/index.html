@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>All about &#x60;sudo&#x60;</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part II - Getting Your Bearings</h2>
+		<h3>All about &#x60;sudo&#x60;</h3>
+
+		<p>If you've been using a Unix-like environment before working through this guide,
+you may recognize the word <code>sudo</code>. It shows up in commands and scripts all over
+the Internet, often without an explanation. Even if you've never seen it
+before, it's an important part of working on the command line.</p>
+<p>What does it do? How does it work? When should you use it?</p>
+<p>That's what this chapter is all about.</p>
+<h1>Background: Users and permissions</h1>
+<pre><code class="language-terminal">vm$ echo $HOME
+/home/sally
+vm$ ls /home
+larry
+nancy
+sally
+xavier
+vm$ 
+</code></pre>
+<p>Recall from <a href="../history">Chapter 4 - A Brief History of Unix</a> that Unix was designed as a time-sharing system.
+Many people were expected to be logged in and working at the same time. The
+system recognizes "users" as a way to promote privacy while still allowing
+people to share files and devices.</p>
+<p>We've already seen some evidence of this: our <code>$HOME</code> directory isn't simply
+<code>/home</code>; it's a sub-directory of <code>/home</code> named <code>sally</code>. This suggests that
+there might be more directories for other people.</p>
+<pre><code class="language-terminal">vm$ ls /home/larry
+ls: cannot open directory /home/larry: Permission denied
+vm$ 
+</code></pre>
+<p>We don't generally have access to the <code>$HOME</code> directories that belong to other
+users. <a href="../users-and-groups">Chapter 16 - Users and Groups</a> explains how the system manages file
+ownership, but for now, just know that a file's owner is a fundamental trait,
+much like its name.</p>
+<h1><code>whoami</code></h1>
+<h2>Show the name of the current user</h2>
+<pre><code class="language-terminal">vm$ whoami
+sally
+vm$ 
+</code></pre>
+<p>The <code>whoami</code> application is one of the better-named utilities in our toolkit;
+it simply displays the name of the user who invoked it. We're about to learn to
+switch between accounts, so this will be a helpful tool to show the effect of
+the new commands.</p>
+<h1>Background: the <code>root</code> user</h1>
+<p><img src="root-vegetables.jpg" alt="Root vegetables"></p>
+<p>"<a href="https://www.flickr.com/photos/sheeprus/36552307803">Root vegetables</a>" by
+<a href="https://www.flickr.com/photos/sheeprus/">Sheep"R"Us</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">CC
+BY-NC-ND 2.0</a></p>
+<p>A Unix-like system can have any number of user accounts like this. However,
+there is one special user that is present on <em>all</em> Unix-like systems: the
+"root" user (also known as the "superuser").</p>
+<p>This is the administrative user account. It has no access control restrictions,
+meaning it has the permissions to do everything with every file and every
+directory. The root user's <code>HOME</code> directory is in a special location on the
+file system: <code>/root</code>.</p>
+<pre><code class="language-terminal">vm$ rm -rf /bin
+rm: cannot remove ‘/bin/zdiff’: Permission denied
+rm: cannot remove ‘/bin/findmnt’: Permission denied
+rm: cannot remove ‘/bin/bzegrep’: Permission denied
+rm: cannot remove ‘/bin/gzexe’: Permission denied
+rm: cannot remove ‘/bin/sh.distrib’: Permission denied
+rm: cannot remove ‘/bin/chgrp’: Permission denied
+rm: cannot remove ‘/bin/login’: Permission denied
+</code></pre>
+<p>This separation is helpful when you are learning because it means you are
+unable to perform many actions that would break things. Even the person who is
+"in charge" of the system (that's you in these exercises and on your personal
+computer) usually has a normal user account. In addition to reducing the risk
+of mistakes, working under a separate account limits the damage that a
+malicious program can do when it runs on your behalf.</p>
+<h1><code>sudo</code></h1>
+<pre><code class="language-terminal">vm$ whoami
+sally
+vm$ sudo whoami
+[sudo] password for sally: &#8203;       
+root
+vm$ 
+</code></pre>
+<p>The <code>sudo</code> utility allows us to execute single commands as the <code>root</code> user.</p>
+<p>There is some disagreement about where its name comes from. Some say it is
+short for "<strong>s</strong>uper <strong>u</strong>ser <strong>do</strong>." Because you may use the <code>-u</code> option to
+execute a command as <em>any</em> user, some argue that it is short for "<strong>s</strong>witch
+<strong>u</strong>ser and <strong>do</strong>."</p>
+<pre><code class="language-terminal">vm$ whoami
+untrusteduser
+vm$ sudo whoami
+[sudo] password for untrusteduser: &#8203;       
+untrusteduser is not in the sudoers file.  This incident will be reported.
+vm$ 
+</code></pre>
+<p>Not all users are able to use <code>sudo</code>. If you are working on a machine that you
+do not own, you may need to request the necessary permissions from your system
+administrator.</p>
+<pre><code class="language-terminal">vm$ sudo echo "After I've authenticated once..."
+[sudo] password for sally: &#8203;       
+After I've authenticated once...
+vm$ date
+Wed Dec 31 1969 19:00:00 EST 1969
+vm$ sudo echo "I stay in 'sudo mode' for a little while."
+I stay in 'sudo mode' for a little while.
+vm$ date
+Wed Dec 31 1969 19:21:00 EST 1969
+vm$ sudo echo "...but I'll need to re-authenticate every so often."
+[sudo] password for sally: &#8203;       
+...but I'll need to re-authenticate every so often.
+vm$ 
+</code></pre>
+<p>Most systems are configured to "recognize" users that have recently
+authenticated with <code>sudo</code>. In this state, you will still need to use <code>sudo</code> to
+take actions as the root user, but you will not have to re-enter your password.
+This status will expire after a short period (15 minutes by default).</p>
+<h1>Using <code>sudo</code> safely</h1>
+<pre><code class="language-terminal">vm$ apt-get install cowsay
+E: Could not open lock file /var/lib/dpkg/lock - open (13: Permission denied)
+E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?
+vm$ sudo apt-get install cowsay
+[sudo] password for sally: &#8203;       
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+cowsay is already the newest version.
+0 upgraded, 0 newly installed, 0 to remove and 23 not upgraded.
+vm$ 
+</code></pre>
+<p>You will need to use <code>sudo</code> when performing system administration tasks like
+installing software. (In this example, we're using the APT package manager
+commonly used in the <a href="https://www.debian.org/">Debian</a> and
+<a href="https://ubuntu.com/">Ubuntu</a> GNU/Linux distributions.) It's generally safe to
+use <code>sudo</code> with system utilities and when you understand what the command is
+going to do.</p>
+<h1>Avoiding "unsafe" uses of <code>sudo</code></h1>
+<pre><code class="language-terminal">vm$ sudo ./script-i-found-on-the-web.sh
+[sudo] password for sally:  &#8203;       
+Installing a key logger... Done
+Deleting all your applications... Done
+vm$ 
+</code></pre>
+<p>However, many tutorials online contain instructions that use <code>sudo</code> unsafely.
+Remember that the root user can do <em>anything</em>, so using <code>sudo</code> with an
+untrusted program from the Internet may cause all sorts of problems.</p>
+<pre><code class="language-terminal">vm$ sudo apt-get install the-dependency-i-need
+[sudo] password for sally: &#8203;       
+vm$ ./script-i-found-on-the-web.sh
+Performing actions as the current (de-privileged) user
+vm$ 
+</code></pre>
+<p>It's much better to perform the administrative actions manually and rely on the
+untrusted program to do the rest. Even this is dangerous, though--the script
+could still access your personal files. There is no substitute for trusting the
+code you run, whether through reading the source or through having confidence
+in its origins!</p>
+<h1>In Review</h1>
+<ul>
+<li><code>whoami</code> is a utility that prints the current user's name</li>
+<li>The "root" user (or "superuser") is capable of performing any task</li>
+<li>The <code>sudo</code> utility allows you to execute single commands as the "root" user</li>
+<li>Only run a command with <code>sudo</code> if you understand it and trust its source!</li>
+</ul>
+
+
+		<section>
+			<h3>Exercise</h3>
+			<ol>
+<li>
+<p>Recall from <a href="../../command-invocation">Chapter 6 - Command Invocation</a> that when we run the following
+command:</p>
+<pre><code>echo ~
+</code></pre>
+<p>the shell steps in and replaces the <code>~</code> with a path to the current
+user's "home" directory. Consider the following command:</p>
+<pre><code>sudo echo ~
+</code></pre>
+<p>What do you expect will happen when we run that?</p>
+</li>
+<li>
+<p>What does the following command mean?</p>
+<pre><code>sudo sudo whoami
+</code></pre>
+<p>Are there any reasons to use <code>sudo</code> twice like that?</p>
+</li>
+</ol>
+
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			<ol>
+<li>
+<p>The output of <code>sudo echo ~</code> should be <code>/home/vagrant</code>. That's the same as if
+we didn't use <code>sudo</code> at all. Remember that the shell makes its substutions
+<em>before</em> the command runs. <code>sudo</code> hasn't changed the active user at that
+moment. So even though <code>echo</code> does run as the root user, it's being invoked
+with the value <code>/home/vagrant</code>. It's just like we had written <code>sudo echo /home/vagrant</code>.</p>
+</li>
+<li>
+<p>Remember that <code>sudo</code> is an application that interpets the options you pass
+it as a new command. It may look a little strange to give <code>sudo</code> a <code>sudo</code>
+command, but the application still works the same way as the other examples
+in this chapter.</p>
+<p>In <code>sudo sudo whoami</code>, <code>sudo</code> receives <code>sudo whoami</code> and runs that command
+as the root user. Then, <code>sudo whoami</code>, running as root, invokes the <code>whoami</code>
+command as root.</p>
+<p>The overall effect is the same as <code>sudo whoami</code>: <code>whoami</code> runs as the root
+user, and so we see <code>root</code> printed to the screen. There's not much reason to
+use <code>sudo</code> twice like that, so you can save yourself the extra typing!</p>
+</li>
+</ol>
+
+		</section>
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

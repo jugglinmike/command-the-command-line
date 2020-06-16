@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Process Boundaries</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part III - Improving Your Workflow</h2>
+		<h3>Process Boundaries</h3>
+
+		<p>We've created a good number of processes so far, but there are a lot of details
+about the way information flows through processes that we haven't covered yet.</p>
+<pre><code class="language-terminal">vm$ cat ./process-bounds.txt
+         options ------.
+environment vars ------+
+                       V
+                  +---------+
+standard input -> | Process | -> standard output
+       signals -> |         | -> standard error
+                  +---------+
+                       |
+                       '-------> exit status
+vm$ 
+</code></pre>
+<p>In Unix-like systems, a typical process may receive input on a number of
+channels. Options and environmental variables can only be supplied as the
+process is created. On the other hand, both signals and standard input can
+effect the behavior of the program at any point in its lifetime. We've seen
+examples of each of these channels in prior sections.</p>
+<p>A process has other channels for communicating outwardly. Standard output and
+standard error are two streams of data to which a process may write at any
+moment. In addition, as the process exits, it emits a numeric status code that
+describes the conditions that caused the program to end.</p>
+<p>Processes may have any number of additional communication channels (e.g.
+network streams, file streams, additional devices), but the seven described
+here are available to all processes (even if they aren't always used).</p>
+<h1>Input</h1>
+<h2>Options &#x26; Environment Variables</h2>
+<pre><code class="language-terminal">vm$ my_var=123 magic-app --an_option
+</code></pre>
+<p>We previously discussed options and environment variables in
+<a href="../command-invocation">Chapter 6 - Command Invocation</a> (although we didn't refer to them as
+"communication channels" at the time). If we want to provide input in this way,
+we have to do this at the moment we create the process. We can't change the
+options or the environment variables of a running process.</p>
+<h1>Input</h1>
+<h2>Standard Input</h2>
+<pre><code class="language-terminal">vm$ sort
+&#8203;c
+&#8203;a
+&#8203;b
+&#8203;^D
+a
+b
+c
+vm$ 
+</code></pre>
+<p>Recall that in <a href="../process-mgmt-1">Chapter 7 - Process Management I</a>, we briefly worked with the <code>sort</code>
+utility. That program was novel because it accepted input dynamically as we
+typed.</p>
+<pre><code class="language-terminal">vm$ cat input.txt
++-----------+
+|           |
+|           |
++-----------+                +- Terminal -+     +- sort -+
+ \           \ --> stdin --> | ---------> | --> |        |
+  +- Keyboard +              +------------+     +--------+
+vm$ 
+</code></pre>
+<p>In this way, <code>sort</code> is no different than the terminal program we have been
+using all along. When we invoke <code>sort</code>, the "input stream" that normally flows
+from our keyboard and into the terminal is instead interpreted by <code>sort</code>
+itself. This is considered a "stream" because its contents are delivered over
+time, and the end is not known in advance.</p>
+<p>The stream typically originates from the keyboard, but as we'll see in just a
+moment, this is not always the case.</p>
+<pre><code class="language-terminal">vm$ grep r
+&#8203;firefox
+firefox
+&#8203;edge
+&#8203;chromium
+chromium
+&#8203;^D
+vm$ 
+</code></pre>
+<p>Many utilities that normally expect a file name as an option will read from
+standard input when no such file is supplied. For example, both <code>grep</code> and
+<code>sed</code> behave this way.</p>
+<h1>Redirecting Standard Input</h1>
+<p><img src="left-turn.jpg" alt="&#x22;Left Turn&#x22; sign"></p>
+<p>"<a href="https://www.flickr.com/photos/nestorgalina/4799836020/">Left Turn</a>" by
+<a href="https://www.flickr.com/photos/nestorgalina/">Nestor Galina</a> is licensed under
+<a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></p>
+<p>As we've seen, the terminal's default behavior is to supply new processes with
+its own input stream. We can override this behavior and provide a different
+input stream.</p>
+<pre><code class="language-terminal">vm$ cat cereal.txt
+fruit loops
+lucky charms
+cap'n crunch
+vm$ sort &#x3C; cereal.txt
+cap'n crunch
+fruit loops
+lucky charms
+vm$ 
+</code></pre>
+<p>By including a "less than" character (<code>&#x3C;</code>) at the end of the command, we can
+specify the name of a file. The contents of that file will be interpreted as
+though we had entered them into the terminal directly.</p>
+<pre><code class="language-terminal">vm$ cat input-redirected.txt
++-----------+
+|           |
+|           |
++-----------+                +- Terminal -+     +- sort &#x3C; i.txt -+
+ \           \ --> stdin --> |            |  .> |                |
+  +- Keyboard +              +------------+  |  +----------------+
+                                             |
+ +-- i.txt --+                               |
+ |           | ------------------------------'
+ +-----------+
+vm$ 
+</code></pre>
+<p>By using input redirection, we are configuring the process to read from a
+stream other than standard input--a file named <code>i.txt</code> in this example.</p>
+<pre><code class="language-terminal">vm$ sort &#x3C; cereal.txt
+cap'n crunch
+fruit loops
+lucky charms
+vm$ sort cereal.txt
+cap'n crunch
+fruit loops
+lucky charms
+vm$ 
+</code></pre>
+<p>Frankly, for those programs that accept a file name as an option, redirecting
+input like this isn't very compelling. For most cases, the difference is
+negligible.</p>
+<pre><code class="language-terminal">vm$ mail hello@bocoup.com --subject 'Keep it up!'
+&#8203;Dearest Bocoup,
+&#8203;
+&#8203;You are doing wonderful things. Please continue to do them.
+&#8203;
+&#8203;Mike
+&#8203;~.
+vm$ 
+</code></pre>
+<p>On the other hand, some programs <em>only</em> operate on the "standard input" stream.
+<code>mail</code> is one such program--it is a utility for sending e-mail messages.</p>
+<pre><code class="language-terminal">vm$ cat my-message.txt
+Dearest Bocoup,
+
+You are doing wonderful things. Please continue to do them.
+
+Mike
+vm$ mail hello@bocoup.com --subject 'Keep it up!' &#x3C; my-message.txt
+vm$ 
+</code></pre>
+<p>As much as we might enjoy working on the command line, the shell is not a great
+environment to author large amounts of prose. For instance, once you've entered
+text, you can't go back and change it. It's almost like using a typewriter.</p>
+<p>We'd much rather use a text editor (<code>nano</code> perhaps?) to compose a message. We
+can save that to a file and use input redirection to feed our message into
+<code>mail</code>.</p>
+<h1>Input</h1>
+<h2>Signals</h2>
+<pre><code class="language-terminal">vm$ find / -name dory
+&#8203;^C
+vm$ 
+</code></pre>
+<p>Signals are an advanced way to send information to a running process. The
+discussion in <a href="../process-mgmt-1">Chapter 7 - Process Management I</a> (where we used <code>Ctrl</code>+<code>c</code> to send the
+"SIGINT" signal) is sufficient for day-to-day activities in a Unix-like
+environment. <a href="../process-mgmt-2">Chapter 15 - Process Management II</a> takes a closer look at other signals
+and how to send them.</p>
+<pre><code class="language-terminal">vm$ cat ./process-bounds.txt
+         options ------.
+environment vars ------+
+                       V
+                  +---------+
+standard input -> | Process | -> standard output
+       signals -> |         | -> standard error
+                  +---------+
+                       |
+                       '-------> exit status
+vm$ 
+</code></pre>
+<p>That covers the common input channels employed by most processes. It's a bit
+underwhelming because we've already covered most of them in previous sections.
+Just remember that the list is not exhaustive: programs can be written to
+accept input from various other sources.</p>
+<p>The story is similar for outgoing communication. Although a process may be
+sending data on any number of streams or devices, there are just a handful that
+are available to all processes.</p>
+<h1>Output</h1>
+<h2>Standard Output</h2>
+<pre><code class="language-terminal">vm$ cat my-file.txt
+The `cat` utility writes to standard output.
+vm$ mkdir my-directory
+vm$ echo But mkdir does not.
+But mkdir does not.
+vm$ 
+</code></pre>
+<p>Just like "standard input," "standard output" is considered a "stream" of data.
+It is normally directed at a terminal. Most of the applications we've used so
+far give some form of feedback on this channel--<code>mkdir</code> is one of the
+exceptions (though we can change this behavior by using its <code>--verbose</code>
+option).</p>
+<h1>Redirecting Standard Output</h1>
+<p><img src="israeli-crosswalk.jpg" alt="Israeli crosswalk"></p>
+<p>"<a href="https://www.flickr.com/photos/modenadude/5283857273/">Israeli crosswalk</a>" by
+<a href="https://www.flickr.com/photos/modenadude/">Asim Bharwani</a> is licensed under
+<a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">CC BY-NC-ND 2.0</a></p>
+<p>Just like with the standard input stream, we can redirect standard
+output to a file.</p>
+<pre><code class="language-terminal">vm$ cat feline-gifs.txt
+cat: feline-gifs.txt: No such file or directory
+vm$ find gifs -name \*cat\* > feline-gifs.txt
+vm$ cat feline-gifs.txt
+gifs/winter/cat-in-snow.gif
+gifs/lunchtime/cat-eating-sandwhich.gif
+gifs/travel/airplane-pilot-is-a-cat.gif
+vm$ 
+</code></pre>
+<p>By including the "greater than" character (<code>></code>) after the
+command, the output of that command will be written to the file. If the file
+doesn't exist, it will created first.</p>
+<pre><code class="language-terminal">vm$ cat feline-gifs.txt
+gifs/winter/cat-in-snow.gif
+gifs/lunchtime/cat-eating-sandwhich.gif
+gifs/travel/airplane-pilot-is-a-cat.gif
+vm$ find gifs -name \*kitten\* > feline-gifs.txt
+vm$ cat feline-gifs.txt
+gifs/sports/kitten-foosball.gif
+vm$ 
+</code></pre>
+<p>If the file <em>does</em> exist, then its contents will be "truncated" before writing.
+The file's original contents will be completely replaced by the output from the
+new command.</p>
+<pre><code class="language-terminal">vm$ echo 'My feline gifs:' > feline-gifs.txt
+vm$ find gifs -name \*cat\* >> feline-gifs.txt
+vm$ find gifs -name \*kitten\* >> feline-gifs.txt
+vm$ cat feline-gifs.txt
+gifs/winter/cat-in-snow.gif
+gifs/lunchtime/cat-eating-sandwhich.gif
+gifs/travel/airplane-pilot-is-a-cat.gif
+gifs/sports/kitten-foosball.gif
+vm$ 
+</code></pre>
+<p>The shell also supports <em>appending</em> to existing files. If we set up output
+redirection using the character sequence <code>>></code>, then the output from the new
+command will be added to the end of the file.</p>
+<pre><code class="language-terminal">vm$ node --version >> my-bug-report.txt
+vm$ npm --version >> my-bug-report.txt
+vm$ grunt --version >> my-bug-report.txt
+vm$ cat my-bug-report.txt
+v5.3.0
+3.3.12
+grunt-cli v0.1.13
+vm$ 
+</code></pre>
+<p>Output redirection is great for troubleshooting and diagnostics because it lets
+you capture the state of your system at one moment in time so that you can
+share it with others.</p>
+<h1>Output</h1>
+<h2>Standard Error</h2>
+<pre><code class="language-terminal">vm$ ls /home /root
+/home:
+vagrant
+ls: cannot open directory /root: Permission denied
+vm$ 
+</code></pre>
+<p>When most programs wish to communicate information about a problem, they write
+that information to the "standard error" stream instead of standard out. This
+distinction is easy to miss because shells commonly interleave the two streams.</p>
+<p>In this example, some of the text (the listing for the <code>/home</code> directory) is
+the expected output. This is being written to standard out. The text describing
+the permissions error is actually being printed to a separate stream--standard
+error.</p>
+<pre><code class="language-terminal">vm$ cat stdio-mux.txt
++---- ls ----+                +- Terminal -+     +- Display -+
+|   /home    | --> stdout --> | ---------> | --> |   /home   |
+|   error!   | --> stderr --> | ---------> | --> |   error!  |
++------------+                +------------+     +-----------+
+                                                  \           \
+                                                   +-----------+
+vm$ 
+</code></pre>
+<p>Because the shell processes both streams in the same way, we cannot see the
+difference in this case.</p>
+<pre><code class="language-terminal">vm$ ls /home /root > o.txt
+ls: cannot open directory /root: Permission denied
+vm$ cat o.txt
+/home:
+vagrant
+vm$ 
+</code></pre>
+<p>It's not until we begin manipulating the streams' destinations that we can
+observe this detail.</p>
+<p>Although we are redirecting standard out to a file in this example, the text
+describing the error is still being printed to the screen.</p>
+<pre><code class="language-terminal">vm$ cat stdio-demux-out.txt
+                                                 +-- o.txt --+
+                           .-------------------> |   /home   |
+                           |                     +-----------+
+                           |
++ ls > o.txt +             |  +- Terminal -+     +- Display -+
+|   /home    | --> stdout -'  |            |     |   error!  |
+|   error!   | --> stderr --> | ---------> | --> |           |
++------------+                +------------+     +-----------+
+                                                  \           \
+                                                   +-----------+
+vm$ 
+</code></pre>
+<p>This is because the redirection <em>only</em> effects the standard output stream. The
+standard error stream continues to flow to the terminal.</p>
+<h1>Redirecting Standard Error</h1>
+<p><img src="detour.jpg" alt="Detour"></p>
+<p>"<a href="https://www.flickr.com/photos/bionicteaching/14586204543/">Detour</a>" by <a href="https://www.flickr.com/photos/bionicteaching/">Tom
+Woodward</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC
+BY-SA 2.0</a></p>
+<p>Although the distinction can be surprising at first, it enables information
+filtering that would otherwise be impossible. We can "pick out" <em>just</em> the text
+that describes errors and redirect it to some other location. Of course, we'll
+need to learn a little more syntax first.</p>
+<pre><code class="language-terminal">vm$ ls /home /root 2> e.txt
+/home:
+vagrant
+vm$ cat e.txt
+ls: cannot open directory /root: Permission denied
+vm$ 
+</code></pre>
+<p>If a command is followed by the character sequence <code>2></code> and a path to a file,
+then the standard error stream will be redirected to that file.</p>
+<pre><code class="language-terminal">vm$ cat stdio-demux-err.txt
+
++ ls 2> e.txt +                +- Terminal -+     +- Display -+
+|   /home     | --> stdout --> | ---------> | --> |   /home   |
+|   error!    | --> stderr -.  |            |     |           |
++-------------+             |  +------------+     +-----------+
+                            |                      \           \
+                            |                       +-----------+
+                            |                     +-- e.txt --+
+                            '-------------------> |   error!  |
+                                                  +-----------+
+vm$ 
+</code></pre>
+<p>In this case, we still see some text printed to the terminal because we've only
+redirected the standard error stream.</p>
+<pre><code class="language-terminal">vm$ ls /home /root 2> e.txt > o.txt
+vm$ cat o.txt
+/home:
+vagrant
+vm$ cat e.txt
+ls: cannot open directory /root: Permission denied
+vm$ 
+</code></pre>
+<p>We can use both output redirection mechanisms at the same time if we wish. In
+this case, the order we specify the redirection targets does not matter.</p>
+<pre><code class="language-terminal">vm$ cat stdio-demux-both.txt
+                                              +-- o.txt --+
+                           .----------------> |   /home   |
+                           |                  +-----------+
+ ls > o.txt \              |
++   2> e.txt +             |  +- Terminal -+  +- Display -+
+|   /home    | --> stdout -'  |            |  |           |
+|   error!   | --> stderr -.  |            |  |           |
++------------+             |  +------------+  +-----------+
+                           |                   \           \
+                           |                    +-----------+
+                           |                  +-- e.txt --+
+                           '----------------> |   error!  |
+                                              +-----------+
+vm$ 
+</code></pre>
+<p>In this case, we are completely bypassing the terminal.</p>
+<pre><code class="language-terminal">vm$ ls /home /root > t.txt 2>&#x26;1
+vm$ cat t.txt
+/home:
+vagrant
+ls: cannot open directory /root: Permission denied
+vm$ 
+</code></pre>
+<p>Sometimes, we might want to redirect both streams to the same file. We can't
+specify the same file for both redirections because both would attempt to
+"truncate," and only one could be successful.</p>
+<p>Instead, we can use the special <code>2>&#x26;1</code> shorthand which means, "redirect
+standard error to the same location as standard output."</p>
+<pre><code class="language-terminal">vm$ ls /home /root 2>&#x26;1 > t.txt
+ls: cannot open directory /root: Permission denied
+vm$ cat t.txt
+/home:
+vagrant
+vm$ 
+</code></pre>
+<p>Be careful, though! The terminal applies the operators from left to right, so
+their order matters when using the <code>2>&#x26;1</code> shorthand. If we specified the two
+redirections in reverse, the result wouldn't match what we want:</p>
+<ol>
+<li>
+<p>(initial state)</p>
+<ul>
+<li><code>ls</code> standard output -> terminal standard output</li>
+<li><code>ls</code> standard error -> terminal standard error</li>
+</ul>
+</li>
+<li>
+<p>(applying <code>2>&#x26;1</code>)</p>
+<ul>
+<li><code>ls</code> standard output -> terminal standard output</li>
+<li><code>ls</code> standard error -> terminal standard output (because this is the
+destination of <code>ls</code>'s standard output at this moment)</li>
+</ul>
+</li>
+<li>
+<p>(applying <code>> t.txt</code>)</p>
+<ul>
+<li><code>ls</code> standard output -> <code>t.txt</code> file</li>
+<li><code>ls</code> standard error -> terminal standard output</li>
+</ul>
+</li>
+</ol>
+<h1>Output</h1>
+<h2>Exit status</h2>
+<p>As we've seen, a process can terminate for any number of reasons. In the ideal
+cases, processes end because they have successfully "done their job" and have
+nothing further to do. In reality, processes are often prevented from
+completing their intended purpose.</p>
+<pre><code class="language-terminal">vm$ cat .
+cat: .: Is a directory
+vm$ 
+</code></pre>
+<p>We've been discussing one way processes communicate this distinction: they
+often output different information to the standard output stream and the
+standard error stream. This allows programs to describe what went wrong in
+plain English.</p>
+<pre><code class="language-terminal">vm$ cat .
+cat: .: Is a directory
+vm$ less .
+. is a directory
+vm$ 
+</code></pre>
+<p>But programs may vary slightly in the way they communicate the same errors.</p>
+<p>For example, the commands <code>cat</code> and <code>less</code> are both designed to work with files
+and not with directories. Both commands report an error when they are invoked
+with the name of a directory, but the way they describe the problem is subtly
+different.</p>
+<p>Just remember: the word "standard" in "standard error" describes the stream but
+<em>not</em> its contents.</p>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally
+vm$ echo $?
+0
+vm$ $ rm ..
+rm: cannot remove ‘..’: Is a directory
+vm$ echo $?
+1
+vm$ 
+</code></pre>
+<p>When a process completes, it emits a number that describes the conditions that
+caused it to end. This is known as the "exit status." We can access the exit
+status of the previous command with the special variable named <code>$?</code>.</p>
+<p>A status of <code>0</code> signifies "the process completed normally." Any other value
+indicates that there was an error.</p>
+<p>This number is not nearly as descriptive as the text written to the standard
+error stream...</p>
+<pre><code class="language-terminal">vm$ cat .
+cat: .: Is a directory
+vm$ echo $?
+1
+vm$ less .
+. is a directory
+vm$ echo $?
+1
+vm$ 
+</code></pre>
+<p>...but it is far more consistent. <code>cat</code> and <code>less</code> may describe the "unexpected
+directory" problem with different text, but they both report the same exit
+status.</p>
+<p>This makes some intuitive sense; as an integer value, there is less room for
+different "phrasings" between programs.</p>
+<pre><code class="language-terminal">vm$ sleep notanumber
+sleep: invalid time interval ‘notanumber’
+vm$ echo $?
+1
+vm$ sleep 100
+&#8203;^C
+vm$ echo $?
+130
+vm$ 
+</code></pre>
+<p>The value <code>1</code> is the most common exit status for errors; many applications
+treat it as a "catch all" for any error. However, programs may use other
+non-zero values to communicate more fine-grained information about the error.</p>
+<p>In this example, <code>sleep</code> reports an exit status of <code>1</code> for faulty input and a
+exit status of <code>130</code> when it is interrupted by a signal.</p>
+<p>For humans typing commands into the terminal and reading the output, the
+regularity of exit statuses is a poor substitute for the expressiveness of the
+standard output streams. As we'll see in <a href="../process-combination">Chapter 12 - Process Combination</a>, this
+communication channel is much more useful within shell scripts.</p>
+<pre><code class="language-terminal">vm$ cat .
+cat: .: Is a directory
+vm$ echo $?
+1
+vm$ echo $?
+0
+vm$ 
+</code></pre>
+<p>One final caveat: don't forget that <code>echo</code> is itself a program! When we use it
+to inspect the value of the <code>$?</code> variable, we're also causing the shell to
+overwrite that value.</p>
+<pre><code class="language-terminal">vm$ cat .
+cat: .: Is a directory
+vm$ catresult=$?
+vm$ echo $catresult
+1
+vm$ echo $?
+0
+vm$ echo $catresult
+1
+vm$ 
+</code></pre>
+<p>If we need to re-use a process's exit status, we'll have to store it in a
+variable immediately after that process completes. Subsequent processes may
+change the value of the <code>$?</code> variable, but the variable we created won't be
+affected.</p>
+<h1>In Review</h1>
+<p>Processes have access to four common input channels:</p>
+<ul>
+<li>Options (specified once during creation)</li>
+<li>Environment variables (specified once during creation)</li>
+<li>Standard input stream</li>
+<li>Signals</li>
+</ul>
+<p>Processes have have access to three common output channels:</p>
+<ul>
+<li>Standard output stream</li>
+<li>Standard error stream</li>
+<li>Exit status (specified once when ending)</li>
+</ul>
+<p>Although a program may be written to use any number of additional input/output
+channels.</p>
+
+
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

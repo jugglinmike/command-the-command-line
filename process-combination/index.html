@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Process Combination</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part III - Improving Your Workflow</h2>
+		<h3>Process Combination</h3>
+
+		<p>Unix-like systems provide a number of facilities for composing processes. As
+we'll see, this makes it possible to break down complex problems into distinct
+pieces and then solve each part with generic utilities.</p>
+<pre><code class="language-terminal">vm$ cat process-wiring.txt
+Process A                                         Process B
++----------------+                +-----------------------+
+|     (outputs)  |                |   (inputs)            |
+|   standard out O---         --> O arguments             |
+|                |   \       /    |                       |
+| standard error O----+-----+---> O environment variables |
+|                |   /       \    |                       |
+|    exit status O---         --> O standard input        |
+|                |                |                       |
++----------------+                +-----------------------+
+vm$ 
+</code></pre>
+<p>We're going to learn how we can "wire together" processes, drawing on our
+understanding of input and ouput from <a href="../process-bounds">Chapter 11 - Process Boundaries</a>.</p>
+<h1>Capturing Output with Command Substitution</h1>
+<pre><code class="language-terminal">vm$ cat process-wiring-cmd-sub.txt
+Process A                                         Process B
++----------------+                +-----------------------+
+|     (outputs)  |                |   (inputs)            |
+|   standard out O---         --> O arguments             |
+|                |   \       /    |                       |
+| standard error O----+-----+---> O environment variables |
+|                |                |                       |
+|                O                O                       |
+|                |    command     |                       |
++----------------+  substitution  +-----------------------+
+vm$ 
+</code></pre>
+<p>Command substitution is a technique that allows us to capture the data a
+process writes to standard output.</p>
+<pre><code class="language-terminal">vm$ user=`whoami`
+vm$ echo $user
+vagrant
+vm$ user=`sudo whoami`
+vm$ echo $user
+root
+vm$ 
+</code></pre>
+<p>By using the backtick character, we can place commands in locations that up to
+now, we have only placed values. Before executing the "outer" command, the
+shell will intervene by creating new process for the "nested" command. It will
+gather up all the data the "nested" process writes to the standard output
+stream, and when the process exits, it will insert that data in the place of
+the nested command.</p>
+<pre><code class="language-terminal">vm$ find /media/shared -user `whoami`
+/media/shared/music/Cake - You Part the Waters.mp3
+/media/shared/movies/The Royal Tenenbaums.mkv
+vm$ find /media/shared -user `sudo whoami`
+/media/shared/documents/boring-admin-protocol.txt
+/media/shared/documents/usage-statistics.txt
+vm$ 
+</code></pre>
+<p>We're not limited to variable assignment, either. We can use this syntax to
+feed the output of one command into the options of another.</p>
+<pre><code class="language-terminal">vm$ wc `find /media/documents -user `sudo whoami``
+find: missing argument to `-user'
+wc: sudo: No such file or directory
+wc: whoami: No such file or directory
+vm$ 
+</code></pre>
+<p>On rare occassion, you may need to use a command substitution within another
+command substitution. In these cases, the backtick character can't help us.</p>
+<p>The terminal interprets the command in this example by reading from
+left-to-right:</p>
+<ul>
+<li>the command <code>wc</code></li>
+<li>the command <code>find /media/documents -user</code> (which produces the first error)</li>
+<li>the options 'sudo whoami' (which are passed to <code>wc</code>, producing the second and
+third error)</li>
+<li>an empty command</li>
+</ul>
+<pre><code class="language-terminal">vm$ wc $(find /media/documents -user $(sudo whoami))
+  90  510 2816 /media/shared/documents/boring-admin-protocol.txt
+  29  174  839 /media/shared/documents/usage-statistics.txt
+ 119  684 3655 total
+vm$ 
+</code></pre>
+<p>In cases like these, we'll want to use an alternate syntax for command
+substition: the sequence <code>$(</code> to "open" the nested command, and the "close
+parenthsis" character (<code>)</code>) to "close" it.</p>
+<p>Nesting works as intended because the difference in the "open" and "close"
+sequences avoids the ambiguity of backticks.</p>
+<p>Generally, it's a good idea to stick to this slightly more verbose syntax, even
+when you aren't nesting. This makes it easier to re-factor and re-use commands
+later. You'll find examples of both approaches on the web, so it's important to
+be aware of each of them.</p>
+<h1>Forwarding Exit Status Codes</h1>
+<pre><code class="language-terminal">vm$ cat process-wiring-logical.txt
+Process A                                         Process B
++----------------+                +-----------------------+
+|     (outputs)  |                |   (inputs)            |
+|                O            --> O arguments             |
+|                |           /    |                       |
+|                O    +-----+---> O environment variables |
+|                |   /            |                       |
+|    exit status O---             O                       |
+|                | logical cntrl  |                       |
++----------------+   operators    +-----------------------+
+vm$ 
+</code></pre>
+<p>We actually already discussed the most direct means of capturing process exit
+status--the <code>$?</code> variable.</p>
+<p>Admittedly, the contents of the standard output and standard error streams are
+usually more helpful than exit codes for human users. In <a href="../scripting">Chapter 13 - Scripting</a>,
+we'll see how this value is essential to controlling execution flow while
+automating tasks.</p>
+<h1>Connecting Streams with Pipes</h1>
+<pre><code class="language-terminal">vm$ cat process-wiring-pipes.txt
+Process A                                         Process B
++----------------+                +-----------------------+
+|     (outputs)  |                |   (inputs)            |
+|   standard out O---             O                       |
+|                |   \            |                       |
+| standard error O----+-----+     O                       |
+|                |           \    |                       |
+|                O            --> O standard input        |
+|                |                |                       |
++----------------+     pipes      +-----------------------+
+vm$ 
+</code></pre>
+<p>In Unix-like systems, the word "pipe" describes a connection between the output
+of one process with the input of another. This extends the anology of data
+"streams"--just as in the physical sense of the terms, a Unix pipe can direct
+the flow of a stream between two places.</p>
+<pre><code class="language-terminal">vm$ grep papayawhip src/style.css | wc -l
+2
+vm$ 
+</code></pre>
+<p>The standard output of one process can be "piped" into the standard input of
+another by separating two commands with a veritcal bar character (<code>|</code>). The
+entire string of commands is known as a "pipeline."</p>
+<p>This example uses <code>grep</code> to locate all the lines in a file that contain the
+text <code>z-index</code>, forwarding the result to the <code>wc</code> program, which (thanks to the
+<code>-l</code> option) counts the number of lines.</p>
+<pre><code class="language-terminal">vm$ cat src/style.css | grep papayawhip | wc -l
+2
+vm$ 
+</code></pre>
+<p>Pipelines may contain any number of separate commands.</p>
+<p>We can extend the previous pipeline by first reading the file using <code>cat</code>.
+Although <code>grep</code> happens to have the ability to read files directly, it can also
+operate on the standard input stream. This usage make's <code>grep</code>'s role as a
+"filter" more clear.</p>
+<pre><code class="language-terminal">vm$ cat pipeline.txt
++------------------------+     +---------------------+      +-------+
+|   cat src/style.css    | +-> |   grep papayawhip   |  +-> | wc -l |
++------------------------+ |   +---------------------+  p   +-------+
+         |                 p             |              i       |
+         v                 i             v              p       v
+body {                     p   color: papayawhip;       e   2
+  color: papayawhip;       e   background: papayawhip; -+
+}                          |
+header {                  -+
+  background: papayawhip;
+  color: #333;
+}
+vm$ 
+</code></pre>
+<p>Pipelines are a powerful way to apply the various "filtering" utilities. <code>wc</code>
+is built without any knowledge of <code>grep</code>--it only operates on the input stream
+it is provided. More importantly, understanding <code>wc</code> does not require
+understanding <code>grep</code>, meaning that you can learn and incorporate new tools
+slowly over time.</p>
+<h1>Gathering Streams Into Options</h1>
+<pre><code class="language-terminal">vm$ cat process-wiring-pipes-and-xargs.txt
+Process A                                         Process B
++----------------+                +-----------------------+
+|     (outputs)  |                |   (inputs)            |
+|   standard out O---         --> O arguments             |
+|                |   \       /    |                       |
+| standard error O----+-----+     O                       |
+|                |                |                       |
+|                O                O                       |
+|                |                |                       |
++----------------+ pipes + xargs  +-----------------------+
+vm$ 
+</code></pre>
+<p>Sometimes we'd like use the contents of the standard output stream as an option
+for another command.</p>
+<pre><code class="language-terminal">vm$ find documents -type f -newermt 'last week'
+documents/year plan.odf
+documents/questionnaire.odf
+vm$ 
+</code></pre>
+<p>Since <code>find</code> is built to locate files and write their names to standard output,
+it is commonly used in this way. Here, we're using the utility to find all the
+files within the <code>documents/</code> directory that have been changed in the past
+week.</p>
+<pre><code class="language-terminal">vm$ find documents -type f -newermt 'last week' | sed 's/hot dog/banana/g'
+documents/year plan.txt
+documents/questionnaire.txt
+vm$ 
+</code></pre>
+<p>If we wanted to replace words in just those files, a pipe on its own wouldn't
+help us. This command attempts to replace the words in the list of file names,
+not the content of the files.</p>
+<pre><code class="language-terminal">vm$ find documents -type f -newermt 'last week' | cat | sed 's/hot dog/banana/g'
+# Year plan
+
+January: learn to use the Terminal
+Februrary: eat 50 bananas
+</code></pre>
+<p>Inserting <code>cat</code> in the pipeline partially solves the problem. Now <code>sed</code>
+receives a stream containing the contents of the files, and it replaces the
+text as specified.</p>
+<p>The problem is the format of the result. We end up with a single stream of text
+on standard output. The original files are unmodified, and there is no good way
+to split the output back into separate pieces.</p>
+<p>We really need to provide <em>files</em> to <code>sed</code> in this case (not a stream), because
+we want to modify each source file in-place.</p>
+<pre><code class="language-terminal">vm$ sed -i 's/hot dog/banana/g' $(find documents -type f -newermt 'last week')
+sed: can't read documents/year: No such file or directory
+sed: can't read plan.txt: No such file or directory
+vm$ sed -i 's/hot dog/banana/g' documents/year plan.txt documents/questionnaire.txt
+sed: can't read documents/year: No such file or directory
+sed: can't read plan.txt: No such file or directory
+vm$ 
+</code></pre>
+<p>We might be tempted to use command substitution for this task. This approach
+works in some cases, but it falls apart if any of the files contain white
+space. The <code>sed</code> program receives a list of options, but the fact that one of
+the spaces is part of a file name (and <em>not</em> a separator) is lost.</p>
+<p>If you are sure that all the possible files have "normal" names, then command
+substitution is perfectly acceptable. In other cases, though, a more robust
+approach is necessary.</p>
+<h1><code>xargs</code></h1>
+<h2>Build commands from standard input</h2>
+<pre><code class="language-terminal">vm$ man xargs
+XARGS(1)              General Commands Manual              XARGS(1)
+
+NAME
+       xargs - build and execute command lines from standard input
+
+Manual page xargs(1) line 1 (press h for help or q to quit)
+</code></pre>
+<p>The <code>xargs</code> utility is designed for exactly this use case. It executes a
+command on our behalf by combining the options it receives with the standard
+input.</p>
+<pre><code class="language-terminal">vm$ find documents -type f -newermt 'last week' -print0 | xargs -0 sed -i 's/hot dog/banana/g'
+vm$ 
+</code></pre>
+<p>This command has become quite long!</p>
+<p>We've added <code>-print0</code> as a new option to the invocation of <code>find</code>. That new
+option instructs <code>find</code> to use the special "null byte" as a separator between
+files.</p>
+<p>We're piping this value into the new <code>xargs</code> utility. Note that we're
+specifying <code>-0</code> as an option for <code>xargs</code>. This means, "split the standard input
+into pieces for every 'null byte' character."</p>
+<h1>"I never want to type that again."</h1>
+<p><img src="sleeping-cat.jpg" alt="Cat sleeping on a computer keyboard"></p>
+<p>"<a href="https://www.flickr.com/photos/8256802@N06/4652972696/">Kuba sleeping on
+keyboard</a>" by <a href="https://www.flickr.com/photos/8256802@N06/">Stefan
+Zdzialek</a> is licensed under <a href="https://creativecommons.org/licenses/by-nd/2.0/">CC
+BY-ND 2.0</a></p>
+<p>The "robust" solution is admittedly a hassle to type. As noted earlier, if you
+are in control of the input files, and you consistently avoid names with
+special characters, then the more direct "command substitution" approach is
+fine.</p>
+<p>Thankfully, there are great methods for storing (and documenting) complex
+commands--we'll cover those in <a href="../scripting">Chapter 13 - Scripting</a>.</p>
+<p>The main takeaways from this final example are that output streams can be
+supplied as command options, and that <code>xargs</code> is available when the streams
+might contain special characters.</p>
+<h1>In Review</h1>
+<ul>
+<li>
+<p>Command substitution</p>
+<ul>
+<li>Purpose: capture the data a process writes to standard output</li>
+<li>Syntax: backticks (<code>`</code>) or dollar-sign-with-parenthesis (<code>$(</code>
+and <code>)</code>)</li>
+</ul>
+</li>
+<li>
+<p>Exit status codes</p>
+<ul>
+<li>Purpose: programatically determine whether a command succeeded or failed</li>
+<li>Syntax: the <code>$?</code> variable</li>
+</ul>
+</li>
+<li>
+<p>Pipes</p>
+<ul>
+<li>Purpose: connect the standard output stream of one process to the standard
+input stream of another</li>
+<li>Syntax: the vertical bar character (<code>|</code>)</li>
+</ul>
+</li>
+</ul>
+
+
+		<section>
+			<h3>Exercise</h3>
+			<ol>
+<li>
+<p>Use command substitution to list the contents of the directory that contains
+the <code>tree</code> utility. (Hint: you'll need a few new tools to do this; check out
+the man pages for <code>which</code> and <code>dirname</code>.) Remember that the shell performs
+command substitution when it encounters either of two separate syntaxes. Try
+to express your solution in two forms--one for each syntax. Is it possible
+to write a solution that uses both syntaxes at the same time?</p>
+</li>
+<li>
+<p>The virtual machine includes a utility named <code>booboo</code> that simply writes a
+dynamic value to standard error.</p>
+<pre><code>vm$ booboo
+fe2c245c8cb742e854faef9b7a3970063583b5cd
+vm$ booboo
+e1f18ddfe4698796e2f3178ce92c131e06b3ccb0
+vm$
+</code></pre>
+<p>The virtual machine also includes a utility named <code>fixer</code> that expects to be
+invoked with the value from <code>booboo</code> as its only option.</p>
+<p>Can you satisfy <code>fixer</code> by using a pipe? What about by using command
+substitution?</p>
+</li>
+<li>
+<p>As we've seen, pipelines are a powerful way to "wire together" independent
+processes.</p>
+<pre><code>vm$ ls movies | grep squirrel
+movies/get-squirrely.mp4
+movies/squirrel-boy.mp4
+movies/squirrels.mp4
+</code></pre>
+<p>It's also possible to set up a similar "wiring" using only input
+and output redirection (i.e. without using the "pipe" operator). Do you know
+how this could be done? Are there any performance considerations to be made?</p>
+</li>
+</ol>
+
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			<ol>
+<li>
+<p>Let's break this down into parts:</p>
+<ol>
+<li>List the contents of some directory X.</li>
+<li>Find the directory name of some file Y.</li>
+<li>Find the path to the <code>tree</code> utility.</li>
+</ol>
+<p>To solve this, we'll need to start with the last step and work backwards:</p>
+<ul>
+<li>
+<p><strong>Find the path to the <code>tree</code> utility.</strong> The instructions mentioned a
+utility named <code>which</code>. The <code>man</code> page describes it tersely: "locate a
+command."</p>
+<pre><code>vm$ which tree
+/usr/bin/tree
+</code></pre>
+</li>
+<li>
+<p><strong>Find the directory name of some file Y.</strong> The instructions also
+mentioned a utility named <code>dirname</code>. The <code>man</code> page for this one is a
+little more descriptive: "strip last component from file name." We'll</p>
+<pre><code>vm$ dirname /usr/bin/tree
+/usr/bin
+</code></pre>
+</li>
+<li>
+<p><strong>List the contents of some directory X.</strong> The <code>ls</code> utility was one of the
+first we learned about--it lists directory contents.</p>
+<pre><code>vm$ ls /usr/bin
+</code></pre>
+</li>
+</ul>
+<p>We've technically found the solution, but the prompt requires that we use
+command substitution. We can re-write these three commands, feeing the
+output of one into the input of the text, as follows:</p>
+<pre><code>vm$ ls $(dirname $(which tree))
+</code></pre>
+<p>As discussed in this chapter, the shell will also expand commands we write
+within "backtick" characters (<code>`</code>), but we can't "nest" commands
+written that way. If really want to use it, we could split the command into
+separate variable assignments:</p>
+<pre><code>vm$ treepath=`which tree`
+vm$ treedir=`dirname $treepath`
+vm$ ls $treedir
+</code></pre>
+<p>Even though the command substitution syntax is shorter, using it here
+requires a lot more text. There are some merits to the longer form,
+though--here, the intermediate values are stored in variable names that may
+help the reader understand what is going on.</p>
+<p>The substitution operations are completely independent, so we can use both
+if we wish:</p>
+<pre><code>vm$ ls $(dirname `which tree`)
+vm$ ls `dirname $(which tree)`
+</code></pre>
+<p>...although it's not clear why this would be desirable.</p>
+</li>
+<li>
+<p>Whenever we want to use output of one process as the options to another, we
+should think of <code>xargs</code>. Because <code>booboo</code> writes to standard error, direct
+application won't work:</p>
+<pre><code>vm$ booboo | xargs fixer
+fe2c245c8cb742e854faef9b7a3970063583b5cd
+Expected exactly 1 argument but received 0.
+Usage: fixer "value-from-booboo"
+Invoke this program with the value that the 'booboo' program writes to the
+standard error stream.
+vm$
+</code></pre>
+<p>The first line of the output above is the value from the <code>booboo</code> process;
+this was written to the standard error stream, which was <em>not</em> redirected
+into the pipeline. <code>xargs</code>, receiving no input on its standard input stream,
+simply invoked <code>fixer</code> without any options.</p>
+<p>To correct this, we'll need to redirect <code>fixer</code>'s standard error stream
+before creating the pipeline:</p>
+<pre><code>vm$ booboo 2>&#x26;1 | xargs fixer
+You got it!
+</code></pre>
+<p>Using process substituion is also possible, but once again, we'll have to
+account for the source of the value--redirecting from standard error to
+standard output:</p>
+<pre><code>vm$ fixer $(booboo)
+fe2c245c8cb742e854faef9b7a3970063583b5cd
+Expected exactly 1 argument but received 0.
+Usage: fixer "value-from-booboo"
+Invoke this program with the value that the 'booboo' program writes to the
+standard error stream.
+vm$ fixer $(booboo 2>&#x26;1)
+You got it!
+vm$
+</code></pre>
+</li>
+<li>
+<p>In a previous chapter, we discussed redirecting input and output to a file.
+We can simulate a pipeline by writing one process's output stream to a file,
+and then using that file as the input stream for a subsequent process.</p>
+<pre><code>vm$ ls movies > movies.txt
+vm$ grep squirrel &#x3C; movies.txt
+movies/get-squirrely.mp4
+movies/squirrel-boy.mp4
+movies/squirrels.mp4
+</code></pre>
+<p>The end result is equivalent, but this approach is less efficient for a few
+reasons:</p>
+<ol>
+<li>Writing to a file involves transmitting data to the hard drive and
+waiting for the write operation to complete. Even with today's fancy
+solid state drives, this takes more time than a pipe (which buffers data
+in memory).</li>
+<li>The entire directory listing has to be created and stored before the
+<code>grep</code> operation can even begin. Directory listings are typically so
+small as to not present a problem, but this could be a more severe issue
+in other applications, where many gigabytes of data may pass through the
+stream.</li>
+</ol>
+</li>
+</ol>
+
+		</section>
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

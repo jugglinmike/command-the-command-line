@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Setup</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part I - Introduction</h2>
+		<h3>Setup</h3>
+
+		<p><img src="camera-assembly.jpg" alt="Disassembled camera"></p>
+<p>"<a href="https://www.flickr.com/photos/robert_r_gigliotti/14373883203/">Minolta 35mm
+camera</a>" by
+<a href="https://www.flickr.com/photos/robert_r_gigliotti/">Robert R Gigliotti</a> is
+licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">CC BY-NC-ND
+2.0</a></p>
+<p>In order to participate in the interactive exercises, some assembly is
+required.</p>
+<h1>Setup: Requirements</h1>
+<ul>
+<li>A computer running Microsoft Windows, Mac OSX, or GNU/Linux. The setup
+procedure requires administrative rights on this computer.</li>
+<li>An Internet connection</li>
+</ul>
+<h1>Setup: Procedure</h1>
+<ol>
+<li>
+<p>Download and install VirtualBox</p>
+<ul>
+<li>Freely available at <a href="https://www.virtualbox.org/">https://www.virtualbox.org/</a></li>
+<li>To verify: run the following command from a terminal window: <code>virtualbox --help</code> (this course expects version 4.3.36 or newer).</li>
+</ul>
+</li>
+<li>
+<p>Download and install Vagrant</p>
+<ul>
+<li>Freely available at <a href="https://www.vagrantup.com/">https://www.vagrantup.com/</a></li>
+<li>To verify: run the following command from a terminal window: <code>vagrant --version</code> (this course expects version 1.7.2 or newer).</li>
+</ul>
+</li>
+<li>
+<p>Download and create the virtual environment for this course</p>
+<ul>
+<li>Create a new directory for this course</li>
+<li>
+<p>Run the following commands from a terminal window:</p>
+<ul>
+<li><code>vagrant init http://boxes.bocoup.com/command-the-command-line.box</code></li>
+<li><code>vagrant up</code></li>
+</ul>
+</li>
+<li>To verify: run the following command from a terminal window: <code>vagrant status</code> (it should report, "The VM is running.")</li>
+</ul>
+</li>
+</ol>
+
+
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

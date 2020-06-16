@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>A Brief History of Unix</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part I - Introduction</h2>
+		<h3>A Brief History of Unix</h3>
+
+		<p>From Ubuntu to macOS, many popular operating systems are derived from a
+movement that began in the 1960's. To best understand today's systems, we
+should begin by reviewing the circumstances that brought all this about.</p>
+<h1>MULTICS</h1>
+<p><img src="stonehenge.jpg" alt="A photograph of Stonehenge"></p>
+<p>"<a href="https://www.flickr.com/photos/slilin/22247144269/">The "Stone"</a> by
+<a href="https://www.flickr.com/photos/slilin/">Slilin</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">CC BY-NC-ND
+2.0</a></p>
+<p>In 1964, AT&#x26;T, General Electric, and MIT collaborated on a "time-sharing"
+operating system. This kind of operating system uses multitasking to rapidly
+switch between processes running in parallel, allowing multiple people to work
+simultaneously using remote terminals. That feature was built in to the core
+architecture, and in <a href="../users-and-groups">Chapter 16 - Users and Groups</a>, we'll see how it persists
+today.</p>
+<h1>Bell Labs, 1970</h1>
+<p><img src="bell-labs.jpg" alt="AT&#x26;T Bell Labs"></p>
+<p>"<a href="https://www.flickr.com/photos/sodapop81/2412025709/">Bell Labs - Eero
+Saarinen</a>" by <a href="https://www.flickr.com/photos/sodapop81/">s o d a p o
+p</a> is licensed under <a href="https://creativecommons.org/licenses/by-nd/2.0/">CC BY-ND
+2.0</a></p>
+<p>The team at AT&#x26;T's Bell Labs decided to start from scratch on a new project
+with similar goals but a smaller scope. The result was the first version of the
+Unix operating system.</p>
+<p>The system was modified to run on various machines, first within Bell Labs,
+then at various universities, and then (under software licensing agreements) to
+commercial workstation manufacturers.</p>
+<h1>The Unix Wars</h1>
+<p>The differences between these modified versions of Unix affected the way that
+programmers wrote application code. A program written for one "flavor" of Unix
+might not work on another.</p>
+<p>This situation caused many to call for a formal standard. Each workstation
+manufacturer had a vested interest in their particular version to be recognized
+as the standard implementation. This led to overt competition between the
+manufacturers, each vying for industry recognition.</p>
+<h1>Standardization</h1>
+<p>Over the course of many years, vendors formed two separate open standards
+groups. These groups ultimately joined to become the Common Open Software
+Environment alliance. They produced a standard for a set of utilities and
+programming interfaces named POSIX. Any system that adheres to this standard is
+today considered "a Unix."</p>
+<h1>"Unix-like"</h1>
+<p><img src="penguin.svg" alt="Linux Penguin"></p>
+<p>"<a href="http://www.home.unix-ag.org/simon/penguin/">Penguin</a>" by <a href="http://www.isc.tamu.edu/~lewing/">Larry
+Ewing</a> &#x26; <a href="https://github.com/garrett/Tux">Garrett
+LeSage</a> is licensed under
+<a href="http://creativecommons.org/publicdomain/zero/1.0/deed.en">CC0</a></p>
+<p>Meanwhile, the proprietary code in the Unix-derived BSD operating system was
+re-written, making it a completely standalone project. Separately, the Linux
+kernel was written from scratch and eventually incorporated into the GNU
+project to form the GNU/Linux operating system.</p>
+<p>While these systems generally target compatibility with the POSIX standard,
+they are not officially compliant. Because the name "Unix" is a trademark
+currently registered to the Open Group, these systems cannot be legally
+referred to as Unix implementations. So we use the term "Unix-like" or "*nix"
+to describe them.</p>
+<p><img src="unix-history.svg" alt="A diagram showing the key Unix and Unix-like operating systems"></p>
+<p>"<a href="https://en.wikipedia.org/wiki/File:Unix_history-simple.svg">Unix
+history-simple.svg</a>"
+by <a href="https://commons.wikimedia.org/wiki/User:Eraserhead1">Eraserhead1</a>,
+<a href="https://commons.wikimedia.org/wiki/User:Infinity0">Infinity0</a>, &#x26;
+<a href="https://commons.wikimedia.org/wiki/User:Sav_vas">Sav_vas</a> is licensed under
+<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></p>
+<p>The result is an ecosystem of platforms with intertwined histories and
+sometimes-incompatible features. Speaking *nix doesn't require familiarity
+with all the edges, but like any pidgin language, it benefits from some
+appreciation of the history. Hopefully this brief introduction has given you
+the context you'll need to appreciate the nuances of these systems.</p>
+
+
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Using Vagrant</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part I - Introduction</h2>
+		<h3>Using Vagrant</h3>
+
+		<blockquote>
+<p>Vagrant is a tool for building complete development environments. With an
+easy-to-use workflow and focus on automation, Vagrant lowers development
+environment setup time, increases development/production parity, and makes
+the "works on my machine" excuse a relic of the past.</p>
+</blockquote>
+<ul>
+<li><a href="https://www.vagrantup.com/">vagrantup.com</a></li>
+</ul>
+<p>In this course, we'll use a virtual machine to learn and experiment. This is a
+full operating system (sometimes called the "guest") that is completely
+isolated from the one that created it (e.g. your operating system, also known
+as the "host"). The virtual machine is provided by
+<a href="https://www.virtualbox.org/">VirtualBox</a>, and
+<a href="https://www.vagrantup.com/">Vagrant</a> lets us manage the machine with a few
+short commands.</p>
+<h1>Creating a virtual machine</h1>
+<pre><code class="language-terminal">pc$ vagrant up
+ 
+</code></pre>
+<p>When we run the command <code>vagrant up</code> from a directory that has a file
+<code>Vagrantfile</code>, a new virtual machine will be created for us.</p>
+<h1>Logging in to the virtual machine</h1>
+<pre><code class="language-terminal">pc$ vagrant ssh
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.4.0-37-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Tue Jun 16 20:55:12 UTC 2020
+
+  System load:  1.43              Processes:               120
+  Usage of /:   3.3% of 38.71GB   Users logged in:         0
+  Memory usage: 17%               IPv4 address for enp0s3: 10.0.2.15
+  Swap usage:   0%
+
+
+11 updates can be installed immediately.
+8 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+vm$ 
+</code></pre>
+<p>The command <code>vagrant ssh</code> will initiate an SSH connection to the "guest"
+environment. Because there are no security concerns for this environment,
+there's no need to worry about user names, passwords, or keys.</p>
+<h1>Get learnin'</h1>
+<pre><code class="language-terminal">vm$ echo Hello, world!
+Hello, world!
+vm$ exit
+pc$ 
+</code></pre>
+<p>Now you're ready to go! The <code>vm$</code> is your command prompt. This is where you
+enter instructions--we'll be doing a lot of that in the coming sections.</p>
+<p>When you want to log out of the virtual machine, type <code>exit</code> and press <code>Enter</code>.</p>
+<p>If you want to log back in (and the virtual machine is running), you can type
+<code>vagrant ssh</code> again.</p>
+<h1>When you're done (for the day)</h1>
+<pre><code class="language-terminal">pc$ vagrant halt
+ 
+</code></pre>
+<p><code>vagrant halt</code> will shut down the virtual machine. Virtual machines require a
+lot of system resources, so it's a good idea to run this command when you are
+done working. You can re-start the machine later with <code>vagrant up</code>.</p>
+<h1>When you're done (for good)</h1>
+<pre><code class="language-terminal">pc$ vagrant destroy
+    default: Are you sure you want to destroy the 'default' VM? [y/N] y
+==> default: Forcing shutdown of VM...
+==> default: Destroying VM and associated drives...
+==> default: Removing hosts
+==> default: Running cleanup tasks for 'shell' provisioner...
+pc$ 
+</code></pre>
+<p>Even when the virtual machine is shut down, it still takes up space on your
+hard drive. Use <code>vagrant destroy</code> when you don't need the environment anymore.</p>
+<h1>Live dangerously</h1>
+<pre><code class="language-terminal">pc$ vagrant up
+pc$ vagrant ssh
+vm$ bad --command "that really" messes-things.up
+vm$ echo Uh oh.
+Uh oh.
+vm$ exit
+pc$ vagrant destroy
+pc$ vagrant up
+ 
+</code></pre>
+<p>Don't be afraid to make mistakes. Even if things go <em>very</em> wrong, you are just
+two commands away from a completely fresh virtual machine: first <code>vagrant destroy</code>, then <code>vagrant up</code>.</p>
+<p><strong>Warning</strong> It can be easy to confuse the "guest" environment and the "host"
+environment from the terminal prompt. Always be sure that you know where your
+commands are going before you execute them! As demonstrated above, it's easy to
+recover from mistakes made in the guest environment. Mistakes made on your
+local environment may be much more difficult to fix.</p>
+
+
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

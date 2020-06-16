@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>The File System</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part II - Getting Your Bearings</h2>
+		<h3>The File System</h3>
+
+		<ul>
+<li>Your terminal is always located "inside" some directory on the file system.</li>
+<li>Your current location influences how many commands are interpreted, so it's
+important to know where you are!</li>
+<li>In this section, we'll cover a few tools to learn our location and move
+around.</li>
+</ul>
+<p><img src="papers-in-folder.jpg" alt="photograph of papers stacked within a folder"></p>
+<p>"<a href="https://www.flickr.com/photos/auxesis/2965102907/">Stacked papers in folder</a>"
+by <a href="https://www.flickr.com/photos/auxesis/">Lindsay Holmwood</a> is licensed under
+<a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>.</p>
+<p>The file system is defined by a hierarchy of "directories". A directory can
+contain any number of directories (known as "<strong>sub-directories</strong>"). For the
+most part, each directory is itself contained within exactly one directory;
+this is known as the "<strong>parent directory</strong>".</p>
+<p>These concepts are likely familiar because they are also featured in many GUI
+applications like Windows Explorer and Apple's Finder. The sample commands in
+this section will be be supported by recordings of equivalent operations
+performed with a graphical interface (specifically, <a href="http://live.gnome.org/Nautilus">the GNOME
+Files</a> file manager).</p>
+<pre><code class="language-terminal">Path:         /top-level/sub-directory/another directory!/
+              |         |             |                  |
+--------------+---------+-------------+------------------+
+              |         |             |                  |
+              |         |             |                  |
+Directories:   top-level              |                  |
+                         sub-directory                   |
+                                       another directory!
+</code></pre>
+<p>On Unix-like systems, the forward slash character (<code>/</code>) separates directory
+names. This means that the forward slash character cannot be used in a
+directory name, but everything else is fair game.</p>
+<p>The example above describes a path where <code>top-level</code> is a directory that
+contains <code>sub-directory</code>. Inside <code>sub-directory</code> is a third directory named
+<code>and another!</code> (yes: the name includes the space character and the exclamation
+mark).</p>
+<pre><code class="language-terminal">vm$ 
+</code></pre>
+<ul>
+<li>On the command line, though, it's not always clear where we are. </li>
+<li>By the way: in this course, we'll use the dollar sign (<code>$</code>) to indicate a
+command prompt.</li>
+<li>This notation is commonly used in software documentation, but it is only
+convention; there is nothing special about the dollar sign.</li>
+<li>Importantly, you should <em>not</em> include it when you copy commands from the web</li>
+<li>In any case, there are a few essential tools for getting our bearings.</li>
+</ul>
+<h1><code>pwd</code></h1>
+<h2>Print the current (i.e. "working") directory</h2>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally
+vm$ 
+</code></pre>
+<p>In a GUI:</p>
+<p><img src="gui-pwd.gif" alt="Using a graphical interface to see the current working directory"></p>
+<ul>
+<li>The <code>pwd</code> command writes the terminal's current directory to the screen.</li>
+<li>This is an acronym for "print working directory"</li>
+<li>This information is so important that many people customize their command
+prompt to include it. We'll discuss customization later.</li>
+<li>In this example, we are in the "<strong>home directory</strong>" of the user named
+"sally". The home directory is a location reserved for your user account (new
+terminal windows typically start here).</li>
+</ul>
+<h1><code>ls</code></h1>
+<h2>List directory contents</h2>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally
+vm$ ls
+my-amazing-subdirectory
+my-normal-file.txt
+vm$ 
+</code></pre>
+<p>In a GUI:</p>
+<p><img src="gui-ls-1.gif" alt="Using a graphical interface to see the contents of the current directory"></p>
+<ul>
+<li>The <code>ls</code> utility lists the contents of a directory--this includes files and
+sub-directories</li>
+<li>Without any arguments, it shows the content of the current directory</li>
+</ul>
+<pre><code class="language-terminal">vm$ ls my-amazing-subdirectory
+oh-boy-another-directory
+just-another-file.txt
+vm$ 
+</code></pre>
+<p>In a GUI:</p>
+<p><img src="gui-ls-2.gif" alt="Using a graphical interface to see the contents of some other directory"></p>
+<p>When invoked with a path to another directory, <code>ls</code> will display the contents
+of that directory.</p>
+<h1><code>cd</code></h1>
+<h2>Change directories</h2>
+<pre><code class="language-terminal">vm$ cd my-amazing-subdirectory
+vm$ pwd
+/home/sally/my-amazing-subdirectory
+vm$ 
+</code></pre>
+<p>In a GUI:</p>
+<p><img src="gui-cd-1.gif" alt="Using a graphical interface to move into a subdirectory"></p>
+<ul>
+<li><code>cd</code> allows us to move around inside the directory structure</li>
+<li><code>cd</code> stands for "change directory" and it accepts a path that is our
+destination</li>
+<li>In this example, we're moving to a subdirectory named
+<code>my-amazing-subdirectory</code>. The output of <code>pwd</code> changes to reflect this.</li>
+<li>Any guesses for what happens when we try to <code>cd</code> into a file?</li>
+</ul>
+<pre><code class="language-terminal">vm$ ls
+oh-boy-another-directory
+just-another-file.txt
+vm$ cd just-another-file.txt
+cd: just-another-file.txt: Not a directory
+vm$ cd this-directory-doesnt-exist
+cd: this-directory-doesnt-exist: No such file or directory
+vm$ 
+</code></pre>
+<p>In a GUI:</p>
+<p><img src="gui-cd-2.gif" alt="Using a graphical interface to move into a subdirectory of a subdirectory"></p>
+<p>Notice that we cannot move into a file or into a location that doesn't exist.</p>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally
+vm$ cd my-amazing-subdirectory/oh-boy-another-directory
+vm$ pwd
+/home/sally/my-amazing-subdirectory/oh-boy-another-directory
+vm$ 
+</code></pre>
+<p>...and as discussed earlier, the forward slash character (<code>/</code>) separates
+directory names.</p>
+<h1>Going <code>$HOME</code></h1>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally/my-amazing-subdirectory/oh-boy-another-directory
+vm$ cd ~
+vm$ pwd
+/home/sally
+vm$ cd ~/my-amazing-subdirectory/oh-boy-another-directory
+vm$ pwd
+/home/sally/my-amazing-subdirectory/oh-boy-another-directory
+vm$ 
+</code></pre>
+<p>The tilde character (<code>~</code>) is a shorthand for "my home directory." You don't
+have to use it all by itself; it can be used as part of a path, too.</p>
+<h1>Backing up</h1>
+<p><img src="stuck-car.jpg" alt="photograph of a car stuck in a snow bank"></p>
+<p>"<a href="https://www.flickr.com/photos/beigephotos/3663149/">Stuck Car</a>" by <a href="https://www.flickr.com/photos/beigephotos/">Michael
+Pereckas</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC
+BY-SA 2.0</a></p>
+<p>We've learned how to dive into a directory, but we're kind of stuck once we get
+there. Fortunately, there is a consistent method for referencing "the parent
+directory."</p>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally/my-amazing-subdirectory/oh-boy-another-directory
+vm$ cd ..
+vm$ pwd
+/home/sally/my-amazing-subdirectory
+vm$ 
+</code></pre>
+<p>In a GUI:</p>
+<p><img src="gui-cd-up.gif" alt="Using a graphical interface to move into the parent directory"></p>
+<p>Two period characters (<code>..</code>) signify "the directory above."</p>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally/my-amazing-subdirectory
+vm$ cd ../../sally
+vm$ pwd
+/home/sally
+vm$ 
+</code></pre>
+<p>This works just like any other directory name, so it can be used anywhere you
+can write a path.</p>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally
+vm$ cd ../..
+vm$ pwd
+/
+vm$ cd ..
+vm$ pwd
+/
+vm$ 
+</code></pre>
+<p>The hierarchy of files is sometimes referred to as a "tree" because of the way
+directories and sub-directories tend to "branch out" from the center. Continuing
+this metaphor, the top-most directory is commonly referred to as the <strong>root
+directory</strong>. We can't move any higher in the file system than the root.</p>
+<h1>Paths from the root? Absolutely!</h1>
+<p><img src="rooted-path.jpg" alt="photograph of a footpath with tree roots running through"></p>
+<p>"<a href="https://www.flickr.com/photos/devlon/24055969569/">rooted-path</a>" by
+<a href="https://www.flickr.com/photos/devlon/">Devlon Duthie</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc/2.0/">CC
+BY-NC 2.0</a>.</p>
+<p>Up until now, all the paths we've used have been based on the current working
+directory. When our current working directory was <code>/home</code>, then <code>cd sally</code>
+meant, "move to the directory named <code>sally</code> (inside of <code>/home</code>)." If we had
+started in the <code>/etc</code> directory, then the same command <code>cd sally</code> would have
+put us somewhere different: <code>/etc/sally</code>.</p>
+<p>It's also possible to write paths that describe the same location regardless of
+our current working directory.</p>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally
+vm$ cd /home
+vm$ pwd
+/home
+vm$ cd /home/sally/my-amazing-subdirectory
+vm$ pwd
+/home/sally/my-amazing-subdirectory
+vm$ 
+</code></pre>
+<p>A paths which begins with a forward slash character (<code>/</code>) is known as an
+"<strong>absolute path</strong>". It describes the same location regardless of where we are
+when we use it.</p>
+<h1><code>tree</code></h1>
+<h2>Display directories and their contents</h2>
+<pre><code class="language-terminal">vm$ tree
+.
+├── my-amazing-directory
+│   └── just-another-file.txt
+└── my-normal-file.txt
+
+1 directory, 2 files
+vm$ 
+</code></pre>
+<p><code>tree</code> is a powerful tool for visualizing files, directories, and their
+relationships. It uses a text-based "tree" diagram.</p>
+<p><code>tree</code> isn't included in all systems by default, so when you're working with a
+system outside of this course, you may need to install it yourself</p>
+<h1>Inspecting files</h1>
+<p><img src="not-legal-tender.jpg" alt="photograph of a dollar bill viewed under a magnifying glass"></p>
+<p>"<a href="https://www.flickr.com/photos/skycaptaintwo/3128797505/">Not legal tender</a>"
+by <a href="https://www.flickr.com/photos/skycaptaintwo/">skycaptaintwo</a> is licensed
+under <a href="https://creativecommons.org/licenses/by-nc/2.0/">CC BY-NC 2.0</a>.</p>
+<p>Directories are great for organization, but most of our work concerns files.
+Lets take a look at some tools for learning about files and their contents.</p>
+<h1><code>cat</code></h1>
+<h2>Display file contents (all at once)</h2>
+<pre><code class="language-terminal">vm$ ls
+oh-boy-another-directory
+just-another-file.txt
+vm$ cat just-another-file.txt
+This is the first line of just-another-file.txt
+This is the second line of the file!
+The file only has three lines, and this is the last one!
+vm$ 
+</code></pre>
+<ul>
+<li>The <code>cat</code> utility has a lot of uses (its name is short for "concatenate"),
+but the simplest use is for displaying file contents.</li>
+<li>One problem here is that all the content gets "dumped" to the screen. This
+means <code>cat</code> isn't very useful for files with more than a few lines.</li>
+</ul>
+<h1><code>less</code></h1>
+<h2>Display file contents (with navigation controls)</h2>
+<pre><code class="language-terminal">vm$ less a-longer-file.txt
+This is the content of a-longer-file.txt, but only
+just enough of it to fill the screen. You can use
+the "up" and "down" arrow keys in the terminal to
+scroll through the whole file. Press the `q` key
+to quit.
+</code></pre>
+<p>The <code>less</code> utility provides a way to review the contents of a large file. It
+has a lot of special controls, but the most important ones are:</p>
+<ul>
+<li>"Up" arrow key, "PageUp" key: scroll upwards</li>
+<li>"Down" arrow key, "PageDown" key: scroll downwards</li>
+<li><code>h</code> key: help</li>
+<li><code>q</code> key: exit</li>
+</ul>
+<h1><code>sort</code></h1>
+<h2>Re-order input</h2>
+<pre><code class="language-terminal">vm$ cat just-another-file.txt
+This is the first line of just-another-file.txt
+This is the second line of the file!
+The file only has three lines, and this is the last one!
+vm$ sort just-another-file.txt
+The file only has three lines, and this is the last one!
+This is the first line of just-another-file.txt
+This is the second line of the file!
+vm$ 
+</code></pre>
+<p>As you might expect from the name, the <code>sort</code> utility sorts its input by line
+and displays the result.</p>
+<h1>In Review</h1>
+<ul>
+<li>
+<p>Paths</p>
+<ul>
+<li>The forward slash character (<code>/</code>) is the path separator</li>
+<li>Two periods (<code>..</code>) denote "the parent directory"</li>
+<li>The "root" directory is the topmost directory on the file system; it's
+name is simply <code>/</code></li>
+<li>The tilde character (<code>~</code>) denotes "my home directory"</li>
+</ul>
+</li>
+<li>
+<p>Utilities</p>
+<ul>
+<li><code>pwd</code> - display the current directory ("<strong>p</strong>rint <strong>w</strong>orking
+<strong>d</strong>irectory")</li>
+<li><code>cd</code> - navigate to another directory ("<strong>c</strong>hange <strong>d</strong>irectory")</li>
+<li><code>ls</code> - <strong>l</strong>i<strong>s</strong>t contents</li>
+<li><code>cat</code> - display file contents ("con<strong>cat</strong>enate")</li>
+<li><code>less</code> - display file contents with controls</li>
+<li><code>sort</code> - re-order the lines of a file and display the results</li>
+<li><code>tree</code> - display files within a directory and its children in a visual manner</li>
+</ul>
+</li>
+</ul>
+
+
+		<section>
+			<h3>Exercise</h3>
+			<p>Yar! There be treasure in these parts, and now's the time to grab it!</p>
+<p>I see ya eyeing me wooden leg. You're right, I can't do this on me own. But
+lest ye be gettin' any ideas about taking off with that treasure yourself,
+remember I've got yer precious pet snail waiting in the galley. If I don't hear
+word from you by midnight, I'll be feasting on escargot. Well it's just the one
+animal, so not much of a feast, I suppose. It'll be mostly coconuts, like
+always. Listen, what I'm trying to say is I'm going to eat your snail, okay? So
+make it quick!</p>
+<p>Follow the instructions in <a href="../../vagrant">Chapter 3 - Using Vagrant</a> to get set up, then once you've
+connected with <code>vagrant ssh</code>, you'll find a directory named <code>island</code> in your
+"home" directory. Within that directory is a file named <code>turtle.txt</code>. Use <code>cat</code>
+to read the contents and get your next step.</p>
+
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			<ol>
+<li>
+<p>Use <code>cd</code> to move into the <code>island</code> directory.</p>
+<pre><code>vm$ cd island
+</code></pre>
+<p>Next, use <code>cat</code> to read the contents of <code>turtle.txt</code> (to "talk" with the
+turtle):</p>
+<pre><code>vm$ cat turtle.txt
+</code></pre>
+</li>
+<li>
+<p>The steps through the footpath are just directory names. Use <code>cd</code> to move
+through them:</p>
+<pre><code>vm$ cd footpath/right/straight/left/right
+</code></pre>
+<p>There is apparently a "sign" in this directory; we can "see" it using <code>ls</code>:</p>
+<pre><code>vm$ ls
+left  right  sign.txt  straight
+vm$
+</code></pre>
+<p>The file is named <code>sign.txt</code>. Use <code>cat</code> to read it:</p>
+<pre><code>vm$ cat sign.txt
+</code></pre>
+</li>
+<li>
+<p>In this context, we'll interpret "go back," to mean "move to the parent
+directory." We'll use <code>..</code> to express this. We have to do that twice, then
+travel into two <code>straight</code> directories:</p>
+<pre><code>vm$ cd ../../straight/straight
+</code></pre>
+<p>...and then read the <code>sign.txt</code> file there:</p>
+<pre><code>vm$ cat sign.txt
+</code></pre>
+</li>
+<li>
+<p>We'll "go to" the <code>$MAGIC_PORTAL</code> using <code>cd</code>:</p>
+<pre><code>vm$ cd $MAGIC_PORTAL
+</code></pre>
+</li>
+<li>
+<p>We're out of instructions, so we'll use <code>ls</code> to "look around":</p>
+<pre><code>vm$ ls
+</code></pre>
+<p>This reveals a file named <code>sand.txt</code>. Once again, <code>cat</code> will display its
+contents:</p>
+<pre><code>vm$ cat sand.txt
+</code></pre>
+</li>
+<li>
+<p>We can find the current directory using the <code>pwd</code> utility</p>
+<pre><code>vm$ pwd
+</code></pre>
+<p>Remember that the "forward slash" character (<code>/</code>) is the path separator,
+so we should note every digit that follows that character (and ignore the
+rest). We'll use <code>cd</code> to move to the appropriate sub-directory of the
+<code>/home/vagrant/island/cave</code> directory.</p>
+</li>
+<li>
+<p>We can "speak" to the cave dweller by reading the contents of the
+<code>cave-dweller</code> file:</p>
+<pre><code>vm$ cat cave-dweller
+</code></pre>
+</li>
+<li>
+<p>After moving to the forest:</p>
+<pre><code>vm$ cd ../../forest
+</code></pre>
+<p>We can inspect the contents with <code>ls</code>:</p>
+<pre><code>vm$ ls
+</code></pre>
+<p>Sure enough, there is a file named <code>inventory</code>. Use <code>cat</code> to read the
+contents:</p>
+<pre><code>vm$ cat inventory
+</code></pre>
+<p>We could find the last item by comparing them all ourselves, but we know
+that the <code>sort</code> tool will display a file's contents in sorted order:</p>
+<pre><code>vm$ sort inventory
+</code></pre>
+<p>The last item in that output is our next step.</p>
+</li>
+<li>
+<p>We'll use <code>cat</code> to read the contents of the item from the previous step.
+It looks like we need to find a file inside one of the "tree" directories.
+There's a lot of sub-directories there, and searching them one-by-one could
+take a long time. We should use <code>tree</code> to get a visual overview of the whole
+"forest" directory:</p>
+<pre><code>vm$ tree
+</code></pre>
+<p>Now it's clear where that file is. Based on the contents, this is the file
+we've been searching for, so we're done!</p>
+</li>
+</ol>
+
+		</section>
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Scripting</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part III - Improving Your Workflow</h2>
+		<h3>Scripting</h3>
+
+		<p>We've accumulated a lot of knowledge about process orchestration. Up to now,
+we've been entering each command into the terminal directly. While this is the
+best way to learn, it is not the way you will use these tools day-to-day.</p>
+<p>Unix provides powerful mechanisms for "scripting," or saving sets of
+instructions so they can be re-used concisely.</p>
+<p>This may sound a little stuffy, but it's actually only slightly different than
+the way we've been working so far. In this chapter, we'll begin to appreciate
+the power of a "text-only" interface: once you understand how to interact with
+the environment, automating your actions is trivial.</p>
+<h1>Our first script</h1>
+<pre><code class="language-terminal">vm$ echo pwd > my-script.sh
+vm$ bash my-script.sh
+/home/sally
+vm$ 
+</code></pre>
+<p>A shell script is nothing but a text file with a list of commands. Our very
+first script has single line: an invocation of the <code>pwd</code> directory. (In this
+example, we're creating the script file with <code>echo</code> for demonstration purposes;
+feel free to use a text editor if you prefer.)</p>
+<p>To run the script, we are providing it as an option to <code>bash</code>. Bash is a very
+common shell (in fact, it's the one we're using in this course's virtual
+environment). Other popular shells support this functionality, as well, but
+we'll stick with Bash because it is so widely available.</p>
+<p>Bash reads the content of the file and executes it line-by-line. As you can
+see, it connects the standard output to our terminal, so the output looks no
+different than it would if we had invoked <code>pwd</code> directly.</p>
+<pre><code class="language-terminal">vm$ mv my-script.sh my-script.mp3
+vm$ bash my-script.mp3
+/home/sally
+vm$ 
+</code></pre>
+<p>Note that the <code>.sh</code> suffix in the file name is entirely optional.
+POSIX-compliant systems do not interpret the "extension" during invocation.
+Even so, it's a good idea to use an appropriate extension because it's a hint
+for humans about how the file is intended to be used.</p>
+<h1>Ergonomics</h1>
+<p>This is technically all we need to get started writing scripts, but we can take
+a few more steps to make using the scripts more comfortable.</p>
+<pre><code class="language-terminal">vm$ ./my-script.sh
+bash: ./my-script.sh: Permission denied
+vm$ 
+</code></pre>
+<p>Ideally, we'd like to be able to run the script just like we've been running
+other commands--by referencing the file directly. To understand why this
+doesn't work, we'll need to discuss a new aspect of Unix files--file "modes".</p>
+<h1>File Modes</h1>
+<p>Every file on the file system has a set of permissions associated with it. This
+meta-data describes whether the file can be read, written, and executed as a
+command. (This description simplifies the topic a bit; see
+<a href="../users-and-groups">Chapter 16 - Users and Groups</a> for a more complete discussion.)</p>
+<p>Because we created the script file ourselves, it has the necessary permissions
+to allow us to open it and to change it. By default, though, it does <em>not</em>
+include the "execute" permission. This is why when we attempt to invoke it as
+though it were a command, the shell reports an error.</p>
+<p>Because executing a file can trigger any number of changes to the system, this
+"non-executable by default" behavior is a good safety mechanism. We definitely
+trust our own scripts, though, so we'll need to learn how to grant that
+permission.</p>
+<h1><code>chmod</code></h1>
+<h2>Change file "mode"</h2>
+<pre><code class="language-terminal">vm$ man chmod
+HMOD(1)                   User Commands                   CHMOD(1)
+
+NAME
+       chmod - change file mode bits
+vm$ 
+</code></pre>
+<p>The difficult-to-pronounce <code>chmod</code> utility is the tool we need here. Short for
+"<strong>ch</strong>ange <strong>mod</strong>e," <code>chmod</code> will allow us to enable the "execute" permission
+for the scripts we write.</p>
+<pre><code class="language-terminal">vm$ ./my-script.sh
+bash: ./my-script.sh: Permission denied
+vm$ chmod +x my-script.sh
+vm$ ./my-script.sh
+/home/sally
+vm$ 
+</code></pre>
+<p>The <code>+x</code> option instructs <code>chmod</code> to grant "execute" permission to the
+specified file. <code>+x</code> is actually a short code describing the way we want to
+change <em>all</em> the file's permissions. For our purposes in this chapter, it's
+enough to know that <code>+</code> means "add permissions" and <code>x</code> means "the
+'e<strong>x</strong>ecute' permission, specifically."</p>
+<p>For the rest of the course, we'll assume that any script we write has the
+"execute" permission.</p>
+<h1>The "Shebang"</h1>
+<pre><code class="language-terminal">vm$ cat my-script.sh
+#!/bin/bash
+
+pwd
+vm$ 
+</code></pre>
+<p>When we invoke our script, the program loader assumes that the script should be
+interpreted with our default shell (as mentioned earlier, this is Bash in this
+course's virtual environment). This is a valid assumption for the scripts we
+write ourselves and for the current system. However, another system may be
+configured to use a different shell by default. In that case, our script would
+be interpreted by that other shell, and there's no telling if it would work
+correctly there.</p>
+<p>Because we may want to share our scripts with others (or re-use them in
+different environments), we can't take the shell for granted. Ideally, we want
+to author our scripts in a way that is "portable" between users and systems.</p>
+<p>In order to ensure that the same shell is used across all environments, we
+specify the name of the shell at the top of the file. Note that this first line
+begins with a special character sequence: the "number" sign (<code>#</code>) followed by
+the exclamation point (<code>!</code>). This sequence is sometimes referred to as a
+"shebang."</p>
+<p>With those details out of the way, we can get back to writing scripts.</p>
+<h1>Readability</h1>
+<pre><code class="language-terminal">vm$ cat replace-dog.sh
+#!/bin/bash
+find documents -newermt 'last week' -print0 | xargs -0 sed -i 's/hot dog/banana/g'
+vm$ 
+</code></pre>
+<p>Lets start by making a script for the complex command from the end of
+<a href="../process-combination">Chapter 12 - Process Combination</a>.</p>
+<p>This script is functional, but it's a little difficult to read. Other people
+might have a hard time deciphering what is going on, and we ourselves might
+struggle if we revisit the file in a few months from today.</p>
+<p>It would be nicer if each command in the pipeline were on a separate line. This
+would prevent line wrapping, and would also help people see each processing
+"stage."</p>
+<pre><code class="language-terminal">vm$ cat replace-dog.sh
+#!/bin/bash
+find documents -type f -newermt 'last week' -print0 | \
+  xargs -0 \
+    sed -i 's/hot dog/banana/g'
+vm$ 
+</code></pre>
+<p>Now we can more clearly see that this command is actually composed of three
+separate operations: <code>find</code>, <code>xargs</code>, and <code>sed</code>. Each command is indented to
+further highlight this "nested" relationship.</p>
+<p>Notice how each line ends with a "backslash" character (<code>\</code>). This is critical
+because the shell would otherwise interpret the end of the line to mean the end
+of the command.</p>
+<p>A common mistake is to accidentally include white space <em>after</em> the backslash.
+The purpose of the backslash is to "escape" the "newline" character that
+follows it, so such whitespace will cause the shell to once again mis-interpret
+our intentions. If possible, consider configuring your text editor to display
+invisible characters like "space," and "tab."</p>
+<pre><code class="language-terminal">vm$ cat replace-dog.sh
+#!/bin/bash
+find documents -type f -newermt 'last week' -print0 | \
+  xargs --null \
+    sed --in-place 's/hot dog/banana/g'
+vm$ 
+</code></pre>
+<p><a href="../command-invocation">Chapter 6 - Command Invocation</a> described how some programs define both a "short"
+version and a "long" version of the same option. Until now, we've tended to
+prefer the "short" version because we've been typing everything into the
+command line. Now that we are saving the commands to a file, it makes sense to
+use the "long" version; this makes the commands a little more descriptive.</p>
+<pre><code class="language-terminal">vm$ cat replace-dog.sh
+#!/bin/bash
+
+# Replace the words "hot dog" with the word "banana" in
+# all documents modified during the past week.
+
+find documents -type f -newermt 'last week' -print0 | \
+  xargs --null \
+    sed --in-place 's/hot dog/banana/g'
+vm$ 
+</code></pre>
+<p>One more method to improve readability is documentation via comments.</p>
+<p>The "number sign" (<code>#</code>) designates the beginning of a comment; the shell
+ignores any text that follows it. Comments can be used to describe the overall
+behavior of the script or any specific command.</p>
+<h1>Control Flow</h1>
+<p><img src="railroad-switch.jpg" alt="Railroad switch"></p>
+<p>"<a href="https://www.flickr.com/photos/mtaphotos/7929850814/">Weekend work 2012-09-04
+22</a>" by <a href="https://www.flickr.com/photos/mtaphotos/">Metropolitan
+Transportation Authority of the State of New
+York</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC BY
+2.0</a></p>
+<p>Up until this point, we have been entering commands sequentially, interpreting
+standard output and standard error as we went. If some command failed, we would
+stop and modify our plan as necessary.</p>
+<p>Shell scripts do not require step-by-step verification by default. They will
+execute each command in series, usually faster than we can perceive. This is
+largely the point, but it forces us to be explicit about how exceptional
+circumstances should be handled.</p>
+<h1>Boolean Control Operators</h1>
+<h2>Logical "AND" via <code>&#x26;&#x26;</code></h2>
+<pre><code class="language-terminal">vm$ ls
+my-important-document.odf
+vm$ cd out &#x26;&#x26; rm -r *
+bash: cd: out: No such file or directory
+vm$ ls
+my-important-document.odf
+vm$ 
+</code></pre>
+<p>When commands are separated by two ampersand characters (as in <code>&#x26;&#x26;</code>), the shell
+will execute the first, but only execute the second if the return value of the
+first was <code>0</code>. This is useful when commands are tightly coupled.</p>
+<p>In this example, we want to delete <code>*</code> (the contents of the current directory)
+<em>only if</em> we have successfully moved into the <code>out/</code> directory. Without this
+condition, if the <code>cd</code> command failed, we would mistakenly delete everything in
+the current directory.</p>
+<p>When reading commands, this operator can be interpreted as the word "and," as
+in "change into the <code>out</code> directory <strong>and</strong> remove all the contents."</p>
+<h1>Boolean Control Operators</h1>
+<h2>Logical "OR" via <code>||</code></h2>
+<pre><code class="language-terminal">vm$ grep trousers journal/*
+vm$ echo $?
+1
+vm$ grep trousers journal/* || echo No mention of trousers >&#x26;2
+No mention of trousers
+vm$ 
+</code></pre>
+<p>The <code>||</code> operator allows for a command to be run only if the previous command
+returned a non-zero exit status.</p>
+<p>In this example, the <code>grep</code> utility fails to locate a match, and it does not
+output any data on either standard output or standard error. In a script, we
+might want to give some feedback about this case. We're taking advantage of the
+fact that <code>grep</code> exits with a status code of <code>1</code> under these conditions.</p>
+<p>When reading commands including this operator, the <code>||</code> can be interpreted as the
+word "or," as in, "Display all the occurrences of the word 'trousers,' <strong>or</strong>
+demonstrate our disappointment.'</p>
+<h1><code>exit</code></h1>
+<h2>Terminate the current process</h2>
+<pre><code class="language-terminal">vm$ cat bad.sh
+#!/bin/bash
+
+echo This command will always be executed.
+
+exit 23
+
+echo This command will never be executed.
+vm$ ./bad.sh
+This command will always be executed.
+vm$ echo $?
+23
+vm$
+</code></pre>
+<p>The <code>exit</code> command allows us to cancel the execution of the script before every
+command has been evaluated.</p>
+<pre><code class="language-terminal">vm$ cat applying-exit.sh
+#!/bin/bash
+
+mkdir out || exit 1
+
+cp src/* out
+
+echo The build process is now complete.
+vm$ ./applying-exit.sh
+mkdir: cannot create directory ‘out’: File exists
+vm$ echo $?
+1
+vm$ 
+</code></pre>
+<p>We've already seen how an unexpected condition can cause our script to behave
+in undesirable ways. Although the <code>&#x26;&#x26;</code> operator can help handle these cases, it
+is really only appropriate when we need to "skip" a single command.</p>
+<p>For larger scripts, it would be better if we could "bail out"--stop all work
+immediately and return a non-zero status code.</p>
+<p>This is where <code>exit</code> comes in to play. We can organize our script to call
+<code>exit</code> any time it encounters a exceptional condition, and we can be certain
+that no additional commands will be executed. On top of that, by observing the
+status code convention, any processes that invoked our script will be aware
+that something went wrong.</p>
+<h1>Writing complex branches with <code>if</code></h1>
+<pre><code class="language-terminal">vm$ cat first-if.sh
+#!/bin/bash
+
+if mkdir out
+then
+  cp src/* out
+  echo The build process is now complete.
+else
+  echo Unable to run build process. >&#x26;2
+  exit 1
+fi
+vm$ 
+</code></pre>
+<p>Our error handling abilities are improving, but we're still limited to
+executing a single command when something goes wrong. At the very least, we
+should output a non-zero exit code <em>and</em> write a meaningful message to standard
+error.</p>
+<p>We can use <code>if</code> to specify a list of commands to run based on some condition.
+It operates on process exit status, which may seem limiting at first glance. To
+see how this functionality actually enables expressive conditions, we'll have
+to learn about another utility.</p>
+<h1>Advanced conditions with <code>test</code></h1>
+<pre><code class="language-terminal">vm$ whoami
+vagrant
+vm$ test $(whoami) = root
+vm$ echo $?
+1
+vm$ test $(whoami) = vagrant
+vm$ echo $?
+0
+vm$ 
+</code></pre>
+<p><code>test</code> is a program that interprets the options we provide as logical
+operations, and it exits with a status code that reflects the result of the
+operation.</p>
+<pre><code class="language-terminal">vm$ test 3 -lt 4
+vm$ echo $?
+0
+vm$ test 3 -lt 2
+vm$ echo $?
+1
+vm$ 
+</code></pre>
+<p><code>test</code> has support ranging from numeric comparisons (such as <code>-lt</code> for <strong>l</strong>ess
+<strong>t</strong>han)...</p>
+<pre><code class="language-terminal">vm$ test -f not-a-file
+vm$ echo $?
+1
+vm$ test -f an-actual-file
+vm$ echo $?
+0
+vm$ 
+</code></pre>
+<p>...to file inspection (such as <code>-f</code> for <strong>f</strong>ile).</p>
+<p>We won't cover all the expressions that <code>test</code> supports--for that, please refer
+to the utility's <code>man</code> page.</p>
+<pre><code class="language-terminal">vm$ cat if-with-test.sh
+#!/bin/bash
+
+# Abort if an output directory already exists because
+# mixing content with a previous build could produce
+# unexpected results.
+if test -d out
+then
+  echo Unable to run build process. >&#x26;2
+  exit 1
+fi
+
+mkdir out
+cp src/* out
+echo The build process is now complete.
+vm$ 
+</code></pre>
+<p>The wide range of supported expressions make <code>test</code> a great companion to <code>if</code>.</p>
+<p>Unfortunately, the operators are somewhat terse, and there are no corresponding
+"extended forms." It's always possible to reference the <code>man</code> page (or memorize
+their meaning), but using code comments is probably the best way to clarify the
+script's intent.</p>
+<h1>Alternate paths with <code>if</code></h1>
+<pre><code class="language-terminal">vm$ cat if-else.sh
+#!/bin/bash
+
+# Ensure that an empty output directory exists
+if test -d out
+then
+  rm -r out/*
+else
+  mkdir out
+fi
+
+cp src/* out
+echo The build process is now complete.
+vm$ 
+</code></pre>
+<p>In the case that our branch ends with the <code>exit</code> command, we don't need to
+worry about the "negative" condition. But in many cases, we'll want to specify
+some other commands to run if the test fails. A corresponding <code>else</code> branch
+allows us to do exactly that.</p>
+<p>This is an example of how we can make our script more robust by responding
+gracefully to different conditions. If the <code>out</code> directory exists, we'll just
+make sure it is empty and continue on with the build process. We only need to
+create the directory if it doesn't already exist (in which case, we know it is
+empty).</p>
+<h1>Improving legibility with <code>[</code></h1>
+<pre><code class="language-terminal">vm$ cat if-else.sh
+#!/bin/bash
+
+# Ensure that an empty output directory exists
+if [ -d out ]
+then
+  rm -r out/*
+else
+  mkdir out
+fi
+
+cp src/* out
+echo The build process is now complete.
+vm$ 
+</code></pre>
+<p>We can express these same conditions using the "open bracket" character (<code>[</code>)
+and "close bracket" character (<code>]</code>).</p>
+<p>This form is equivalent to the earlier version using <code>test</code>. It visually mimics
+the syntax for <code>if</code> statements in other languages, so some people prefer it for
+aesthetic reasons. This is a personal choice, though it's good to be aware of
+it because many examples on the web make use of it.</p>
+<h1>The truth behind <code>[</code></h1>
+<pre><code class="language-terminal">vm$ which [
+/usr/bin/[
+vm$ [ 45 -lt 23 ]
+vm$ echo $?
+1
+vm$ 
+</code></pre>
+<p>Although <code>[</code> looks like syntax for the <code>if</code> statement, it is actually just
+another utility. We can invoke it directly and even reference its entry in the
+<code>man</code> pages. It is basically an alias for the <code>test</code> command we used
+previously; it just requires that the last option is the "close bracket"
+character (<code>]</code>).</p>
+<p>It's an odd name for a program, but recognizing this detail can make it easier
+to remember how it is used.</p>
+<h1>Variables: don't repeat yourself</h1>
+<pre><code class="language-terminal">vm$ cat if-else-vars.sh
+#!/bin/bash
+
+out_dir=out
+
+# Ensure that an empty output directory exists
+if [ -d $out_dir ]
+then
+  rm -r $out_dir/*
+else
+  mkdir $out_dir
+fi
+
+cp src/* $out_dir
+echo The build process is now complete.
+vm$ 
+</code></pre>
+<p>Minimizing duplication can make our scripts easier to maintain. This is one
+case where variables really shine.</p>
+<p>The name of the output directory shows up on four separate lines in this
+example script. If we ever want to change that value, we'll have to be careful
+to replace all four instances.</p>
+<p>By storing it in a variable, we're making future maintenance easier and less
+error-prone.</p>
+<h1>Special script variables</h1>
+<pre><code class="language-terminal">vm$ cat script-vars.sh
+#!/bin/bash
+
+echo The name of the script is $0
+echo You passed $# options
+echo The first option is $1
+echo The fourth option is $4
+vm$ 
+</code></pre>
+<p>Within shell scripts, we can reference a few variables that describe how the
+script was invoked:</p>
+<ul>
+<li><code>$#</code> contains the number of options provided</li>
+<li><code>$0</code> contains the full path to the script itself</li>
+<li>The numeric variables <code>$1</code> through <code>$9</code> contain the option values provided</li>
+</ul>
+<p>By acting on these values, we can write scripts that are much more re-usable.</p>
+<pre><code class="language-terminal">vm$ cat if-else-option.sh
+#!/bin/bash
+
+if [ $# = 1 ]
+then
+  out_dir=$1
+else
+  out_dir=out
+fi
+
+# Ensure that an empty output directory exists
+if [ -d $out_dir ]
+then
+  rm -r $out_dir/*
+else
+  mkdir $out_dir
+fi
+
+cp src/* $out_dir
+echo The build process is now complete.
+vm$ 
+</code></pre>
+<p>Here, we're allowing the output directory to be specified as the first
+option. If the script is invoked without any options, we default to the
+value "out".</p>
+<p>Note how much more difficult this would be if we hadn't introduced the
+<code>out_dir</code> variable. That refactoring is already paying off!</p>
+<h1>In Review</h1>
+<ul>
+<li>The "shebang" (<code>#!</code>) makes scripts more "portable"</li>
+<li>Files need the "execute" permission before they can be invoked as scripts. We
+can use <code>chmod</code> to grant that permission.</li>
+<li>Scripts are much more readable when they include careful use of comments and
+line breaks</li>
+<li><code>&#x26;&#x26;</code> is a way to "chain" commands where the second is executed only if the
+first completes successfully</li>
+<li><code>||</code> is a way to "chain" commands where the second is executed only if the
+first fails</li>
+<li>The <code>if</code> keyword lets us create "branches" of commands that are conditionally
+executed based on the return status of some process</li>
+<li><code>test</code> and <code>[</code> are alternate names of a command that lets us specify complex
+conditions</li>
+<li>The shell defines a number of variables that describe how a script was
+invoked: <code>$#</code>, and variables in the numeric range <code>$0</code> through <code>$9</code>.</li>
+</ul>
+
+
+		<section>
+			<h3>Exercise</h3>
+			<p>In all cases, scripts should be authored so that they can be executed as
+commands, regardless of the current user's default shell.</p>
+<ol>
+<li>
+<p>Write a script that greets the current user by name. If it is invoked with
+<code>--help</code>, it should print an explanation to standard output and exit
+<em>without</em> greeting the user. If it is invoked with any other options, it
+should print an error message to standard error and exit with a status code
+of <code>1</code> (again, without greeting the user).</p>
+</li>
+<li>
+<p>Extend the script from the previous step to also accept the <code>-h</code> flag.
+Specifying this should have the same effect as <code>--help</code>.</p>
+</li>
+<li>
+<p>Write a script that copies itself into the user's "home" directory. The
+script should work regardless of where it is placed on the file system.</p>
+</li>
+<li>
+<p>Refer back to the exercise for <a href="../../command-invocation">Chapter 6 - Command Invocation</a>. Write a script
+that automatically solves that exercise. Note that the solution for the
+final step of that exercise are dynamic; your script should take this into
+account. You'll probably need to use the <code>grep</code> utility, and the <code>date</code>
+utility (see <code>man date</code> for more information). Don't forget to reset the
+exercise with <code>--reset</code>!</p>
+</li>
+</ol>
+
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			<p>For all of these scripts, don't forget to set their "execute" permissions with
+<code>chmod</code> and to include the "hashbang" sequence on the first line!</p>
+<ol>
+<li>
+<p>We'll begin with the "normal" case: greeting the user. We've already used
+the <code>whoami</code> utility in other chapters; here, we'll use command substitution
+to <code>echo</code> the value it writes to standard output:</p>
+<pre><code>#!/bin/bash
+
+echo Hello, $(whoami)!
+</code></pre>
+<p>To handle the "help" options, we'll need an <code>if</code> condition that references
+the value of the <code>$1</code> variable.</p>
+<pre><code>#!/bin/bash
+
+if [ "$1" = "--help" ]
+then
+  echo "I would like to greet you."
+  exit
+fi
+
+echo Hello, $(whoami)!
+</code></pre>
+<p>Finally, we need to define what happens when any other option value is
+provided. We know that when no option value is provided, <code>"$1"</code> will be
+equal to the empty string (<code>""</code>), so we need to report an error whenever it
+is <em>not</em> equal to the empty string, taking care to redirect the output from
+<code>echo</code> as specified in the instructions.</p>
+<pre><code>#!/bin/bash
+
+if [ "$1" = "--help" ]
+then
+  echo "I would like to greet you."
+  exit
+fi
+if [ "$1" != "" ]
+then
+  echo "I don't recognize that option." >&#x26;2
+  exit 1
+fi
+
+echo Hello, $(whoami)!
+</code></pre>
+<p>Note that this condition has to come after the first. Otherwise, we would
+disable the <code>--help</code> flag.</p>
+</li>
+<li>
+<p>The most straightforward way to handle the <code>-h</code> option is to duplicate the
+<code>if</code> we wrote for <code>--help</code>:</p>
+<pre><code>#!/bin/bash
+
+if [ "$1" = "--help" ]
+then
+  echo "I would like to greet you."
+  exit
+fi
+if [ "$1" = "-h" ]
+then
+  echo "I would like to greet you."
+  exit
+fi
+if [ "$1" != "" ]
+then
+  echo "I don't recognize that option." >&#x26;2
+  exit 1
+fi
+
+echo Hello, $(whoami)!
+</code></pre>
+<p>...but this would be a hassle to maintain. We can do better, though, because
+we know about the <code>||</code> operator. (Remember: this allows for a second command
+to be run if the first one fails.)</p>
+<pre><code>#!/bin/bash
+
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]
+then
+  echo "I would like to greet you."
+  exit
+fi
+if [ "$1" != "" ]
+then
+  echo "I don't recognize that option." >&#x26;2
+  exit 1
+fi
+
+echo Hello, $(whoami)!
+</code></pre>
+</li>
+<li>
+<p>We can write this script in one line, but we'll need to recall two special
+variables to do it. First: the user's "home" directory is stored in the
+environment variable <code>$HOME</code>. If we named our script <code>my-script.sh</code>, we
+could move it like so:</p>
+<pre><code>#!/bin/bash
+
+cp my-script.sh $HOME
+</code></pre>
+<p>...but the instructions specify that the script should work regardless of
+what its name is. So we'll have to replace the "hard-coded" reference to
+<code>my-script.sh</code> with the special <code>$0</code> variable that the shell provides:</p>
+<pre><code>#!/bin/bash
+
+cp $0 $HOME
+</code></pre>
+</li>
+<li>
+<p>The first three steps are relatively straightforward: if you remember how
+you first solved them, you can copy the commands directly into the script:</p>
+<pre><code>#!/bin/bash
+
+invoker
+invoker /bin/*t* /bin/*s
+invoker
+invoker Making the big \$bucks.
+invoker
+invoker -w -x
+invoker -wx
+invoker -x -w
+invoker -xw
+invoker -x --word
+invoker --word -x
+</code></pre>
+<p>Addressing the dynamic part is more of a challenge. The exercise requires
+that we set <code>DATE</code> to the current day of the week. The <code>date</code> utility's
+<code>man</code> page includes instructions for that:</p>
+<blockquote>
+<pre><code>FORMAT controls the output.  Interpreted sequences are:
+
+%%     a literal %
+
+%a     locale's abbreviated weekday name (e.g., Sun)
+
+%A     locale's full weekday name (e.g., Sunday)
+</code></pre>
+</blockquote>
+<p>So we can use command substitution to store the value of <code>date +%A</code>) in a
+variable:</p>
+<pre><code>DATE=$(date +%A) invoker
+</code></pre>
+<p>This is only part of the solution for the final step, though. The exercise
+also requires that <code>cat_or_dog</code> is set correctly. There are no penalties for
+a wrong answer, so we <em>could</em> simply try both:</p>
+<pre><code>DATE=$(date +%A) cat_or_dog=CAT invoker
+DATE=$(date +%A) cat_or_dog=DOG invoker
+</code></pre>
+<p>But that is a little sloppy. We can do better! We'll need to search through
+the instructions that are written to standard output--a job for <code>grep</code>:</p>
+<pre><code>invoker --help | grep 'x CAT'
+</code></pre>
+<p>As we saw in this chapter, <code>grep</code> will exit with a non-zero status code if
+it cannot find a match. So we'll use the <code>$?</code> variable to determine if the
+instructions specified that the value should be "CAT".</p>
+<pre><code>invoker --help | grep 'x CAT'
+if [ $? = 0 ]
+then
+  cat_or_dog=CAT
+else
+  cat_or_dog=DOG
+fi
+</code></pre>
+<p>Finally, we can combine the variables in the invocation</p>
+<pre><code>DATE=$(date +%A) cat_or_dog=cat_or_dog invoker
+</code></pre>
+</li>
+</ol>
+
+		</section>
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

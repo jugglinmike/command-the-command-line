@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Networking for Web Developers</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part II - Getting Your Bearings</h2>
+		<h3>Networking for Web Developers</h3>
+
+		<p>Interfacing with the web is a primary motivation for using Unix-like systems
+today. Whether you're running your team's development environment
+on your machine, deploying to a "staging" server on the local network, or
+troubleshooting a production server exposed to the Internet, there are a
+handful of concepts that you'll need to understand.</p>
+<p>This chapter is a high-level review of those concepts and how they apply to
+Unix-like systems. If you are not involved with web development, this
+information may not be relevant to you; feel free to continue on to the next
+chapter.</p>
+<h1>OSI</h1>
+<pre><code class="language-terminal">vm$ cat osi.txt
+  # | Name         | Examples         toward user
+  --+--------------+-----------------      ^
+  7 | Application  | HTTP, FTP             |
+  6 | Presentation | GIF, MPEG
+  5 | Session      |
+  4 | Transport    | TCP, UDP
+  3 | Network      | IP, ICMP
+  2 | Data Link    | Ethernet, PPP         |
+  1 | Physical     | Wi-Fi, Bluetooth      v
+                                      toward network
+vm$ 
+</code></pre>
+<p>The Open Systems Interconnection model is a framework that describes how
+systems can separate responsibilities. The web we know today is built from
+components that fit into this framework.</p>
+<p>These concepts extend beyond the purview of the Open Group and the POSIX
+specification, so we won't find direct representations in "standard" utilities.
+Even so, the pervasiveness of the web has led to the development of a wealth of
+tooling, and it even has practical implications for system architecture.</p>
+<pre><code class="language-terminal">vm$ cat osi-traversal.txt
+                .-- 10.0.2.3 ---.   .- 10.0.2.4 -.   .- 10.0.2.5 -.
+                | curl 10.0.2.5 |   |            |   | web server |
+                |       V       |   |            |   |     ^      |
+7. Application  |       |       |   |            |   |     |      |
+6. Presentation |       |       |   |            |   |     |      |
+5. Session      |       |       |   |            |   |     |      |
+4. Transport    |       |       |   |            |   |     |      |
+3. Network      |       |       |   |            |   |     |      |
+2. Data Link    |       |       |   |            |   |     |      |
+1. Physical     |       |       |   |     x      |   |     |      |
+                '-------V-------'   '-----^------'   '-----^------'
+                        |                 |                |
+...===== network ===============================================...
+vm$ 
+</code></pre>
+<p>Every message that a user sends starts at the "top" of the stack and travels
+"downwards." At each level, a sub-component modifies the message in some way
+(e.g. attaching meta-data, translating it, or even splitting it into pieces)
+before passing it along. The data leaves the system as the Physical layer
+transmits it to the network.</p>
+<p>The message is labeled with the name of its destination on the network. All the
+machines on the network receive the message on the Physical layer, but only the
+destination machine acts on it. At the destination, the message travels "up"
+the stack, where (in an inverse of the sending process) each level "unpacks" or
+reformats the message.</p>
+<pre><code class="language-terminal">vm$ cat osi-focus.txt
+  # | Name         | Examples
+  --+--------------+---------
+  7 | Application  |
+  6 | Presentation |
+  5 | Session      |
++------------------------------+
+| 4 | Transport    | TCP, UDP  |
+| 3 | Network      | IP, ICMP  | &#x3C;- Our focus
++------------------------------+
+  2 | Data Link    |
+  1 | Physical     |
+vm$ 
+</code></pre>
+<p>The concepts in this chapter concern the Transport and Network layers specifically.</p>
+<h1><code>curl</code></h1>
+<h2>Issue web requests and inspect reponses</h2>
+<pre><code class="language-terminal">vm$ man curl
+curl(1)                 Curl Manual                curl(1)
+
+NAME
+       curl - transfer a URL
+
+SYNOPSIS
+       curl [options] [URL...]
+
+DESCRIPTION
+       curl  is  a  tool  to  transfer  data  from or to a
+       server, using one of the supported protocols (DICT,
+       FILE,  FTP, FTPS, GOPHER, HTTP, HTTPS, IMAP, IMAPS,
+       LDAP, LDAPS, POP3, POP3S, RTMP,  RTSP,  SCP,  SFTP,
+       SMTP,  SMTPS,  TELNET  and  TFTP).   The command is
+       designed to work without user interaction.
+</code></pre>
+<p>The <code>curl</code> utility allows us to make requests and inspect their results. It is
+very fully-featured, but we'll only be using a small subset of its capabilities
+in this chapter.</p>
+<pre><code class="language-terminal">vm$ curl example.com
+&#x3C;!doctype html>
+&#x3C;html>
+  &#x3C;head>
+    &#x3C;meta charset="utf-8" />
+    &#x3C;title>Example Domain&#x3C;/title>
+  &#x3C;/head>
+  &#x3C;body>
+    Welcome to example.com!
+  &#x3C;/body>
+&#x3C;/html>
+vm$ 
+</code></pre>
+<p>By invoking <code>curl</code> with a URL, we are issuing an HTTP "GET" request. If the
+server responds, <code>curl</code> will print the content of the response body to standard
+output.</p>
+<pre><code class="language-terminal">vm$ curl -i www.example.com
+HTTP/1.0 200 OK
+Date: Thu, 28 Jul 1970 13:02:03 GMT
+Content-type: text/html
+Content-Length: 157
+Last-Modified: Thu, 28 Jul 1970 13:01:57 GMT
+
+&#x3C;!doctype html>
+&#x3C;html>
+  &#x3C;head>
+    &#x3C;meta charset="utf-8" />
+    &#x3C;title>Example Domain&#x3C;/title>
+  &#x3C;/head>
+  &#x3C;body>
+    Welcome to example.com!
+  &#x3C;/body>
+&#x3C;/html>
+vm$ 
+</code></pre>
+<p>If invoked with the <code>-i</code>/<code>--include</code> option, <code>curl</code> will include the HTTP
+headers of the response in its output. This option can be useful when
+debugging, where details like the response's status code are especially
+relevant.</p>
+<h1>IP Addresses</h1>
+<pre><code class="language-terminal">vm$ host example.com
+example.com has address 93.184.216.34
+example.com has IPv6 address 2606:2800:220:1:248:1893:25c8:1946
+vm$ 
+</code></pre>
+<p>In a network running on the Internet Protocol (IP), each machine has a unique
+address, assigned to it by an authority on the network. This address is
+typically represented with four numbers between 0 and 255 (inclusive),
+separated by period characters (<code>.</code>). IP addresses are easy for a machine to
+interpret but difficult for a human to remember.</p>
+<p>To address this, the web applies the Internet Protocol in conjunction with the
+Domain Name System (DNS). DNS provides a registry of human-readable aliases for
+IP addresses like "example.com".</p>
+<p>Many systems include a utility named <code>host</code> that will tell you information about
+a given DNS entry, inluding its corresponding IP address.</p>
+<h1><code>ifconfig</code></h1>
+<h2>Configure network interfaces</h2>
+<pre><code class="language-terminal">vm$ man ifconfig
+IFCONFIG(8)      Linux Programmer's Manual     IFCONFIG(8)
+
+NAME
+       ifconfig - configure a network interface
+</code></pre>
+<p>The environments that we work in may not have a DNS entry, so we'll need to be
+comfortable working with IP addresses. The <code>ifconfig</code> utility that comes
+bundled in many Unix-like environments can tell us this information.</p>
+<pre><code class="language-terminal">vm$ ifconfig
+eth0      Link encap:Ethernet  HWaddr 08:00:27:2d:60:65
+          inet addr:10.0.2.3   Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe2d:6065/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:25291 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:14148 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:12757518 (12.7 MB)  TX bytes:1200573 (1.2 MB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:61 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:61 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:5359 (5.3 KB)  TX bytes:5359 (5.3 KB)
+vm$ 
+</code></pre>
+<p>The output is a little verbose, though. This text describes two "interfaces,"
+one named "eth0" and another named "lo." Each interface has as associated "inet
+addr"--this is a network address.</p>
+<p>The address of the "eth0" interface (<code>10.0.2.3</code> in this case) is assigned by an
+authority on the network (e.g. a router). It may change whenever the computer
+joins a network.</p>
+<p>In contrast, the address of the "lo" interface is defined by the system itself,
+and it generally does not change. The name "lo" is short for "loopback," and
+the address <code>127.0.0.1</code> is very typical.</p>
+<p>For now, we'll focus on the loopback address.</p>
+<h1>Loopback addresses &#x26; <code>127.0.0.1</code></h1>
+<pre><code class="language-terminal">vm$ cat osi-traversal-loopback.txt
+                .---------- 10.0.2.3 ----------.   .- 10.0.2.5 -.
+                | curl 127.0.0.1    web server |   |            |
+                |      V                ^      |   |            |
+7. Application  |      |                |      |   |            |
+6. Presentation |      |                |      |   |            |
+5. Session      |      |                |      |   |            |
+4. Transport    |      |                |      |   |            |
+3. Network      |      |                |      |   |            |
+2. Data Link    |      '----------------'      |   |            |
+1. Physical     |                              |   |            |
+                '------------------------------'   '------------'
+
+...===== network =============================================...
+vm$ 
+</code></pre>
+<p>When <code>curl</code>, web browsers, or other applications make requests to loopback
+addresses, the system handles them separately. Instead of passing the request
+on to the Physical layer (in effect, transmitting them on the network), the
+system redirects them back "up" the network stack. This "loop" that the request
+travels in is where the interface gets its name.</p>
+<p>This behavior is convenient for developers when they wish to create
+environments that can be consistently re-created by their whole team. Even
+though the IP address assigned by the network is subject to change, the
+loopback address and its behavior will remain constant.</p>
+<p>Many web projects define a "development" mode where servers listen on this
+address because it allows every contributor to use the same commands, scripts,
+and URLs. In fact, we'll use it to run a server right now.</p>
+<h1>Running a web server</h1>
+<pre><code class="language-terminal">vm$ webserver
+webserver: command not found
+vm$ webserver --please
+webserver: command not found
+vm$ 
+</code></pre>
+<p>POSIX doesn't specify a standard web server utility, so there is no canonical
+way to start a local server on Unix-like systems.</p>
+<pre><code class="language-terminal">vm$ which python3
+/usr/bin/python3
+vm$ python3 -m http.server --bind 127.0.0.1
+Serving HTTP on 127.0.0.1 port 8000 ...
+</code></pre>
+<p>Practically speaking, however, many modern Unix-like environments are outfitted
+with the Python programming platform. Python 3 contains a built-in module named
+<code>http.server</code> which is great for testing purposes.</p>
+<p>However, this application is <em>no</em>t fit for use in production. Most web projects
+will define their own development environment using other tools like
+<a href="https://httpd.apache.org/">Apache</a> or <a href="http://nginx.org/">Nginx</a>. Despite
+this, Python's <code>http.server</code> still demonstrates the core concepts well, so
+we'll use it in this chapter.</p>
+<p>Note that the server is running on "port 8000." We'll discuss ports later in
+this chapter. For now, we'll simply account for this by adding <code>:8000</code> to the
+end of our requests' addresses.</p>
+<pre><code class="language-terminal">vm$ python3 -m http.server --bind 127.0.0.1
+Serving HTTP on 127.0.0.1 port 8000 ...
+&#8203;^Z
+[1]+  Stopped                 python3 -m http.server --bind 127.0.0.1
+vm$ bg 1
+[1]+ python3 -m http.server --bind 127.0.0.1 &#x26;
+vm$ 
+</code></pre>
+<p>The server is a long-running process, we we will want to issue other commands
+while we run it. As discussed in <a href="../process-mgmt-1">Chapter 7 - Process Management I</a>, we can do this by
+sending the server "job" to the background using <code>Ctrl</code> + <code>Z</code>. Remember that
+the process will be in a "stopped" state unless we use <code>bg</code> to set it "running"
+again.</p>
+<pre><code class="language-terminal">vm$ curl 127.0.0.1:8000
+127.0.0.1 - - [28/Jul/1970 21:09:05] "GET / HTTP/1.1" 200 -
+&#x3C;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+&#x3C;html>
+&#x3C;head>
+&#x3C;meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+&#x3C;title>Directory listing for /&#x3C;/title>
+&#x3C;/head>
+&#x3C;body>
+&#x3C;h1>Directory listing for /&#x3C;/h1>
+</code></pre>
+<p>Now that the server is running in the background, we can use <code>curl</code> to verify
+everything is working as expected. The server provided by Python should respond
+to our request with an HTML document that lists the contents of the current
+directory.</p>
+<h1><code>localhost</code></h1>
+<pre><code class="language-terminal">vm$ host localhost
+localhost has address 127.0.0.1
+localhost has IPv6 address ::1
+vm$ curl localhost:8000
+127.0.0.1 - - [28/Jul/1970 21:09:05] "GET / HTTP/1.1" 200 -
+&#x3C;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+&#x3C;html>
+&#x3C;head>
+&#x3C;meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+&#x3C;title>Directory listing for /&#x3C;/title>
+&#x3C;/head>
+&#x3C;body>
+&#x3C;h1>Directory listing for /&#x3C;/h1>
+</code></pre>
+<p>The host name <code>localhost</code> is usually synonymous with the address <code>127.0.0.1</code>.
+It's also a lot more intuitive, so you'll see it used in many web projects.</p>
+<h1>Sharing on the network</h1>
+<h2>Loopback woes</h2>
+<pre><code class="language-terminal">vm$ cat osi-traversal-loopback-hidden.txt
+                .-- 10.0.2.3 ---.   .-- 10.0.2.5 ----.
+                | web server on |   |                |
+                |   127.0.0.1   |   | curl 127.0.0.1 |
+                |               |   |    V           |
+7. Application  |               |   |    |           |
+6. Presentation |               |   |    |           |
+5. Session      |               |   |    |           |
+4. Transport    |               |   |    |           |
+3. Network      |               |   |    |       x   |
+2. Data Link    |               |   |    '-------'   |
+1. Physical     |               |   |                |
+                '---------------'   '----------------'
+
+...===== network ==================================...
+vm$ 
+</code></pre>
+<p>The loopback IP address is great for most use cases. However, sometimes you may
+want to accept traffic from other machines on the network (e.g. to share your
+work-in-progress with a teammate).</p>
+<p>Other systems cannot address your server using <code>127.0.0.1</code> for a number of
+reasons. Firstly, they are most likely configured to recognize that address as
+a loopback address. The request will never reach the network under these
+conditions.</p>
+<pre><code class="language-terminal">vm$ cat osi-traversal-loopback-hidden.txt
+                .-- 10.0.2.3 ---.   .-- 10.0.2.5 ----.
+                | web server on |   |                |
+                |   127.0.0.1   |   | curl 127.0.0.1 |
+                |               |   |      V         |
+7. Application  |               |   |      |         |
+6. Presentation |               |   |      |         |
+5. Session      |               |   |      |         |
+4. Transport    |               |   |      |         |
+3. Network      |               |   |      |         |
+2. Data Link    |               |   |      |         |
+1. Physical     |       x       |   |      |         |
+                '-------^-------'   '------V---------'
+                        |                  |
+...===== network ==================================...
+vm$ 
+</code></pre>
+<p>...but even in the rare case that the remote machine is <em>not</em> configured with
+such a loopback address, it is very unlikely that the network has assigned
+<code>127.0.0.1</code> to your system. Your machine will ignore such requests.</p>
+<pre><code class="language-terminal">vm$ cat osi-traversal-loopback-hidden.txt
+                .-- 10.0.2.3 ---.   .-- 10.0.2.5 ---.
+                | web server on |   |               |
+                |   127.0.0.1   |   | curl 10.0.2.3 |
+                |               |   |      V        |
+7. Application  |               |   |      |        |
+6. Presentation |               |   |      |        |
+5. Session      |               |   |      |        |
+4. Transport    |               |   |      |        |
+3. Network      |       x       |   |      |        |
+2. Data Link    |       |       |   |      |        |
+1. Physical     |       |       |   |      |        |
+                '-------^-------'   '------V--------'
+                        |                  |
+...===== network =================================...
+vm$ 
+</code></pre>
+<p>This means that your peers are forced to address your machine by the IP address
+assigned by the network. Recall that we determined this address using
+<code>ifconfig</code> earlier in this chapter.</p>
+<p>Unfortunately, even this will not solve the problem. While your system may
+accept the message as it is transmitted on the network, the message will not be
+routed to the server process because the server is not "bound" to the correct
+interface (as we saw with <code>ifconfig</code>, it is using "lo" instead of "eth0").</p>
+<h1>Sharing on the network</h1>
+<h2>Hard-coding an address</h2>
+<pre><code class="language-terminal">vm$ cat osi-traversal-loopback-hidden.txt
+                .-- 10.0.2.3 ---.   .-- 10.0.2.5 ---.
+                | web server on |   |               |
+                |   10.0.2.3    |   | curl 10.0.2.3 |
+                |       ^       |   |      V        |
+7. Application  |       |       |   |      |        |
+6. Presentation |       |       |   |      |        |
+5. Session      |       |       |   |      |        |
+4. Transport    |       |       |   |      |        |
+3. Network      |       |       |   |      |        |
+2. Data Link    |       |       |   |      |        |
+1. Physical     |       |       |   |      |        |
+                '-------^-------'   '------V--------'
+                        |                  |
+...===== network =================================...
+vm$ 
+</code></pre>
+<p>One solution is to bind your server process to the IP address assigned by the
+network. This technically works, but it also eschews the benefits we saw with
+using a consistent address--every contributor will have to run the server in a
+slightly different way, and they will have to re-start whenever the network
+conditions change.</p>
+<h1>Sharing on the network</h1>
+<h2><code>0.0.0.0</code></h2>
+<pre><code class="language-terminal">vm$ cat osi-traversal-zeros.txt
+                .---------- 10.0.2.3 ------------.   .-- 10.0.2.5 ---.
+                |                  web server on |   |               |
+                | curl 127.0.0.1     0.0.0.0     |   | curl 10.0.2.3 |
+                |      V               ^  ^      |   |      V        |
+7. Application  |      |               |  |      |   |      |        |
+6. Presentation |      |               |  |      |   |      |        |
+5. Session      |      |               |  |      |   |      |        |
+4. Transport    |      |               |  |      |   |      |        |
+3. Network      |      |               |  |      |   |      |        |
+2. Data Link    |      '---------------'  |      |   |      |        |
+1. Physical     |                         |      |   |      |        |
+                '-------------------------^------'   '------V--------'
+                                          |                 |
+...===== network ==================================================...
+vm$ 
+</code></pre>
+<p>This is where another "special" address comes into play: <code>0.0.0.0</code>. It is a
+sort of "placeholder" that in some contexts means, "no particular address."
+When a webserver is listening on that address, it will accept all requests it
+receives, regardless of IP. This means not only that teammates will have access
+to the server via the network-assigned IP address, but also that we can use
+<code>127.0.0.1</code> when working within the environment itself.</p>
+<p>Because of this, using <code>0.0.0.0</code> is usually the best option. However,
+development environments are inherently unstable and sometimes insecure, so
+exposing the server to the local network may not be advisable. When in doubt,
+speak to the lead developer on the project.</p>
+<h1><code>/etc/hosts</code></h1>
+<pre><code class="language-terminal">vm$ cat /etc/hosts
+127.0.0.1   localhost
+vm$ 
+</code></pre>
+<p>We'll make one final consideration for working with hosts in web development
+projects: the "hosts file." This file defines a list that associates host names
+with IP addresses. The system will redirect requests to any host name listed to
+the corresponding IP address.</p>
+<pre><code class="language-terminal">vm$ host zombo.com
+zombo.com has address 69.16.230.117
+zombo.com mail is handled by 0 zombo.com.
+vm$ cat /etc/hosts
+127.0.0.1   localhost
+69.16.230.117   opengroup.org
+vm$ curl opengroup.org
+&#x3C;!DOCTYPE html>
+&#x3C;html>
+  &#x3C;head>
+    &#x3C;meta charset="utf-8" />
+    &#x3C;title>Zombo.com&#x3C;/title>
+  &#x3C;/head>
+  &#x3C;body>
+</code></pre>
+<p>Modifications take effect immediately; no processes need to be re-started after
+the file is changed. However, some web browsers may "cache" the IP address for
+a given host, so a "hard refresh" of the browser may be necessary.</p>
+<p>While we could use this for general mischief, the functionality is limited to
+the local machine--it won't effect anyone else on the network.</p>
+<pre><code class="language-terminal">vm$ cat /etc/hosts
+127.0.0.1 localhost
+192.168.33.40 api.local # Added as an example for
+                        # the "Command the Command
+                        # Line" course
+vm$ curl api.local
+{}
+vm$ 
+</code></pre>
+<p>Some web projects require the use of special "development mode" domains. In
+practice, you may be asked to modify the <code>/etc/hosts</code> file according to the
+needs of your project.</p>
+<p>The "hosts" file support in-line comments by ignoring the "number sign"
+character (<code>#</code>) and any subsequent characters on the same line. It's a good
+idea to annotate each entry with a note. An in-line comment like this will help
+you remember why a given entry is present and when it may be safely removed.</p>
+<p>Be aware that this file effects the entire system, so <code>sudo</code> is required to
+edit it. As long as you understand the implications of the change, then this is
+a safe change to make.</p>
+<h1>Ports</h1>
+<p><img src="ports.jpg" alt="Photograph of a shipping port"></p>
+<p><a href="https://www.flickr.com/photos/flyingkiwigirl/14529051237/">"Port Chalmers,
+Dunedin"</a> by
+<a href="https://www.flickr.com/photos/flyingkiwigirl/">Shellie</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">CC
+BY-NC-ND 2.0</a></p>
+<p>All of the requests to our local server have been to an address that ends in
+<code>:8000</code>. The colon character (<code>:</code>) designates the end of the host name and the
+beginning of the "port number." <strong>Ports</strong> allow clients to request different
+services from the same address, and they allow servers to associate a specific
+process for each service requested.</p>
+<pre><code class="language-terminal">vm$ cat osi-traversal-ports.txt
+                .-------- 10.0.2.3 -------.   .------- 10.0.2.5 ---------.
+                | file server  API server |   | GET / HTTP   $.post('/') |
+                | on port 80   on port 45 |   | 10.0.2.3:80  10.0.2.3:45 |
+                |      ^          ^       |   |      V            V      |
+7. Application  |      |          |       |   |      |            |      |
+6. Presentation |      |          |       |   |      |            |      |
+5. Session      |      |          |       |   |      |            |      |
+4. Transport    |      '-----+----'       |   |      '-----+------'      |
+3. Network      |            |            |   |            |             |
+2. Data Link    |            |            |   |            |             |
+1. Physical     |            |            |   |            |             |
+                '------------^------------'   '------------V-------------'
+                             |                             |
+...===== network ======================================================...
+vm$ 
+</code></pre>
+<p>In terms of the OSI model, ports are implemented in the "Transport" layer--on
+the web, this is TCP.</p>
+<p>For instance, a person browsing a web site might request a page from your
+server using port 80. A process like Python's <code>http.server</code> might be
+"listening" on this port, and if so, it would handle the request by responding
+with the page.</p>
+<p>Soon after that, some JavaScript on the page might issue an asynchronous
+request to your server, this time using port 45. Your server would receive the
+request, and at the Transport layer, it would be directed to the HTTP API
+process listening on port 45.</p>
+<h1>Well-known ports</h1>
+<table>
+<thead>
+<tr>
+<th>Port Number</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>21</td>
+<td>FTP</td>
+</tr>
+<tr>
+<td>22</td>
+<td>SSH</td>
+</tr>
+<tr>
+<td>25</td>
+<td>SMTP</td>
+</tr>
+<tr>
+<td>80</td>
+<td>HTTP</td>
+</tr>
+<tr>
+<td>194</td>
+<td>IRC</td>
+</tr>
+<tr>
+<td>443</td>
+<td>HTTPS</td>
+</tr>
+</tbody>
+</table>
+<p>There are established conventions for running certain kinds of servers over
+certain ports. This is why we don't need to write <code>:80</code> to the end of URLs in
+web browsers or <code>curl</code>--because those applications operate using HTTP by
+default, port 80 is assumed.</p>
+<p>These numbers are simply convention, though. All port numbers are functionally
+equivalent, and any server is free to ignore convention and (for instance) run
+an IRC server on port 80.</p>
+<h1>Dealing with privilege</h1>
+<pre><code class="language-terminal">vm$ python3 -m http.server --bind 127.0.0.1 5555
+Serving HTTP on 127.0.0.1 port 5555 ...
+&#8203;^C
+Keyboard interrupt received, exiting.
+vm$ python3 -m http.server --bind 127.0.0.1 80
+PermissionError: [Errno 13] Permission denied
+vm$ sudo python3 -m http.server --bind 127.0.0.1 80
+Serving HTTP on 127.0.0.1 port 80 ...
+&#8203;
+</code></pre>
+<p>Despite their functional equivalence, Unix-like systems treat port numbers
+below 1024 as "privileged." This means we'll need administrative rights to
+start servers that listen on those ports.</p>
+<p>If your project requires the use of a low-numbered port, <code>sudo</code> may be
+necessary. Be aware that the web server will have administrative access to the
+system for its entire lifetime. If a visitor were able to take control of the
+server, they would have administrative access to the system itself.
+Production-ready HTTP servers like Nginx have special architectures to mitigate
+these risks, but there are also advanced system configurations that enable
+running on port 80 in a more safe way. Those methods are beyond the scope of
+this course, though, so please speak with your system administrator if you need
+to create a server on port 80 in production.</p>
+<p>For development environments, it's usually preferable to configure servers to
+listen on higher port numbers like <code>3000</code>, <code>5000</code>, or <code>8080</code>.</p>
+<p>You can experiment with these concerns by specifying a port number as a final
+option to Python's <code>http.server</code> module.</p>
+<h1>In Review</h1>
+<ul>
+<li>
+<p>Utilities</p>
+<ul>
+<li><code>host</code> - finds the IP address for a given host on the network, e.g. <code>host example.com</code></li>
+<li><code>curl</code> - makes a web request and returns the response</li>
+<li><code>ifconfig</code> - learn about the system's network interfaces, including any IP
+addresses assigned by the network</li>
+<li><code>python3 -m http.server</code> - start a web server that offers all the files and
+directories in the current directory</li>
+</ul>
+</li>
+<li>The IP address <code>127.0.0.1</code> is a "loopback" address: requests made to it will
+not reach the network but instead be redirected back into the system; using
+it reduces the variability between team members' development environments</li>
+<li><code>localhost</code> is an alias for <code>127.0.0.1</code></li>
+<li>Servers listening on the IP address <code>0.0.0.0</code> will respond to any request
+they receive, making it ideal for exposing your system's development server
+on the local network; be sure your server is safe for outside access before
+using this address</li>
+<li>The file at <code>/etc/hosts</code> is known as the "hosts file"; it defines system-wide
+network redirection rules; editing it requires administrative privileges</li>
+<li>A web server may listen on any port number; the default for HTTP is 80;
+listening on port numbers below 1024 requires administrative privileges</li>
+</ul>
+
+
+		<section>
+			<h3>Exercise</h3>
+			<ol>
+<li>
+<p>Move into the directory named <code>/var/www/my-site</code> and start a server on port
+<code>1234</code>. Verify that the server is running correctly by comparing the results
+of the following commands:</p>
+<ul>
+<li><code>curl</code>, when run with your server's name and port</li>
+<li><code>cat</code>, when run with the <code>index.html</code> file contained in that directory</li>
+</ul>
+</li>
+<li>
+<p>Can you start a second server from the same directory but using a different
+port number? Why or why not? Can you start a second server from a different
+directory but using the same port number? Why or why not?</p>
+</li>
+<li>
+<p>Stop any server jobs you have running (recall the <code>jobs</code> command from
+<a href="../../process-mgmt-1">Chapter 7 - Process Management I</a>). Run a new server on port <code>80</code>. Can you configure
+your system such that the command <code>curl commander.local</code> returns the
+contents of <code>/var/www/my-site/index.html</code>?</p>
+</li>
+</ol>
+
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			<ol>
+<li>
+<p>We'll start by moving into the appropriate directory:</p>
+<pre><code>vm$ cd /var/www/my-site
+vm$
+</code></pre>
+<p>and then modify the <code>python3</code> command used in this chapter to listen on port
+1234:</p>
+<pre><code>vm$ python3 -m http.server 1234
+Serving HTTP on 0.0.0.0 port 1234 ...
+</code></pre>
+<p>Before we can issue any more commands, we'll need to press <code>Ctrl</code> + <code>Z</code> to
+send the job to the background:</p>
+<pre><code>vm$ python3 -m http.server 1234
+Serving HTTP on 0.0.0.0 port 1234 ...
+^Z
+[1]+  Stopped                 python3 -m http.server 1234
+</code></pre>
+<p>...but we're not quite ready for <code>curl</code> yet. The server is "stopped", so
+requests sent to it will hang. We'll need to set it to "running" using <code>bg</code>
+with the job ID. We can see from the terminal history that the job has an ID of
+<code>1</code>, but we could always run <code>jobs</code> to verify:</p>
+<pre><code>vm$ jobs
+[1]+  Stopped                 python3 -m http.server 1234
+vm$ bg 1
+[1]+ python3 -m http.server 1234 &#x26;
+vm$
+</code></pre>
+<p>We can now <code>curl</code> the web server:</p>
+<pre><code>vm$ curl localhost:1234
+127.0.0.1 - - [29/Jul/1970 18:51:28] "GET / HTTP/1.1" 200 -
+&#x3C;!DOCTYPE>
+&#x3C;html>
+  &#x3C;head>
+    &#x3C;meta charset="utf-8" />
+    &#x3C;title>Oh boy, a Web Site!&#x3C;/title>
+  &#x3C;/head>
+  &#x3C;body>
+    Hello, world!
+  &#x3C;/body>
+&#x3C;/html>
+</code></pre>
+<p>Compare this to the file's contents on disk:</p>
+<pre><code>vm$ cat /var/www/my-site/index.html
+&#x3C;!DOCTYPE>
+&#x3C;html>
+  &#x3C;head>
+    &#x3C;meta charset="utf-8" />
+    &#x3C;title>Oh boy, a Web Site!&#x3C;/title>
+  &#x3C;/head>
+  &#x3C;body>
+    Hello, world!
+  &#x3C;/body>
+&#x3C;/html>
+</code></pre>
+<p>They match!</p>
+</li>
+<li>
+<p>Starting a second server for this directory with a different port is no
+problem:</p>
+<pre><code>vm$ jobs
+[1]+  Running                 python3 -m http.server 1234 &#x26;
+vm$ python3 -m http.server 5678
+Serving HTTP on 0.0.0.0 port 5678 ...
+^Z
+[2]+  Stopped                 python3 -m http.server 5678
+vm$ bg 2
+[2]+ python3 -m http.server 5678 &#x26;
+vm$ jobs
+[1]-  Running                 python3 -m http.server 1234 &#x26;
+[2]+  Running                 python3 -m http.server 5678 &#x26;
+vm$
+</code></pre>
+<p>This is because there are no restrictions on how many processes can access a
+directory.</p>
+<p>Sharing a port is another matter. If we move to another directory (our HOME
+directory, for example) and try to run a server on the same port, there will
+be trouble:</p>
+<pre><code>vm$ cd ~
+vm$ python3 -m http.server 1234
+Traceback (most recent call last):
+  File "/usr/lib/python3.4/runpy.py", line 170, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/usr/lib/python3.4/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/usr/lib/python3.4/http/server.py", line 1230, in &#x3C;module>
+    test(HandlerClass=handler_class, port=args.port, bind=args.bind)
+  File "/usr/lib/python3.4/http/server.py", line 1203, in test
+    httpd = ServerClass(server_address, HandlerClass)
+  File "/usr/lib/python3.4/socketserver.py", line 429, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.4/http/server.py", line 133, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.4/socketserver.py", line 440, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+vm$
+</code></pre>
+<p>The operating system is refusing to bind the new server to a port that is
+already in use. This makes sense because the purpose of ports is to direct
+requests to a specific process. If two processes shared the same port,
+requests on that port would be ambiguous.</p>
+</li>
+<li>
+<p>We'll start by cleaning up the active jobs. Use <code>fg</code> to bring them to the
+foreground and <code>Ctrl</code> + <code>C</code> to terminate them with the <code>SIGINT</code> signal:</p>
+<pre><code>vm$ jobs
+[1]-  Running                 python3 -m http.server 1234 &#x26;  (wd: /var/www/my-site)
+[2]+  Running                 python3 -m http.server 5678 &#x26;  (wd: /var/www/my-site)
+vm$ fg
+python3 -m http.server 5678 (wd: /var/www/my-site)
+^C
+Keyboard interrupt received, exiting.
+vm$ fg
+python3 -m http.server 1234 (wd: /var/www/my-site)
+^C
+Keyboard interrupt received, exiting.
+vm$ jobs
+vm$
+</code></pre>
+<p>This step specifies that the host name <code>commander.local</code> should resolve to
+our own system. This sounds like a job for the <code>/etc/hosts</code> file.</p>
+<p>If we try to modify it as the "vagrant" user, <code>nano</code> will report an error:
+"Permission denied."</p>
+<pre><code>vm$ nano /etc/hosts
+</code></pre>
+<p>So we'll need to use <code>sudo</code> with the <code>nano</code> command:</p>
+<pre><code>vm$ sudo nano /etc/hosts
+</code></pre>
+<p>We'll add the line <code>127.0.0.1 commands.local</code>, which means "redirect
+requests for the host <code>commander.local</code> to the loopback address." When we're
+done, the <code>/etc/hosts</code> file should look like this:</p>
+<pre><code>127.0.0.1   localhost
+127.0.0.1   commander.local
+</code></pre>
+<p>With the system configured correctly, all that's left is to run the server
+process. Since it is expected to server <code>/var/www/my-site/index.html</code>, we
+should be in the <code>/var/www/my-site</code> directory when we start it:</p>
+<pre><code>vm$ cd /var/www/my-site
+</code></pre>
+<p>And since the provided <code>curl</code> command has no explicit port, we should run
+the server on port 80:</p>
+<pre><code>vm$ python3 -m http.server 80
+Traceback (most recent call last):
+  File "/usr/lib/python3.4/runpy.py", line 170, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/usr/lib/python3.4/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/usr/lib/python3.4/http/server.py", line 1230, in &#x3C;module>
+    test(HandlerClass=handler_class, port=args.port, bind=args.bind)
+  File "/usr/lib/python3.4/http/server.py", line 1203, in test
+    httpd = ServerClass(server_address, HandlerClass)
+  File "/usr/lib/python3.4/socketserver.py", line 429, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.4/http/server.py", line 133, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.4/socketserver.py", line 440, in server_bind
+    self.socket.bind(self.server_address)
+PermissionError: [Errno 13] Permission denied
+vm$
+</code></pre>
+<p>Port 80 is "privileged," though, so we'll actually need to run this server
+with <code>sudo</code>:</p>
+<pre><code>vm$ sudo python3 -m http.server 80
+Serving HTTP on 0.0.0.0 port 80 ...
+</code></pre>
+<p>We can now verify the solution by placing the server process in the
+background and running the provided <code>curl</code> command:</p>
+<pre><code>vm$ sudo python3 -m http.server 80
+Serving HTTP on 0.0.0.0 port 80 ...
+^Z
+[1]+  Stopped                 sudo python3 -m http.server 80
+vm$ bg 1
+[1]+ sudo python3 -m http.server 80 &#x26;
+vm$ curl commander.local
+127.0.0.1 - - [29/Jul/1970 19:22:39] "GET / HTTP/1.1" 200 -
+&#x3C;!DOCTYPE>
+&#x3C;html>
+  &#x3C;head>
+    &#x3C;meta charset="utf-8" />
+    &#x3C;title>Oh boy, a Web Site!&#x3C;/title>
+  &#x3C;/head>
+  &#x3C;body>
+    Hello, world!
+  &#x3C;/body>
+&#x3C;/html>
+vm$
+</code></pre>
+<p>Using <code>sudo</code> like this is a fine solution for our local development
+environment, but don't forget the security risks of running a server with
+advanced permissions.</p>
+</li>
+</ol>
+
+		</section>
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

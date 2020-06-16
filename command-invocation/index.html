@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Command Invocation</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part II - Getting Your Bearings</h2>
+		<h3>Command Invocation</h3>
+
+		<pre><code class="language-terminal">vm$ ls
+my-amazing-subdirectory
+my-normal-file.txt
+vm$ ls my-amazing-subdirectory
+oh-boy-another-directory
+just-another-file.txt
+vm$ 
+</code></pre>
+<p>So far, we've been issuing commands in a relatively intuitive way: the name of
+the program, optionally followed by some specific "target"</p>
+<pre><code class="language-terminal">vm$ LS_COLORS="di=42" ls -lr --all --sort=size music/*.mp3
+Ace of Base - I Saw the Sign.mp3
+Santana - Smooth.mp3
+Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
+vm$ 
+</code></pre>
+<p>Commands can get far more cryptic. In this section, we'll step through the
+common conventions around invoking Unix commands.</p>
+<p>It's important to remember that every tool has its own set of options. For
+instance, the option <code>-l</code> does one thing to the <code>ls</code> utility, but it does
+something very different to <code>tree</code>, and it isn't even recognized for the <code>cat</code>
+utility.</p>
+<p>We'll cover a handful of tools, but we're not looking to learn how to do
+everything with every utility. We just want to be able to understand what's
+going on in these arcane incantations.</p>
+<h1>The Executable</h1>
+<pre><code class="language-terminal">vm$ pwd
+/home/sally
+vm$ /bin/pwd
+/home/sally
+vm$ 
+</code></pre>
+<p>When we talk about "invoking a command," we normally mean running a program.</p>
+<p>This is the terminal equivalent to double-clicking on an application icon in a
+macOS or Windows desktop.</p>
+<p>Programs like <code>pwd</code> are just executable files that reside in special locations
+in the file system (more detail on that later in this chapter).</p>
+<p>The "essential utilities" we cover here (like <code>pwd</code> and <code>ls</code>) have been written
+by many people over many years. They usually stick to set of conventions around
+<em>how</em> they are run--that's what this section is all about. Just remember: these
+utilities serve different purposes and were created independently, so they all
+have unique aspects as well.</p>
+<h1>Path options</h1>
+<pre><code class="language-terminal">vm$ ls ~/video ~/music
+~/video:
+
+~/music:
+Ace of Base - I Saw the Sign.mp3
+Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
+Santana - Smooth.mp3
+Stallman - Free Software Song.ogg
+vm$ 
+</code></pre>
+<p>Many utilities accept one or more path references. <code>ls</code> for example, will
+display the contents of every directory that is specified as an option.</p>
+<p>We've already seen how the shell replaces the tilde (<code>~</code>) character with the
+complete path to our "home" directory. We'll cover this behavior in more detail
+in just a moment.</p>
+<h1>Named options</h1>
+<pre><code class="language-terminal">vm$ cat my-normal-file.txt
+     This is the first line of just-another-file.txt
+     This is the second line of the file!
+     The file only has three lines, and this is the last one!
+vm$ cat --number my-normal-file.txt
+     1 This is the first line of just-another-file.txt
+     2 This is the second line of the file!
+     3 The file only has three lines, and this is the last one!
+vm$ 
+</code></pre>
+<p>Other options are "named"--they don't describe any particular file. Instead,
+their presence alters the behavior of the command. You can identify these
+because they usually start with two dashes (<code>--</code>)</p>
+<p>In this example, we're invoking <code>cat</code> with a named option and a path option.
+The <code>--number</code> option changes how <code>cat</code> displays the file contents.</p>
+<pre><code class="language-terminal">vm$ ls --sort=size ~/music
+Stallman - Free Software Song.ogg
+Ace of Base - I Saw the Sign.mp3
+Santana - Smooth.mp3
+Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
+vm$ 
+</code></pre>
+<p>Some options accept "arguments"--these allow for finer control over the
+option's behavior.</p>
+<p>By supplying the argument <code>size</code> to the <code>sort</code> option, we can cause the <code>ls</code>
+utility to arrange the list of directory contents in order of file size.</p>
+<pre><code class="language-terminal">vm$ cat --number --show-ends my-normal-file.txt
+     1 This is the first line of just-another-file.txt$
+     2 This is the second line of the file!$
+     3 The file only has three lines, and this is the last one!$
+vm$ cat --show-ends --number my-normal-file.txt
+     1 This is the first line of just-another-file.txt$
+     2 This is the second line of the file!$
+     3 The file only has three lines, and this is the last one!$
+vm$ 
+</code></pre>
+<p>Multiple options can be specified at the same time. If the effect of the
+options are independent (like in <code>--number</code> and <code>--show-ends</code> for the <code>cat</code>
+utility), then you can usually list them in whatever order you like. However,
+the order may matter in some cases; when in doubt, check the utility's
+documentation.</p>
+<pre><code class="language-terminal">vm$ cat -n --show-ends my-normal-file.txt
+     1 This is the first line of just-another-file.txt$
+     2 This is the second line of the file!$
+     3 The file only has three lines, and this is the last one!$
+vm$ cat --number -E my-normal-file.txt
+     1 This is the first line of just-another-file.txt$
+     2 This is the second line of the file!$
+     3 The file only has three lines, and this is the last one!$
+vm$ cat -n -E my-normal-file.txt
+     1 This is the first line of just-another-file.txt$
+     2 This is the second line of the file!$
+     3 The file only has three lines, and this is the last one!$
+vm$ cat -nE my-normal-file.txt
+     1 This is the first line of just-another-file.txt$
+     2 This is the second line of the file!$
+     3 The file only has three lines, and this is the last one!$
+vm$ 
+</code></pre>
+<p>Many options can also be specified with an abbreviated form, usually just a
+single letter. You'll prefix these with a single dash character (<code>-</code>). For
+example, the option <code>-n</code> has the same effect as <code>--number</code> on the <code>cat</code>
+utility.</p>
+<p>To make things even more compact, you can combine any "short" arguments
+together and just use one dash. To <code>cat</code>, <code>-n -E</code> is the same as <code>-nE</code> (or
+<code>-En</code> for that matter).</p>
+<p>If all these different forms behave the same, how should you choose between
+them? It comes down to personal preference. Short options are easier to type,
+and that becomes more important as you get more comfortable with the command
+line. Long options are easier to remember, and they're also easier to read.
+Readability is important when you write shell programs that you may share with
+other people (more on this in <a href="../scripting">Chapter 13 - Scripting</a>).</p>
+<h1>Anatomy of a Command</h1>
+<pre><code>                   LS_COLORS="di=42" ls -lr --all --sort=size music/*.mp3
+                   ^                 ^  ^   ^     ^      ^    ^     ^
+                   |                 |  |   |     |      |    |     |
+            ??? ---+                 |  |   |     |      |    |     |
+     executable ---------------------+  |   |     |      |    |     |
+  short options ------------------------+   |     |      |    |     |
+   long options ----------------------------+-----+      |    |     |
+option argument -----------------------------------------+    |     |
+   file options ----------------------------------------------+     |
+            ??? ----------------------------------------------------+
+</code></pre>
+<p>Options account for a majority of the complexity you will run across in shell
+commands.</p>
+<h1>Command Options</h1>
+<p><img src="dance-instructions.jpg" alt="dance instructions"></p>
+<p>"<a href="https://www.flickr.com/photos/javacolleen/5456875165/">Dance Steps on
+Broadway</a>" by
+<a href="https://www.flickr.com/photos/javacolleen/">javacolleen</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">CC
+BY-NC-ND 2.0</a>.</p>
+<p>We've seen a bunch of examples of options for various programs, but you may be
+wondering, "How do we know what's available?" Even if you remember that <code>ls</code> is
+short for "list," there is nothing intuitive about the usage <code>ls -lah</code>.</p>
+<p>Fortunately, there are tools available for discovery.</p>
+<h1><code>man</code></h1>
+<h2>Reference manual pages (documentation)</h2>
+<pre><code class="language-terminal">vm$ man ls
+(1)                  User Commands                 LS(1)
+
+NAME
+       ls - list directory contents
+
+SYNOPSIS
+       ls [OPTION]... [FILE]...
+
+DESCRIPTION
+       List  information  about  the  FILEs  (the  current
+       directory by default).  Sort entries alphabetically
+       if none of -cftuvSUX nor --sort is specified.
+
+       Mandatory  arguments  to long options are mandatory
+       for short options too.
+
+       -a, --all
+              do not ignore entries starting with .
+</code></pre>
+<ul>
+<li><code>man</code>, short for <strong>man</strong>ual, is a program that accepts the name of another
+program as an option.</li>
+<li>By default, this information is displayed by the <code>less</code> utility, so
+navigation is identical (see the previous section for details on <code>less</code>.)</li>
+<li>The system contains documentation for most of the available commands; these
+are referred to as "man pages."</li>
+</ul>
+<h1><code>help</code></h1>
+<h2>Find information on built-in commands</h2>
+<pre><code class="language-terminal">vm$ help cd
+cd: cd [-L|[-P [-e]] [-@]] [dir]
+    Change the shell working directory.
+    
+    Change the current directory to DIR.  The default DIR is the value of the
+    HOME shell variable.
+</code></pre>
+<p>If a command is not available in <code>man</code>, you can try <code>help</code>. The distinction
+here is beyond the scope of this chapter, although we'll revisit it in the next
+chapter. For now, you can use <code>help</code> as a fallback when <code>man</code> doesn't have what
+you're looking for.</p>
+<h1>The <code>--help</code> option</h1>
+<pre><code class="language-terminal">vm$ cat --help
+Usage: cat [OPTION]... [FILE]...
+Concatenate FILE(s), or standard input, to standard output.
+
+  -A, --show-all           equivalent to -vET
+</code></pre>
+<p>Finally, many programs support a <code>--help</code> option. If <code>man</code> and <code>help</code> don't
+have any information, <code>--help</code> is a good "last ditch" place to try.</p>
+<h1>The Shell</h1>
+<pre><code>                                 +-------+      +--------+
+command text (via keyboard) ---> |       | ---> |        |
+                                 | shell |      | system |
+output (via display)        &#x3C;--- |       | &#x3C;--- |        |
+                                 +-------+      +--------+
+</code></pre>
+<p>There's more to invocation than just options and arguments, though!</p>
+<p>The command prompt we've been using is provided by a program called a "shell."
+When you enter text into the prompt, the shell is responsible for wrangling
+together all the necessary executables, options, and/or files. This is why it
+is sometimes referred to as "the interpreter."</p>
+<h1>Shell Expansion</h1>
+<h2>The <code>~</code> character</h2>
+<pre><code>                   +-------+
+"vm$"         &#x3C;--- |       |                                    +--------+
+"ls ~/movies" ---> |       | -> "/bin/ls /home/sally/movies" -> |        |
+                   | shell |                                    | system |
+"hellboy.mp4" &#x3C;--- |       | &#x3C;------- "hellboy.mp4" &#x3C;---------- |        |
+"vm$"         &#x3C;--- |       |                                    +--------+
+                   +-------+
+</code></pre>
+<p>This might sound pretty abstract, but we've already been using the shell for
+its "interpreter" functionality.</p>
+<p>The shell is responsible for translating the name "ls" to the absolute path to
+the executable at <code>/bin/ls</code>. It also translates the tilde character (<code>~</code>) into
+the path to the current user's "home" directory.</p>
+<h1>It's All Around You</h1>
+<p><img src="surrounded.jpg" alt="photograph of trees extending into the sky"></p>
+<p>"<a href="https://www.flickr.com/photos/arvinasadi/9310562017/">Surrounded</a>" by <a href="https://www.flickr.com/photos/arvinasadi/">Arvin
+Asadi</a> is licensed under <a href="https://creativecommons.org/licenses/by/2.0/">CC BY
+2.0</a></p>
+<p>Understanding the way shell expansion works helps to explain why it is
+different from other invocation patterns. Individual applications can differ in
+the functionality they provide (for example, we've already seen that a given
+applications may or may not implement the <code>--help</code> flag). On the other hand,
+because shell expansion happens <em>before</em> program invocation, it will work for
+<em>every</em> application.</p>
+<h1><code>echo</code></h1>
+<h2>Print text to the screen</h2>
+<pre><code class="language-terminal">vm$ echo Whatever we type here will be printed to the screen.
+Whatever we type here will be printed to the screen.
+vm$ echo Please expand the tilde character ~ there.
+Please expand the tilde character /home/sally there.
+vm$ 
+</code></pre>
+<p><code>echo</code> is a tool for displaying text. It can be helpful when writing shell
+scripts (more on that in the next chapter), but it's also a useful way to
+experiment with shell substitution.</p>
+<h1>Shell Expansion</h1>
+<h2>The <code>*</code> character</h2>
+<pre><code class="language-terminal">vm$ ls music
+Ace of Base - I Saw the Sign.mp3
+Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
+Santana - Smooth.mp3
+Stallman - Free Software Song.ogg
+vm$ ls music/*.mp3
+Ace of Base - I Saw the Sign.mp3
+Mahler - Symphony No. 2 in C minor - 04 - Urlicht.mp3
+Santana - Smooth.mp3
+vm$ ls music/S*
+Santana - Smooth.mp3
+Stallman - Free Software Song.ogg
+vm$ ls music/S*.mp3
+Santana - Smooth.mp3
+vm$ 
+</code></pre>
+<p>The asterisk character (<code>*</code>) is another powerful shell substitution tool for
+expressing paths. Sometimes called the "wildcard" pattern, the operator allows
+you to specify a group of files that share some common path "part" (e.g. file
+name or sub-directory name).</p>
+<p>Whenever the shell encounters that character in a path, it replaces the path
+with a list of files that match the rest of the characters.</p>
+<h1>Shell Expansion</h1>
+<h2>Opting out</h2>
+<pre><code class="language-terminal">vm$ echo I have ~ 2 oranges
+I have /home/sally 2 oranges
+vm$ echo I have \~ 2 oranges
+I have ~ 2 oranges
+vm$ 
+</code></pre>
+<p>In some cases, you will need to use these special characters for their
+"literal" value. To do this, write a <code>\</code> just before them.</p>
+<h1>Anatomy of a Command (continued)</h1>
+<pre><code>                   LS_COLORS="di=42" ls -lr --all --sort=size music/*.mp3
+                   ^                 ^  ^   ^     ^      ^    ^     ^
+                   |                 |  |   |     |      |    |     |
+            ??? ---+                 |  |   |     |      |    |     |
+     executable ---------------------+  |   |     |      |    |     |
+  short options ------------------------+   |     |      |    |     |
+   long options ----------------------------+-----+      |    |     |
+option argument -----------------------------------------+    |     |
+   file options ----------------------------------------------+     |
+file "wildcard" ----------------------------------------------------+
+</code></pre>
+<p>There's just one more piece in this dissection of command patterns.</p>
+<h1>Environment Variables</h1>
+<iframe src="https://www.youtube.com/embed/gWPwlMv8lNI?start=176&end=221" frameborder="0" allowfullscreen>
+</iframe>
+<p>The "<strong>process environment</strong>" describes a set of key-value pairs associated
+with a given process. Each member of the set is an "<strong>environment variable</strong>",
+where the key is the variable's name and the value is the variable's value.</p>
+<p>Just like the current working directory, environment variables are a "hidden"
+aspect of the system that effect the behavior of many commands.</p>
+<h1>Environment Variables</h1>
+<h2>Syntax for Definition</h2>
+<pre><code class="language-terminal">vm$ export myVariable=my-variable-value
+vm$ echo Okay. Now what?
+Okay, Now what?
+vm$ 
+</code></pre>
+<p>We can use the <code>export</code> utility to create and modify environment variables.</p>
+<h1>Environment Variables</h1>
+<h2>Syntax for Inspection</h2>
+<pre><code class="language-terminal">vm$ export myVariable=variable-value
+vm$ echo The value of the variable "myVariable" is: $myVariable
+The value of the variable "myVariable" is: variable-value
+vm$ export mistake=value with spaces
+vm$ echo The value of the variable "mistake" is: $mistake
+The value of the variable "mistake" is: value
+vm$ export correct='value with spaces'
+vm$ echo The value of the variable "correct" is: $correct
+The value of the variable "correct" is: value with spaces
+vm$ 
+</code></pre>
+<p>To inspect them, another shell substitution feature comes to the rescue.</p>
+<h1>Environment Variables</h1>
+<h2>Process Isolation</h2>
+<pre><code class="language-terminal">vm$ export foo=bar
+vm$ echo $foo
+bar
+vm$ 
+</code></pre>
+<p>In a new shell:</p>
+<pre><code class="language-terminal">vm$ echo $foo
+vm$ 
+</code></pre>
+<p>Each process has an independent variable environment. This means we can feel
+confident experimenting with the environment; if anything goes wrong, we can
+just close the terminal window and try again with a new one.</p>
+<h1>Shells: under the hood</h1>
+<h2>The <code>PATH</code> environment variable</h2>
+<pre><code class="language-terminal">vm$ echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/sbin
+vm$ which ls
+/bin/ls
+vm$ which man
+/usr/bin/man
+vm$ export PATH=garbage
+vm$ ls
+Command 'ls' is available in '/bin/ls'
+The command could not be located because '/bin' is not included in the PATH environment variable.
+ls: command not found
+vm$ 
+</code></pre>
+<p>For most commands we execute on the command-line, we specify the name of an
+executable file. For example, when we write <code>ls</code>, we're actually saying "please
+execute the file stored on the file system at <code>/bin/ls</code>." In fact, we could
+even write the command as <code>/bin/ls</code>, and <code>ls</code> would run exactly as if we'd
+written <code>ls</code>.</p>
+<p>It's the shell's job to figure out that when we type <code>ls</code>, we mean <code>/bin/ls</code>.
+That saves us time typing, and it also means we don't have to remember where
+every executable is stored on the file system.</p>
+<p>The shell does this using the <code>PATH</code> environment variable. It is a
+colon-separated list of directories. Every time we type a command, the shell
+looks for an executable file with that name in each of the directories until it
+finds a match, and then it runs that executable.</p>
+<p>We can modify this value at our peril.</p>
+<h1>Shells: under the hood</h1>
+<h2>The <code>PS1</code> environment variable</h2>
+<pre><code class="language-terminal">vm$ echo Prompt: $PS1
+Prompt: vm$
+vm$ export PS1="my awesome prompt "
+my awesome prompt &#8203;echo Strange...
+Strange...
+my awesome prompt &#8203;
+</code></pre>
+<p>Remember that the shell is itself a program, so it follows all these same
+rules. It uses the variable <code>PS1</code> to display the command prompt. If we modify
+that variable, then we can change the behavior of the current shell.</p>
+<h1>Anatomy of a Command (continued)</h1>
+<pre><code>                   LS_COLORS="di=42" ls -lr --all --sort=size music/*.mp3
+                   ^                 ^  ^   ^     ^      ^    ^     ^
+                   |                 |  |   |     |      |    |     |
+environment var ---+                 |  |   |     |      |    |     |
+     executable ---------------------+  |   |     |      |    |     |
+  short options ------------------------+   |     |      |    |     |
+   long options ----------------------------+-----+      |    |     |
+option argument -----------------------------------------+    |     |
+   file options ----------------------------------------------+     |
+file "wildcard" ----------------------------------------------------+
+</code></pre>
+<h1>In Review</h1>
+<ul>
+<li>
+<p>Commands</p>
+<ul>
+<li>Executable</li>
+<li>Options (short and long, with and without options)</li>
+<li>Environment variables</li>
+<li>File options</li>
+<li>Shell substitutions</li>
+</ul>
+</li>
+<li>
+<p>Utilities</p>
+<ul>
+<li><code>echo</code> - display text on the screen</li>
+<li><code>export</code> - create and modify environment variables</li>
+<li><code>help</code> - display usage information for a utility</li>
+<li><code>man</code> - display <strong>man</strong>ual page for a utility</li>
+</ul>
+</li>
+</ul>
+
+
+		<section>
+			<h3>Exercise</h3>
+			<p><code>invoker</code> is the name of a program installed in the virtual machine. You can
+execute it as follows:</p>
+<pre><code>vm$ invoker
+</code></pre>
+<p>You'll find that it is picky about its expected input. If get lost, invoke the
+program with the <code>--help</code> option, as in:</p>
+<pre><code>vm$ invoker --help
+</code></pre>
+<p>...or read the instructions below. If you'd like to start from the beginning,
+invoke the program with the <code>--reset</code> option, as in:</p>
+<pre><code>vm$ invoker --reset
+</code></pre>
+<ol>
+<li>
+<p>Please invoke me with every file in the "/bin" directory that contains the
+letter "t" and/or that ends with the letter "s".</p>
+</li>
+<li>
+<p>Please invoke me with the value "Making the big $bucks."</p>
+</li>
+<li>
+<p>I support the "--word" option and the "short" version "-w". I also support
+the "-x" option. There are six unique ways to specify these options, even
+though each version means the same thing. Can you invoke me with all of
+them?</p>
+</li>
+<li>
+<p>Please invoke me with the "foo" environment variable set to "bar" and the
+"LIMIT" environment variable to "max".</p>
+</li>
+</ol>
+
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			<ol>
+<li>
+<p>We could invoke the program and type out each file name as an option. A
+quick look inside the directory (<code>ls /bin</code>) shows close to 150 files,
+though. Finding all the ones that satisfy the criteria would be pretty
+boring. This looks like a job for shell expansion.</p>
+<p>We've already seen how the shell expands <code>*</code> to potentially include many
+files. Let's split task into two sub-problems: finding the files that
+contain a <code>t</code> and finding files that end in <code>s</code>.</p>
+<ul>
+<li>The pattern <code>/bin/*s</code> matches all the files that end in <code>s</code>.</li>
+<li>The pattern <code>/bin/*t*</code> matches all the files that contain <code>t</code>.</li>
+</ul>
+<p>If we specify both patterns, then <code>invoker</code> will "see" the files in both
+sets:</p>
+<pre><code>vm$ invoker /bin/*s /bin/*t*
+</code></pre>
+</li>
+<li>
+<p>The shell will replace the text <code>$bucks</code> with the value of the environment
+variable named <code>bucks</code> unless we take special precautions to prevent it. We
+can do this by "escaping" the special dollar sign character (<code>$</code>) by writing
+a "backslash" character (<code>\</code>) just before it:</p>
+<pre><code>vm$ invoker Making the big \$bucks.
+</code></pre>
+<p>We could also wrap the string in single quotation mark characters (<code>'</code>) to
+get a similar effect:</p>
+<pre><code>vm$ invoker 'Making the big $bucks.'
+</code></pre>
+<p>Notice how using double quotation mark characters (<code>"</code>) does not work here.
+That's because shell expansion still occurs between those characters.</p>
+<p>We're taking all this special care to prevent shell expansion from
+occurring, but we could also solve the problem by embracing shell expansion.
+The goal is to provide the string "Making the big $bucks." to the <code>invoker</code>
+process; we can utilize environment variables and shell expansion to do this
+if we want to be tricky:</p>
+<pre><code>vm$ bucks=\$bucks
+vm$ invoker Making the big $bucks.
+</code></pre>
+<p>First, we storing the value '$bucks' in the environment variable named
+'bucks' (note the "backslash" character). Then we invoke the program using
+the variable in the options. We expect the shell to replace the string
+<code>$bucks</code>, but since it uses the value <code>$bucks</code>, we still satisfy the
+<code>invoker</code> program.</p>
+</li>
+<li>
+<p>We're looking to use all the possible combinations of these two options.
+Remember that the "short" version of an option is equivalent to its "long"
+form. That's why <code>-w --word</code> is not a valid solution. Also recall that
+"short" options may be specified separately or together, so <code>-w -x</code> and
+<code>-wx</code> are both valid. The valid solutions are:</p>
+<ul>
+<li><code>-w -x</code></li>
+<li><code>-x -w</code></li>
+<li><code>-wx</code></li>
+<li><code>-xw</code></li>
+<li><code>--word -x</code></li>
+<li><code>-x --word</code></li>
+</ul>
+</li>
+<li>
+<p>If we set the variables in our current environment, they may not be
+"exported" to the <code>invoker</code> child process. For instance:</p>
+<pre><code>vm$ foo=bar
+vm$ LIMIT=max
+vm$ echo $foo $LIMIT
+bar max
+vm$ invoker
+'foo' isn't set.
+'LIMIT' isn't set.
+vm$
+</code></pre>
+<p>...so we'll need to formally "export" the values:</p>
+<pre><code>vm$ export foo=bar
+vm$ export LIMIT=max
+vm$ echo $foo $LIMIT
+bar max
+vm$ invoker
+Success!
+vm$
+</code></pre>
+<p>Alternatively, we could specify the variables as we invoke the command. With
+this syntax, the variables will <em>not</em> be defined in the current environment.</p>
+<pre><code>vm$ foo=bar LIMIT=max invoker
+Success!
+vm$ echo $foo $LIMIT
+
+vm$
+</code></pre>
+</li>
+</ol>
+
+		</section>
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>

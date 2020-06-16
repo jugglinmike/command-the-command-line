@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'Open Sans';
+  src: url(type/opensans-bold.woff2) format('woff2'),
+    url(type/opensans-bold.woff) format('woff'),
+    url(type/opensans-bold.ttf) format('truetype');
+  font-weight: 800;
+  font-style: normal
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url(type/opensans-semibold.woff2) format('woff2'),
+    url(type/opensans-semibold.woff) format('woff'),
+    url(type/opensans-semibold.ttf) format('truetype');
+  font-weight: 600;
+  font-style: normal
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url(type/opensans-italic.woff2) format('woff2'),
+    url(type/opensans-italic.woff) format('woff'),
+    url(type/opensans-italic.ttf) format('truetype');
+  font-weight: 400;
+  font-style: italic
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url(type/opensans-regular.woff2) format('woff2'),
+    url(type/opensans-regular.woff) format('woff'),
+    url(type/opensans-regular.ttf) format('truetype');
+  font-weight: 400;
+  font-style: normal
+}

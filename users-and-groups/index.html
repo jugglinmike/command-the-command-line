@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Users and Groups</title>
+	<link rel="stylesheet" href="../assets/style-shared.css" />
+	<link rel="stylesheet" href="../assets/style-web.css" />
+</head>
+<body>
+<main>
+	<header>
+		<h1><a href="..">Command the Command Line</a></h1>
+	</header>
+		<nav>
+			<ul>
+				<li>
+					Part I - Introduction
+					<ul>
+						<li>
+							<a href="../about-course">
+								Ch. 1: About the course
+							</a>
+						</li>
+						<li>
+							<a href="../setup">
+								Ch. 2: Setup
+							</a>
+						</li>
+						<li>
+							<a href="../vagrant">
+								Ch. 3: Using Vagrant
+							</a>
+						</li>
+						<li>
+							<a href="../history">
+								Ch. 4: A Brief History of Unix
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part II - Getting Your Bearings
+					<ul>
+						<li>
+							<a href="../file-system">
+								Ch. 5: The File System
+							</a>
+						</li>
+						<li>
+							<a href="../command-invocation">
+								Ch. 6: Command Invocation
+							</a>
+						</li>
+						<li>
+							<a href="../process-mgmt-1">
+								Ch. 7: Process Management I
+							</a>
+						</li>
+						<li>
+							<a href="../sudo">
+								Ch. 8: All about &#x60;sudo&#x60;
+							</a>
+						</li>
+						<li>
+							<a href="../networking">
+								Ch. 9: Networking for Web Developers
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part III - Improving Your Workflow
+					<ul>
+						<li>
+							<a href="../file-mgmt">
+								Ch. 10: File Management
+							</a>
+						</li>
+						<li>
+							<a href="../process-bounds">
+								Ch. 11: Process Boundaries
+							</a>
+						</li>
+						<li>
+							<a href="../process-combination">
+								Ch. 12: Process Combination
+							</a>
+						</li>
+						<li>
+							<a href="../scripting">
+								Ch. 13: Scripting
+							</a>
+						</li>
+						<li>
+							<a href="../customization">
+								Ch. 14: Customization
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					Part IV - Managing Systems
+					<ul>
+						<li>
+							<a href="../process-mgmt-2">
+								Ch. 15: Process Management II
+							</a>
+						</li>
+						<li>
+							<a href="../users-and-groups">
+								Ch. 16: Users and Groups
+							</a>
+						</li>
+						<li>
+							<a href="../fhs">
+								Ch. 17: Filesystem Hierarchy Standard
+							</a>
+						</li>
+						<li>
+							<a href="../scheduling">
+								Ch. 18: Scheduling (TODO)
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	
+	<article>
+		<h2>Part IV - Managing Systems</h2>
+		<h3>Users and Groups</h3>
+
+		<p>Unix-like systems have a built-in understanding of <strong>users</strong>. Originally, these
+were intended to describe individual people interacting with the system through
+remote terminals (see <a href="../history">Chapter 4 - A Brief History of Unix</a>). That's still the case today, but user
+accounts are also used for many other purposes. A typical Unix-like system will
+have many "system users" that no one ever logs in to and that don't even have a
+"home" directory.</p>
+<p><img src="to-do-list.jpg" alt="A pen-and-paper check list"></p>
+<p>"<a href="https://www.flickr.com/photos/30478819@N08/36671223606/">to do list</a>" by
+<a href="https://www.flickr.com/photos/30478819@N08/">Marco Verch</a> is Licensed under
+<a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></p>
+<p>In general, you can think of a user as a set of rules about what may and may
+not be done in the system. When a human being logs in to that user account,
+they will be bound by those rules. Alternatively, an automated task (perhaps
+repeated on some regular interval) could be assigned to such a set of rules.</p>
+<p>On a Unix-like system, every process has an associated user which is known as
+its <strong>owner</strong>. As the process interacts with the system (reading files,
+creating new processes, etc.), the system allows or denies each request
+according to the process's owner. For instance, if the process's owner has
+permission to open the file at <code>/etc/shadow</code>, then the process does, too.</p>
+<h1>"Running as"</h1>
+<p>It's common to speak of this relationship by saying that a process "runs as" a
+user. These are all statements you might find written in technical
+documentation:</p>
+<ul>
+<li>"<a href="https://www.nginx.com/">nginx</a> is running as the 'www-data' user."</li>
+<li>"She logged in as 'sally' but ran 'find' as 'mark.'"</li>
+<li>"Don't run untrusted scripts as 'root!'"</li>
+</ul>
+<p>Whenever someone states that a process "runs as" a certain user, they're saying
+that the user is the owner of that process.</p>
+<h1>Groups</h1>
+<p>A <strong>group</strong> is a collection of users.</p>
+<p>To understand how groups can be useful, consider how me might keep track of all
+the users who are allowed to administer the system's printers. Assume that that
+responsibility includes three separate tasks: adding new printers, configuring
+existing printers, and removing unwanted printers.</p>
+<p>We could handle this without using groups. If a person named George was the
+only user that needed to perform this duty, then we could grant his user
+account permission to perform each task. If more people joined George, then
+we'd have to carefully assign each of those three permissions. If anyone took a
+new job, we'd need to remove the printer permissions without changing any
+others.</p>
+<p>This would all be easier if we created a group called "printer-admin". We could
+configure that <em>group</em> to have the three printer-related privileges. Then,
+whenever a new administrator joined, we would add their account to the
+"printer-admin" group. Likewise, when they quit, we'd only remove them from
+that group.</p>
+<p>In short, groups help maintain logical collections of rights for many users.</p>
+<h1><code>groups</code></h1>
+<h2>Print the groups a user is in</h2>
+<pre><code class="language-terminal">vm$ groups
+sally adm cdrom sudo dip plugdev lpadmin sambashare
+vm$ 
+</code></pre>
+<p>To see a list of the groups that the current user account belongs to, run the
+<code>groups</code> command.</p>
+<h1>File ownership</h1>
+<pre><code class="language-terminal">vm$ ls /home/larry
+ls: cannot open directory /home/larry: Permission denied
+vm$ ls -o /home
+total 102
+drwx------ 72 larry  24576 Jul 01 10:55 larry
+drwx------ 72 nancy  8374  Jul 09 10:55 nancy
+drwx------ 72 sally  39827 Jul 14 10:55 sally
+drwx------ 72 xavier 33432 Jul 11 10:55 xavier
+vm$ 
+</code></pre>
+<p>We saw in <a href="../sudo">Chapter 8 - All about <code>sudo</code></a> that different directories may "belong" to different
+users. A file's owner is a fundamental trait, just like its name. We can use
+the <code>ls</code> utility's <code>-o</code> flag to see files and directories listed with their
+owners.</p>
+<p>In this example, each directory's owner is displayed in the third column from
+the left. The directory's name is displayed in the final column. For
+subdirectories of <code>/home/</code>, the name and owner are often identical: Sally owns
+the directory named <code>sally</code>, and Larry owns the directory named <code>larry</code>. That
+sounds logical enough, but it doesn't have to be that way.</p>
+<pre><code class="language-terminal">vm$ ls -l /usr/bin/mail-lock /usr/bin/ssh-agent
+-rwxr-sr-x 3 root mail  14592 Dec  3  2012 /usr/bin/mail-lock
+-rwxr-sr-x 1 root ssh  288880 Jan 18  2018 /usr/bin/ssh-agent
+vm$ 
+</code></pre>
+<p>Programs stored in the <code>/usr/bin</code> directory have more interesting access
+controls. We'll use the <code>ls</code> utility's <code>-l</code> flag to view owner <em>and</em> group
+membership.</p>
+<p>The <code>ssh-agent</code> executable file belongs to the "root" user, but the name of its
+group is <code>ssh</code>. And though the <code>mail-lock</code> executable also belongs to the
+"def. of parameters for root" user, its group is <code>mail</code>.</p>
+<h1><code>chown</code></h1>
+<h2>Change file owner and group</h2>
+<pre><code class="language-terminal">vm$ cat README.txt
+cat: README.txt: Permission denied
+vm$ ls -o
+total 4
+-r-xr----- 1 root 29 Nov 17 17:23 README.txt
+vm$ sudo chown sally README.txt
+vm$ ls -o
+total 4
+-r-xr----- 1 sally 29 Nov 17 17:23 README.txt
+vm$ cat README.txt
+Hello! I am a "readme" file.
+vm$ 
+</code></pre>
+<p>You can use <code>chown</code> to <strong>ch</strong>ange files' <strong>own</strong>er.</p>
+<p>You'll often need to use the <code>sudo</code> utility because reassigning ownership is a
+privileged operation. (See <a href="../sudo">Chapter 8 - All about <code>sudo</code></a> for more information.)</p>
+<pre><code class="language-terminal">vm$ cat index.html
+cat: index.html: Permission denied
+vm$ ls -g
+total 4
+-rw-rw---- 1 root 67 Nov 17 17:51 index.html
+vm$ sudo chown :sally index.html
+vm$ ls -g
+total 4
+-rw-rw---- 1 sally 67 Nov 17 17:51 index.html
+vm$ cat index.html
+&#x3C;!DOCTYPE html>&#x3C;html>&#x3C;body>Hello! I am an HTML file.&#x3C;/body>&#x3C;/html>
+vm$ 
+</code></pre>
+<p>You can also use <code>chown</code> to change a file's group. Just write the group name
+after a color (<code>:</code>) character.</p>
+<h1>File Modes, revisited</h1>
+<pre><code class="language-terminal">vm$ echo 'echo Hello!' > greet.sh
+vm$ ./greet.sh
+-bash: ./greet.sh: Permission denied
+vm$ chmod +x greet.sh
+vm$ ./greet.sh
+Hello!
+vm$ 
+</code></pre>
+<p>In <a href="../scripting">Chapter 13 - Scripting</a>, we learned about how a file's "mode" determines whether
+it is executable or not.</p>
+<pre><code class="language-terminal">vm$ chmod -x greet.sh
+vm$ ./greet.sh
+-bash: ./greet.sh: Permission denied
+vm$ chmod -w greet.sh
+vm$ echo > "# I can't write to the file anymore" >> greet.sh
+-bash: greet.sh: Permission denied
+vm$ chmod -r greet.sh
+vm$ cat greet.sh
+cat: greet.sh: Permission denied
+vm$ 
+</code></pre>
+<p>There are two additional kinds of file permissions: readable and writable. If a
+file isn't readable by a given user, then that users won't be able to see its
+contents. If a file isn't writable by a given user, then that user won't be
+able to change its contents.</p>
+<p>When we create a file, the system automatically grants our user account
+permission to read and write that file. We can remove those positions if we
+want, and we can even use the familiar <code>chmod</code> utility to do it. We replace the
+plus sign (<code>+</code>) with the minus sign (<code>-</code>) to remove.</p>
+<pre><code class="language-terminal">vm$ chmod +r greet.sh
+vm$ chmod +x greet.sh
+vm$ ls -l greet.sh
+-r-xr-xr-x 1 sally sally 68 Nov 22 18:21 greet.sh
+vm$ 
+</code></pre>
+<p>When run with the <code>-l</code> flag, the <code>ls</code> utility also displays file mode
+information. The first column of output contains a field of dashes and letters.
+The second, third, and fourth character of the sequence describe the read,
+write, and execute permissions for the file's owner, respectively.</p>
+<p>If the second character is an <code>r</code>, then the file's owner has the "read"
+permission. If it is a dash (<code>-</code>), then the owner does not. Likewise, the third
+character is either a <code>w</code> (signifying that the file is writable by its owner)
+or a dash (signifying that it is not writable). The fourth character may either
+be an <code>x</code> (if the file is executable by its owner) or a dash (if it is not).</p>
+<pre><code class="language-terminal">vm$ cat ./file-permission-field.txt
+
+  (r)ead, (w)rite, and e(x)ecute permissions for the file's owner
+  ^
+ / \
+ | | (r)ead, (w)rite, and e(x)ecute permissions for members of the file's group
+ | | ^
+ | |/ \
+ | || | (r)ead, (w)rite, and e(x)ecute permissions for all other users
+ | || | ^
+ | || |/ \
+ | || || |
+-rwxrwxrwx
+
+vm$ 
+</code></pre>
+<p>If that wasn't complicated enough, these same three permissions are also
+maintained for the file's group and for all other users. The next six
+characters in the output of <code>ls</code> use the same pattern to communicate whether
+the read, write, and execute permissions have been granted to each of those
+two sets of users.</p>
+<p>In the earlier example about printer administration, all members of the
+<code>printer-amdin</code> group were allowed to maintain the system's printers. This is
+possible for files (for example, a file containing the list of active printers)
+because the system controls "group" permissions separately from "owner"
+permissions and "other user" permissions.</p>
+<pre><code class="language-terminal">vm$ chmod -r greet.sh
+vm$ chmod -w greet.sh
+vm$ chmod -x greet.sh
+vm$ ls -l greet.sh
+---------- 1 sally sally 68 Nov 22 18:21 greet.sh
+vm$ chmod u+rx greet.sh
+vm$ chmod g+w greet.sh
+vm$ chmod o+x greet.sh
+vm$ ls -l greet.sh
+-r-x-w---x 1 sally sally 68 Nov 22 18:21 greet.sh
+vm$ 
+</code></pre>
+<p>If we want to modify those other permissions, we can once again use the <code>chmod</code>
+utility. Now, we'll make our mode change even more specific so that it only
+effects the permissions for the file's owner, its group, or all other users.
+This is all done by prefixing the permissions list with another character.</p>
+<p>We can add or remove permissions for the file's owner by prefixing the
+permission list with a <code>u</code>. We can add or remove permissions for the file's
+group by prefixing the permission list with a <code>g</code>. Finally, we can add or
+remove permissions for all other users by prefixing the permission list with an
+<code>o</code>.</p>
+<h1>In Review</h1>
+<ul>
+<li>Users are the way Unix-like systems express and enforce permissions for all
+interactions</li>
+<li>Groups are a convenient way to maintain permissions between many users</li>
+<li>Every file in the system designates one user account as its "owner", and it
+likewise "belongs" to one specific group</li>
+<li>Every file in the system has a "mode" which describes whether users can read,
+write, and execute it. That set is defined independently for a file's owner,
+for member of a file's group, and for all other users on the system.</li>
+<li>The <code>chmod</code> utility can be used to modify file permissions, and the <code>ls</code>
+utility can be used to review file permissions</li>
+</ul>
+
+
+		<section>
+			<h3>Exercise</h3>
+			<ol>
+<li>Create a file named <code>announcements.txt</code> that only the root user can modify
+but that everyone can read.</li>
+<li>Create a file named <code>penguins.sh</code> that only members of the group named
+<code>sudo</code> can delete.</li>
+</ol>
+
+		</section>
+
+		<input type="checkbox" id="solution-toggle" />
+		<label for="solution-toggle">Show/hide solution</label>
+		<section class="solution">
+			<h3>Solution</h3>
+			<ol>
+<li>
+<p>You can create a file however you like. Here, we'll use output redirection
+(discussed in <a href="undefined/process-bounds">Chapter 11 - Process Boundaries</a>):</p>
+<pre><code>vm$ echo Hello > announcements.txt
+</code></pre>
+<p>Next, we'll remove "write" permissions for the file's group:</p>
+<pre><code>vm$ chmod g-w announcements.txt
+</code></pre>
+<p>And also remove "write" permissions for everyone else:</p>
+<pre><code>vm$ chmod o-w announcements.txt
+</code></pre>
+<p>Since we want to control access for one specific user, we'll have to make
+that user the owner:</p>
+<pre><code>vm$ chown root announcements.txt
+</code></pre>
+<p>That's it! We can verify using the <code>ls</code> utility or by trying to read to and
+write from the file as a non-root user.</p>
+<pre><code>vm$ ls -l announcements.txt
+-rw-r--r-- 1 root sally 6 Nov 24 18:08 announcements.txt
+</code></pre>
+<p>This is telling us that the owner is allowed to read and write (<code>rw-</code>), that
+the group is only allowed to read (<code>r--</code>), and that all other users are only
+allowed to read (again, <code>r--</code>). It also shows that the file's owner is the
+<code>root</code> user.</p>
+<p>We can also verify experimentally by trying to read the file as a non-root
+user (which should work) and by trying to write to the file as a non-root
+user (which should not work):</p>
+<pre><code>vm$ cat announcements.txt
+Hello
+vm$ echo 'Another line of text' >> announcements.txt
+-bash: announcements.txt: Permission denied
+</code></pre>
+</li>
+<li>
+<p>We'll make the file with output redirection again:</p>
+<pre><code> vm$ echo true > penguins.sh
+</code></pre>
+<p> There is no file permission that allows/disallows deleting specifically; any
+user with "write" permission to a file may also delete that file. There's a
+good reason for this: any user who can edit a file is able to remove all of
+that file's contents. In other words, they can essentially delete the file.
+So there's not much use in defining a separate "delete" permissions.
+Permissions are already complicated enough!</p>
+<p> That means we can rewrite this exercise to say, "Create a file that only
+members of the group named <code>sudo</code> can <strong>modify</strong>." If we want to grant
+access to a file for a specific group, that file needs to "below" to the
+group. Setting file ownership is a job for <code>chown</code>:</p>
+<pre><code> vm$ chown :sudo penguins.sh
+</code></pre>
+<p> We can verify using <code>ls</code>:</p>
+<pre><code> vm$ ls -l penguins.sh
+ -rw-r--r-- 1 sally sudo 5 Dec  8 17:42 penguins.sh
+</code></pre>
+<p>The word <code>sudo</code> in the fourth column proves that the file now belongs to the
+group named <code>sudo</code>.</p>
+<p>We use the <code>chmod</code> utility to set the permissions for files. In this case,
+we want to target the file's group (so we'll use <code>g</code>), we want to add a
+permission (so we'll use the plus sign, <code>+</code>), and we want the select the
+"write" permission (so we'll use <code>w</code>):</p>
+<pre><code>vm$ chmod g+w penguins.sh
+</code></pre>
+<p>Once again, <code>ls</code> will let us review the permission information:</p>
+<pre><code>vm$ ls -l penguins.sh
+-rw-rw-r-- 1 sally sudo 5 Dec  8 17:42 penguins.sh
+</code></pre>
+<p>That's almost right, but the instructions say that <em>only</em> members of the
+<code>sudo</code> group should be able to delete the file. The permissions field reads
+<code>-rw-rw-r--</code>. The first <code>rw-</code> means that the owner is also allowed to modify
+(and therefore delete) the file. We'll need to use <code>chmod</code> to revoke that
+permission: <code>u</code> to target the file's owner, <code>-</code> to remove the permission, and
+<code>w</code> to select the "write" permission:</p>
+<pre><code>vm$ chmod u-w penguins.sh
+</code></pre>
+<p>Now (finally), we should have a file in the desired state.</p>
+<pre><code>vm$ ls -l penguins.sh
+-r--rw-r-- 1 sally sudo 5 Dec  8 17:42 penguins.sh
+</code></pre>
+</li>
+</ol>
+
+		</section>
+	</article>
+	<footer>
+		<div class="about">
+			<a href="..">
+				Command the Command Line</a> is an open educational resource. To
+				share your feedback, open an issue or a pull request on <a
+				href="https://github.com/jugglinmike/command-the-command-line">
+				the project's source code repository</a>.
+		</div>
+		<div class="license">
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				<img alt="Creative Commons License"
+					src="../assets/cc-by-sa.png" />
+			</a>
+			<br />
+			Except where otherwise noted, content on this site is licensed under a
+			<a rel="license"
+				href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License
+			</a>.
+		</div>
+	</footer>
+</main>
+	<script src="../app.js" /></script>
+</body>
+</html>
