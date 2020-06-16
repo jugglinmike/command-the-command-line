@@ -32,7 +32,7 @@ deploy: build $(OUTDIR_WEB)/.git
 	cd $(OUTDIR_WEB); \
 		git remote set-url upstream $(UPSTREAM); \
 		git add --all .; \
-		git commit --amend --message 'Build site';\
+		git commit --amend --message 'Build site'; \
 		git push --force upstream gh-pages
 
 .PHONY: deploy-box
