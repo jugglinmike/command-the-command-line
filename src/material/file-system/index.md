@@ -321,10 +321,14 @@ BY-NC 2.0](https://creativecommons.org/licenses/by-nc/2.0/).
 
 ???
 
-- Up until now, all the paths we've used have been based on the current working
-  directory.
-- It's also possible to specify a path regardless of our current
-  location.
+Up until now, all the paths we've used have been based on the current working
+directory. When our current working directory was `/home`, then `cd sally`
+meant, "move to the directory named `sally` (inside of `/home`)." If we had
+started in the `/etc` directory, then the same command `cd sally` would have
+put us somewhere different: `/etc/sally`.
+
+It's also possible to write paths that describe the same location regardless of
+our current working directory.
 
 ---
 
