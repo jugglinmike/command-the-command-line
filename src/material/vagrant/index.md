@@ -40,25 +40,24 @@ When we run the command `vagrant up` from a directory that has a file
 
 ```terminal
 pc$ vagrant ssh
-Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-39-generic x86_64)
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.4.0-37-generic x86_64)
 
- * Documentation:  https://help.ubuntu.com/
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
 
-  System information as of Thu Jul 14 22:50:45 UTC
+  System information as of Tue Jun 16 20:55:12 UTC 2020
 
-  System load:  0.97              Processes:           81
-  Usage of /:   2.7% of 39.34GB   Users logged in:     0
-  Memory usage: 25%               IP address for eth0: 10.0.2.15
+  System load:  1.43              Processes:               120
+  Usage of /:   3.3% of 38.71GB   Users logged in:         0
+  Memory usage: 17%               IPv4 address for enp0s3: 10.0.2.15
   Swap usage:   0%
 
-  Graph this data and manage this system at:
-    https://landscape.canonical.com/
 
-  Get cloud support with Ubuntu Advantage Cloud Guest:
-    http://www.ubuntu.com/business/services/cloud
+11 updates can be installed immediately.
+8 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
 
-0 packages can be updated.
-0 updates are security updates.
 vm$ 
 ```
 
