@@ -371,11 +371,11 @@ vm$
 
 ???
 
-- `tree` is a powerful tool for visualizing files, directories, and their
-  relationships.
-- It uses a text-based "tree" diagram
-- It is not included in all systems by default, so you may need to install it
-  yourself
+`tree` is a powerful tool for visualizing files, directories, and their
+relationships. It uses a text-based "tree" diagram.
+
+`tree` isn't included in all systems by default, so when you're working with a
+system outside of this course, you may need to install it yourself
 
 ---
 
