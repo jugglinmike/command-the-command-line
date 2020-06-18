@@ -30,13 +30,17 @@ vm$
 
 ???
 
-- Things can get a lot less intuitive.
-- In this section, we'll step through the common conventions around invoking
-  Unix commands.
-- It's important to remember that every tool has its own set of options
-- We're not looking to memorize how to do everything with every tool; instead,
-  we just want to be able to pick apart what's going on in these arcane
-  incantations.
+Commands can get far more cryptic. In this section, we'll step through the
+common conventions around invoking Unix commands.
+
+It's important to remember that every tool has its own set of options. For
+instance, the option `-l` does one thing to the `ls` utility, but it does
+something very different to `tree`, and it isn't even recognized for the `cat`
+utility.
+
+Well cover a handful of tools, but we're not looking to learn how to do
+everything with every utility. We just want to be able to pick apart what's
+going on in these arcane incantations.
 
 ---
 

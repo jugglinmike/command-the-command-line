@@ -38,7 +38,7 @@ feel free to use a text editor if you prefer.)
 To run the script, we are providing it as an option to `bash`. Bash is a very
 common shell (in fact, it's the one we're using in this course's virtual
 environment). Other popular shells support this functionality, as well, but
-we'll stick with `bash` because it is so widely available.
+we'll stick with Bash because it is so widely available.
 
 Bash reads the content of the file and executes it line-by-line. As you can
 see, it connects the standard output to our terminal, so the output looks no
