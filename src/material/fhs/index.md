@@ -128,7 +128,7 @@ directories.
 
 ```terminal
 vm$ cat fhs-admin.txt
-  * = directories for aministrators
+  * = directories for administrators
 
     bin/       usr/            var/
     boot/         bin/            account/
