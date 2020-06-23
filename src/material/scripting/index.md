@@ -59,14 +59,15 @@ vm$
 
 Note that the `.sh` suffix in the file name is entirely optional.
 POSIX-compliant systems do not interpret the "extension" during invocation.
-Even so, it's a hint for humans about how the file is intended to be used.
+Even so, it's a good idea to use an appropriate extension because it's a hint
+for humans about how the file is intended to be used.
 
 ---
 
 # Ergonomics
 
 This is technically all we need to get started writing scripts, but we can take
-a few more steps to make it more comfortable to use scripts.
+a few more steps to make using the scripts more comfortable.
 
 ---
 
@@ -164,11 +165,11 @@ vm$
 
 When we invoke our script, the program loader assumes that the script should be
 interpreted with our default shell (as mentioned earlier, this is Bash in this
-course's virtual environment). This is a valid assumption for the shells we
-author for ourselves and for the current system.  However, another system may
-be configured to use a different shell by default. In that case, our script
-would be interpreted by that other shell, and there's no telling if it would
-work correctly there.
+course's virtual environment). This is a valid assumption for the scripts we
+write ourselves and for the current system. However, another system may be
+configured to use a different shell by default. In that case, our script would
+be interpreted by that other shell, and there's no telling if it would work
+correctly there.
 
 Because we may want to share our scripts with others (or re-use them in
 different environments), we can't take the shell for granted. Ideally, we want

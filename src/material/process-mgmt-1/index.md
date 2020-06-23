@@ -146,6 +146,9 @@ By holding the `Ctrl` key and then processing the `z` key, we can send a
 special "SIGTSTP" signal to the current process. This causes the process to
 stop (but not exit) and release the terminal.
 
+We can go back to entering more commands, but the "stopped" command will wait
+in the background forever. We can get it to continue working *without* tying up
+the terminal again, but doing that will take a new command.
 
 ---
 
@@ -164,10 +167,13 @@ vm$
 ???
 
 The `find` process is known as a "job," and we can verify that it is still
-present (but "stopped") with the `jobs` command. While it is "stopped", it is
-no longer doing any work. We can use the `bg` command to set it running again.
-There can be any number of jobs running at once, so we need to refer to the job
-we want by ts "job ID" (`1` in this case).
+present (but "stopped") with the `jobs` command. If we had used `Ctrl`+`z` with
+other commands, then they'd be listed here, too.
+
+While a process is "stopped", it is no longer doing any work. We can use the
+`bg` command to set it running again. There can be any number of jobs running
+at once, so we need to refer to the job we want by ts "job ID" (`1` in this
+case).
 
 ---
 

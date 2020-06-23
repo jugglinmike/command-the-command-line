@@ -38,8 +38,8 @@ instance, the option `-l` does one thing to the `ls` utility, but it does
 something very different to `tree`, and it isn't even recognized for the `cat`
 utility.
 
-Well cover a handful of tools, but we're not looking to learn how to do
-everything with every utility. We just want to be able to pick apart what's
+We'll cover a handful of tools, but we're not looking to learn how to do
+everything with every utility. We just want to be able to understand what's
 going on in these arcane incantations.
 
 ---
