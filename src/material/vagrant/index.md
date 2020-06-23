@@ -85,6 +85,9 @@ enter instructions--we'll be doing a lot of that in the coming sections.
 
 When you want to log out of the virtual machine, type `exit` and press `Enter`.
 
+If you want to log back in (and the virtual machine is running), you can type
+`vagrant ssh` again.
+
 ---
 
 # When you're done (for the day)
