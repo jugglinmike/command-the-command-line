@@ -5,34 +5,18 @@ layout: chapter.html
 
 ???
 
-Hopefully as we finish chapter 2, you are feeling more comfortable following
-instructions in a Unix-like environment.
+If you've been using a Unix-like environment before working through this guide,
+you may recognize the word `sudo`. It shows up in commands and scripts all over
+the Internet, often without an explanation. Even if you've never seen it
+before, it's an important part of working on the command line.
 
-There's one more topic that is important to understand: the `sudo` utility.
+What does it do? How does it work? When should you use it?
+
+That's what this chapter is all about.
 
 ---
 
 # Background: Users and permissions
-
-```terminal
-vm$ whoami
-sally
-vm$ 
-```
-
-???
-
-Recall from :chapter:history: that Unix was designed as a time-sharing system.
-Many people were expected to be logged in and working at the same time. The
-system recognizes "users" as a way to promote privacy while still allowing
-people to share files and devices.
-
-The `whoami` application is one of the better-named utilities in our toolkit;
-it simply displays the name of the user who invoked it.
-
----
-
-:continued:
 
 ```terminal
 vm$ echo $HOME
@@ -46,6 +30,11 @@ vm$
 ```
 
 ???
+
+Recall from :chapter:history: that Unix was designed as a time-sharing system.
+Many people were expected to be logged in and working at the same time. The
+system recognizes "users" as a way to promote privacy while still allowing
+people to share files and devices.
 
 We've already seen some evidence of this: our `$HOME` directory isn't simply
 `/home`; it's a sub-directory of `/home` named `sally`. This suggests that
@@ -64,7 +53,7 @@ vm$
 ???
 
 We don't generally have access to the `$HOME` directories that belong to other
-users.
+users. How does the system keep track of ownership?
 
 ---
 
@@ -86,6 +75,25 @@ All files and folders have a set of "permissions" which describe exactly which
 users may interact with them, and even *how* they may interact.
 
 We'll cover this in greater detail in later sections.
+
+---
+
+# `whoami`
+
+## Show the name of the current user
+
+```terminal
+vm$ whoami
+sally
+vm$ 
+```
+
+???
+
+The `whoami` application is one of the better-named utilities in our toolkit;
+it simply displays the name of the user who invoked it. We're about to learn to
+switch between accounts, so this will be a helpful tool to show the effect of
+the new commands.
 
 ---
 
@@ -119,10 +127,11 @@ rm: cannot remove ‘/bin/login’: Permission denied
 
 ???
 
-This separation is good news for when you are learning because it means you are
+This separation is helpful when you are learning because it means you are
 unable to perform many actions that would break things. Even the person who is
 "in charge" of the system (that's you in these exercises and on your personal
-computer) usually has a normal user account. This limits the damage that a
+computer) usually has a normal user account. In addition to reducing the risk
+of mistakes, working under a separate account limits the damage that a
 malicious program can do when it runs on your behalf.
 
 ---
@@ -140,11 +149,12 @@ vm$
 
 ???
 
-- The `sudo` utility allows us to execute single commands as the `root` user.
-- There is some disagreement about where its name comes from. Some say it is
-  short for "**s**uper **u**ser **do**." Because you may use the `-u` option to
-  execute a command as *any* user, some argue that it is short for "**s**witch
-  **u**ser and **do**."
+The `sudo` utility allows us to execute single commands as the `root` user.
+
+There is some disagreement about where its name comes from. Some say it is
+short for "**s**uper **u**ser **do**." Because you may use the `-u` option to
+execute a command as *any* user, some argue that it is short for "**s**witch
+**u**ser and **do**."
 
 ---
 
