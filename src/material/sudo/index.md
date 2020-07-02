@@ -99,6 +99,12 @@ the new commands.
 
 # Background: the `root` user
 
+![Root vegetables](root-vegetables.jpg)
+
+"[Root vegetables](https://www.flickr.com/photos/sheeprus/36552307803)" by
+[Sheep"R"Us](https://www.flickr.com/photos/sheeprus/) is licensed under [CC
+BY-NC-ND 2.0](https://creativecommons.org/licenses/by-nc-nd/2.0/)
+
 ???
 
 A Unix-like system can have any number of user accounts like this. However,
