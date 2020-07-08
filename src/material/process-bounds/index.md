@@ -12,7 +12,7 @@ about the way information flows through processes that we haven't covered yet.
 
 ```terminal
 vm$ cat ./process-bounds.txt
-         options ------+
+         options ------.
 environment vars ------+
                        V
                   +---------+
@@ -20,7 +20,7 @@ standard input -> | Process | -> standard output
        signals -> |         | -> standard error
                   +---------+
                        |
-                       +-------> exit status
+                       '-------> exit status
 vm$ 
 ```
 
@@ -176,11 +176,11 @@ vm$ cat input-redirected.txt
 |           |
 |           |
 +-----------+                +- Terminal -+     +- sort < i.txt -+
- \           \ --> stdin --> |            |  +> |                |
+ \           \ --> stdin --> |            |  .> |                |
   +- Keyboard +              +------------+  |  +----------------+
                                              |
  +-- i.txt --+                               |
- |           | ------------------------------+
+ |           | ------------------------------'
  +-----------+
 vm$ 
 ```
@@ -281,7 +281,7 @@ and how to send them.
 
 ```terminal
 vm$ cat ./process-bounds.txt
-         options ------+
+         options ------.
 environment vars ------+
                        V
                   +---------+
@@ -289,7 +289,7 @@ standard input -> | Process | -> standard output
        signals -> |         | -> standard error
                   +---------+
                        |
-                       +-------> exit status
+                       '-------> exit status
 vm$ 
 ```
 
@@ -498,11 +498,11 @@ describing the error is still being printed to the screen.
 ```terminal
 vm$ cat stdio-demux-out.txt
                                                  +-- o.txt --+
-                           +-------------------> |   /home   |
+                           .-------------------> |   /home   |
                            |                     +-----------+
                            |
 + ls > o.txt +             |  +- Terminal -+     +- Display -+
-|   /home    | --> stdout -+  |            |     |   error!  |
+|   /home    | --> stdout -'  |            |     |   error!  |
 |   error!   | --> stderr --> | ---------> | --> |           |
 +------------+                +------------+     +-----------+
                                                   \           \
@@ -559,12 +559,12 @@ vm$ cat stdio-demux-err.txt
 
 + ls 2> e.txt +                +- Terminal -+     +- Display -+
 |   /home     | --> stdout --> | ---------> | --> |   /home   |
-|   error!    | --> stderr -+  |            |     |           |
+|   error!    | --> stderr -.  |            |     |           |
 +-------------+             |  +------------+     +-----------+
                             |                      \           \
                             |                       +-----------+
                             |                     +-- e.txt --+
-                            +-------------------> |   error!  |
+                            '-------------------> |   error!  |
                                                   +-----------+
 vm$ 
 ```
@@ -601,17 +601,17 @@ this case, the order we specify the redirection targets does not matter.
 ```terminal
 vm$ cat stdio-demux-both.txt
                                               +-- o.txt --+
-                           +----------------> |   /home   |
+                           .----------------> |   /home   |
                            |                  +-----------+
  ls > o.txt \              |
 +   2> e.txt +             |  +- Terminal -+  +- Display -+
-|   /home    | --> stdout -+  |            |  |           |
-|   error!   | --> stderr -+  |            |  |           |
+|   /home    | --> stdout -'  |            |  |           |
+|   error!   | --> stderr -.  |            |  |           |
 +------------+             |  +------------+  +-----------+
                            |                   \           \
                            |                    +-----------+
                            |                  +-- e.txt --+
-                           +----------------> |   error!  |
+                           '----------------> |   error!  |
                                               +-----------+
 vm$ 
 ```
