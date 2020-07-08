@@ -55,7 +55,9 @@ vm$ my_var=123 magic-app --an_option
 
 We previously discussed options and environment variables in
 :chapter:command-invocation: (although we didn't refer to them as
-"communication channels" at the time).
+"communication channels" at the time). If we want to provide input in this way,
+we have to do this at the moment we create the process. We can't change the
+options or the environment variables of a running process.
 
 ---
 
@@ -248,9 +250,12 @@ vm$
 ???
 
 As much as we might enjoy working on the command line, the shell is not a great
-environment to author large amounts of copy. We'd much rather use our own
-editor (`nano` perhaps?) to compose a message. Input redirection allows us to
-send messages from files we created elsewhere.
+environment to author large amounts of prose. For instance, once you've entered
+text, you can't go back and change it. It's almost like using a typewriter.
+
+We'd much rather use a text editor (`nano` perhaps?) to compose a message. We
+can save that to a file and use input redirection to feed our message into
+`mail`.
 
 ---
 
@@ -375,7 +380,9 @@ vm$
 
 ???
 
-If the file *does* exist, then its contents will be truncated before writing.
+If the file *does* exist, then its contents will be "truncated" before writing.
+The file's original contents will be completely replaced by the output from the
+new command.
 
 ---
 
@@ -395,8 +402,9 @@ vm$
 
 ???
 
-Though the shell supports *appending* to existing files through the use of the
-character sequence `>>`.
+The shell also supports *appending* to existing files. If we set up output
+redirection using the character sequence `>>`, then the output from the new
+command will be added to the end of the file.
 
 ---
 
@@ -584,7 +592,7 @@ vm$
 ???
 
 We can use both output redirection mechanisms at the same time if we wish. In
-this case, the we specify the redirection targets does not matter.
+this case, the order we specify the redirection targets does not matter.
 
 ---
 
@@ -627,9 +635,11 @@ vm$
 
 ???
 
-Sometimes, we might want to redirect both streams to the same file. We could
-simply specify the same file for both redirections. If we'd like to avoid that
-duplication, we can use the special `2>&1` shorthand which means, "redirect
+Sometimes, we might want to redirect both streams to the same file. We can't
+specify the same file for both redirections because both would attempt to
+"truncate," and only one could be successful.
+
+Instead, we can use the special `2>&1` shorthand which means, "redirect
 standard error to the same location as standard output."
 
 ---
@@ -648,7 +658,8 @@ vm$
 ???
 
 Be careful, though! The terminal applies the operators from left to right, so
-their order matters when using the `2>&1` shorthand:
+their order matters when using the `2>&1` shorthand. If we specified the two
+redirections in reverse, the result wouldn't match what we want:
 
 1. (initial state)
    - `ls` standard output -> terminal standard output
@@ -686,10 +697,10 @@ vm$
 
 ???
 
-We've been discussing one way processes communicate this distinction: they often
-output different information to the standard output stream and the standard
-error stream. In the best cases, this allows programs to concisely describe
-exactly what went wrong.
+We've been discussing one way processes communicate this distinction: they
+often output different information to the standard output stream and the
+standard error stream. This allows programs to describe what went wrong in
+plain English.
 
 ---
 
@@ -705,9 +716,15 @@ vm$
 
 ???
 
-But this also allows programs to vary slightly in the way they communicate the
-same errors. The "standard" in "standard error" describes the stream but *not*
-its contents.
+But programs may vary slightly in the way they communicate the same errors.
+
+For example, the commands `cat` and `less` are both designed to work with files
+and not with directories. Both commands report an error when they are invoked
+with the name of a directory, but the way they describe the problem is subtly
+different.
+
+Just remember: the word "standard" in "standard error" describes the stream but
+*not* its contents.
 
 ---
 
@@ -727,9 +744,9 @@ vm$
 
 ???
 
-As a process completes, it emits a number that describes the conditions that
-caused it to end. We can access the exit status of the previous command with
-the special variable named `$?`.
+When a process completes, it emits a number that describes the conditions that
+caused it to end. This is known as the "exit status." We can access the exit
+status of the previous command with the special variable named `$?`.
 
 A status of `0` signifies "the process completed normally." Any other value
 indicates that there was an error.
@@ -755,8 +772,12 @@ vm$
 
 ???
 
-...but it is far more consistent. This makes some intuitive sense; as an
-integer value, there is less room for different "phrasings" between programs.
+...but it is far more consistent. `cat` and `less` may describe the "unexpected
+directory" problem with different text, but they both report the same exit
+status.
+
+This makes some intuitive sense; as an integer value, there is less room for
+different "phrasings" between programs.
 
 ---
 
@@ -777,16 +798,16 @@ vm$
 ???
 
 The value `1` is the most common exit status for errors; many applications
-treat it as a "catch all" for any error. However, programs may other non-zero
-values to communicate more fine-grained information about the error.
+treat it as a "catch all" for any error. However, programs may use other
+non-zero values to communicate more fine-grained information about the error.
 
-In this example, `sleep` reports one status code for faulty input and a
-different status code when it is interrupted by a signal.
+In this example, `sleep` reports an exit status of `1` for faulty input and a
+exit status of `130` when it is interrupted by a signal.
 
 For humans typing commands into the terminal and reading the output, the
-regularity of exit status codes is a poor substitute for the expressiveness of
-the standard output streams. As we'll see in :chapter:process-combination:,
-this communication channel is much more useful within shell scripts.
+regularity of exit statuses is a poor substitute for the expressiveness of the
+standard output streams. As we'll see in :chapter:process-combination:, this
+communication channel is much more useful within shell scripts.
 
 ---
 
@@ -804,7 +825,7 @@ vm$
 
 ???
 
-One final caveat: don't foget that `echo` is itself a program! When we use it
+One final caveat: don't forget that `echo` is itself a program! When we use it
 to inspect the value of the `$?` variable, we're also causing the shell to
 overwrite that value.
 
