@@ -229,9 +229,11 @@ vm$
 ???
 
 You will need to use `sudo` when performing system administration tasks like
-installing software. (In this example, we're using the APT package manager from
-Ubuntu.) It's generally safe to use `sudo` with system utilities and when you
-understand what the command is going to do.
+installing software. (In this example, we're using the APT package manager
+commonly used in the [Debian](https://www.debian.org/) and
+[Ubuntu](https://ubuntu.com/) GNU/Linux distributions.) It's generally safe to
+use `sudo` with system utilities and when you understand what the command is
+going to do.
 
 ---
 
