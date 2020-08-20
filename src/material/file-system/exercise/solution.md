@@ -34,7 +34,9 @@
 
 3. We'll "go to" the `$MAGIC_PORTAL` using `cd`:
 
-       vm$ cd $MAGIC_PORTAL
+   ```
+   vm$ cd $MAGIC_PORTAL
+   ```
 
 4. We're out of instructions, so we'll use `ls` to "look around":
 
