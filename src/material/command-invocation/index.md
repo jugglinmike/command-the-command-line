@@ -56,16 +56,19 @@ vm$
 
 ???
 
-- When we talk about "invoking a command," we normally mean running a program.
-- This is the terminal equivalent to double-clicking on an application icon in
-  a GUI.
-- Programs like `pwd` are just executable files that reside in special
-  locations in the file system (more detail on that later in this section).
-- The "essential utilities" we cover here (like `pwd` and `ls`) have been
-  written by many people over many years. They usually stick to set of
-  conventions around *how* they are run--that's what this section is all about.
-- Just remember: these utilities serve different purposes and were created
-  independently, so they all have unique aspects as well.
+When we talk about "invoking a command," we normally mean running a program.
+
+This is the terminal equivalent to double-clicking on an application icon in a
+macOS or Windows desktop.
+
+Programs like `pwd` are just executable files that reside in special locations
+in the file system (more detail on that later in this chapter).
+
+The "essential utilities" we cover here (like `pwd` and `ls`) have been written
+by many people over many years. They usually stick to set of conventions around
+*how* they are run--that's what this section is all about. Just remember: these
+utilities serve different purposes and were created independently, so they all
+have unique aspects as well.
 
 ---
 
@@ -85,16 +88,22 @@ vm$
 
 ???
 
-- Many utilities accept one or more path references.
-- We've already seen how the shell replaces the tilde (`~`) character with the
-  complete path to our "home" directory. We'll cover this behavior in more
-  detail in just a moment.
+Many utilities accept one or more path references. `ls` for example, will
+display the contents of every directory that is specified as an option.
+
+We've already seen how the shell replaces the tilde (`~`) character with the
+complete path to our "home" directory. We'll cover this behavior in more detail
+in just a moment.
 
 ---
 
 # Named options
 
 ```terminal
+vm$ cat my-normal-file.txt
+     This is the first line of just-another-file.txt
+     This is the second line of the file!
+     The file only has three lines, and this is the last one!
 vm$ cat --number my-normal-file.txt
      1 This is the first line of just-another-file.txt
      2 This is the second line of the file!
@@ -104,11 +113,12 @@ vm$
 
 ???
 
-- Other options are "named"--they don't describe any particular file. Instead,
-  their presence alters the behavior of the command.
-- You can identify these because they usually start with two dashes (`--`)
-- In this case, the `--number` option is changing how the file contents are
-  displayed.
+Other options are "named"--they don't describe any particular file. Instead,
+their presence alters the behavior of the command. You can identify these
+because they usually start with two dashes (`--`)
+
+In this example, we're invoking `cat` with a named option and a path option.
+The `--number` option changes how `cat` displays the file contents.
 
 ---
 
@@ -128,6 +138,9 @@ vm$
 Some options accept "arguments"--these allow for finer control over the
 option's behavior.
 
+By supplying the argument `size` to the `sort` option, we can cause the `ls`
+utility to arrange the list of directory contents in order of file size.
+
 ---
 
 :continued:
@@ -137,12 +150,20 @@ vm$ cat --number --show-ends my-normal-file.txt
      1 This is the first line of just-another-file.txt$
      2 This is the second line of the file!$
      3 The file only has three lines, and this is the last one!$
+vm$ cat --show-ends --number my-normal-file.txt
+     1 This is the first line of just-another-file.txt$
+     2 This is the second line of the file!$
+     3 The file only has three lines, and this is the last one!$
 vm$ 
 ```
 
 ???
 
-Multiple options can be specified at the same time.
+Multiple options can be specified at the same time. If the effect of the
+options are independent (like in `--number` and `--show-ends` for the `cat`
+utility), then you can usually list them in whatever order you like. However,
+the order may matter in some cases; when in doubt, check the utility's
+documentation.
 
 ---
 
@@ -170,13 +191,21 @@ vm$
 
 ???
 
-- Many options can also be specified with an abbreviated form.
-- These usually begin with a single dash character (`-`).
-- Both forms typically have the same effect on the way the program behaves
-- The major differences are:
-  - Short options are easier to type
-  - Short options can be combined in a single dash character (`-`)
-  - Long options are easier to read
+Many options can also be specified with an abbreviated form, usually just a
+single letter. You'll prefix these with a single dash character (`-`). For
+example, the option `-n` has the same effect as `--number` on the `cat`
+utility.
+
+To make things even more compact, you can combine any "short" arguments
+together and just use one dash. To `cat`, `-n -E` is the same as `-nE` (or
+`-En` for that matter).
+
+If all these different forms behave the same, how should you choose between
+them? It comes down to personal preference. Short options are easier to type,
+and that becomes more important as you get more comfortable with the command
+line. Long options are easier to remember, and they're also easier to read.
+Readability is important when you write shell programs that you may share with
+other people (more on this in :chapter:scripting:).
 
 ---
 
@@ -555,14 +584,25 @@ vm$ ls
 Command 'ls' is available in '/bin/ls'
 The command could not be located because '/bin' is not included in the PATH environment variable.
 ls: command not found
+vm$ 
 ```
 
 ???
 
-The `PATH` environment variable is how the shell translates references to
-executables to real files in the file system. When we type `ls`, the shell
-looks in each directory in the colon-separated list until it finds an
-executable.
+For most commands we execute on the command-line, we specify the name of an
+executable file. For example, when we write `ls`, we're actually saying "please
+execute the file stored on the file system at `/bin/ls`." In fact, we could
+even write the command as `/bin/ls`, and `ls` would run exactly as if we'd
+written `ls`.
+
+It's the shell's job to figure out that when we type `ls`, we mean `/bin/ls`.
+That saves us time typing, and it also means we don't have to remember where
+every executable is stored on the file system.
+
+The shell does this using the `PATH` environment variable. It is a
+colon-separated list of directories. Every time we type a command, the shell
+looks for an executable file with that name in each of the directories until it
+finds a match, and then it runs that executable.
 
 We can modify this value at our peril.
 
