@@ -45,6 +45,11 @@ main > article {
   float: left;
 }
 
+main article p {
+  line-height: 1.5em;
+  margin-bottom: 1.5em;
+}
+
 main > article > h1 + h2 {
   margin-top: -0.7em;
 
