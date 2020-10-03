@@ -6,7 +6,7 @@ layout: chapter.html
 ???
 
 From Ubuntu to Max OSX, many popular operating systems are derived from a
-movement that began in the 1970's. To best understand today's systems, we
+movement that began in the 1960's. To best understand today's systems, we
 should begin by reviewing the circumstances that brought all this about.
 
 ---
@@ -21,9 +21,12 @@ should begin by reviewing the circumstances that brought all this about.
 
 ???
 
-AT&T, General Electric, and MIT collaborated on a time-sharing operating system
-with the goal of security, reliability, and robustness. AT&T eventually left
-the project.
+In 1964, AT&T, General Electric, and MIT collaborated on a "time-sharing"
+operating system. This kind of operating system uses multitasking to rapidly
+switch between processes running in parallel, allowing multiple people to work
+simultaneously using remote terminals. That feature was built in to the core
+architecture, and in :chapter:users-and-groups:, we'll see how it persists
+today.
 
 ---
 
