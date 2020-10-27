@@ -5,7 +5,7 @@ layout: chapter.html
 
 ???
 
-From Ubuntu to Max OSX, many popular operating systems are derived from a
+From Ubuntu to macOS, many popular operating systems are derived from a
 movement that began in the 1960's. To best understand today's systems, we
 should begin by reviewing the circumstances that brought all this about.
 
