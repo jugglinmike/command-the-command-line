@@ -53,28 +53,9 @@ vm$
 ???
 
 We don't generally have access to the `$HOME` directories that belong to other
-users. How does the system keep track of ownership?
-
----
-
-:continued:
-
-```terminal
-vm$ ls -o /home
-total 102
-drwx------ 72 larry  24576 Jul 01 10:55 larry
-drwx------ 72 nancy  8374  Jul 09 10:55 nancy
-drwx------ 72 sally  39827 Jul 14 10:55 sally
-drwx------ 72 xavier 33432 Jul 11 10:55 xavier
-vm$ 
-```
-
-???
-
-All files and folders have a set of "permissions" which describe exactly which
-users may interact with them, and even *how* they may interact.
-
-We'll cover this in greater detail in later sections.
+users. :chapter:users-and-groups: explains how the system manages file
+ownership, but for now, just know that a file's owner is a fundamental trait,
+much like its name.
 
 ---
 

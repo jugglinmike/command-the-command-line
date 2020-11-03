@@ -5,6 +5,8 @@ layout: chapter.html
 
 This chapter has yet to be completed.
 
+???
+
 Unix-like systems have a built-in understanding of **users**. Originally, these
 were intended to describe individual people interacting with the system through
 remote terminals (see :chapter:history:). That's still the case today, but user
@@ -55,17 +57,40 @@ existing printers, and removing unwanted printers.
 
 We could handle this without using groups. If a person named George was the
 only user that needed to perform this duty, then we could grant his user
-account which permission to perform each task. If more people joined George (or
-if George quit), then we'd have to carefully assign/revoke each of those three
-permissions.
+account permission to perform each task. If more people joined George, then
+we'd have to carefully assign each of those three permissions. If anyone took a
+new job, we'd need to remove the printer permissions without changing any
+others.
 
-If we created a group called "printer-admin", then this would all be easier. We
-could configure that *group* to have the three printer-related privileges.
-Then, whenever a new administrator joined, we would add their account to the
+This would all be easier if we created a group called "printer-admin". We could
+configure that *group* to have the three printer-related privileges. Then,
+whenever a new administrator joined, we would add their account to the
 "printer-admin" group. Likewise, when they quit, we'd only remove them from
 that group.
 
 In short, groups help maintain logical collections of rights for many users.
+
+---
+
+# File permissions
+
+```terminal
+vm$ ls -o /home
+total 102
+drwx------ 72 larry  24576 Jul 01 10:55 larry
+drwx------ 72 nancy  8374  Jul 09 10:55 nancy
+drwx------ 72 sally  39827 Jul 14 10:55 sally
+drwx------ 72 xavier 33432 Jul 11 10:55 xavier
+vm$ 
+```
+
+???
+
+We say in :chapter:sudo: that different directories (like those in `/home/`)
+may "belong" to different users. How does the system keep track of ownership?
+
+All files and folders have a set of "permissions" which describe exactly which
+users may interact with them, and even *how* they may interact.
 
 ---
 
