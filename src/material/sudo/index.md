@@ -261,4 +261,4 @@ in its origins!
 - `whoami` is a utility that prints the current user's name
 - The "root" user (or "superuser") is capable of performing any task
 - The `sudo` utility allows you to execute single commands as the "root" user
-- You should trust any program you run using `sudo`!
+- Only run a command with `sudo` if you understand it and trust its source!

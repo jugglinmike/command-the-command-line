@@ -75,6 +75,8 @@ In short, groups help maintain logical collections of rights for many users.
 # File permissions
 
 ```terminal
+vm$ ls /home/larry
+ls: cannot open directory /home/larry: Permission denied
 vm$ ls -o /home
 total 102
 drwx------ 72 larry  24576 Jul 01 10:55 larry
@@ -86,8 +88,35 @@ vm$
 
 ???
 
-We say in :chapter:sudo: that different directories (like those in `/home/`)
-may "belong" to different users. How does the system keep track of ownership?
+We saw in :chapter:sudo: that different directories may "belong" to different
+users. A file's owner is a fundamental trait, just like its name. We can use
+the `ls` utility's `-o` flag to see files and directories listed with their
+owners.
+
+In this example, each directory's owner is displayed in the third column from
+the left. The directory's name is displayed in the final column. For
+subdirectories of `/home/`, the name and owner are often identical: Sally owns
+the directory named `sally`, and Larry owns the directory named `larry`. That
+sounds logical enough, but it doesn't have to be that way.
+
+---
+
+:continued:
+
+```terminal
+vm$ ls -l /usr/bin/mail-lock /usr/bin/ssh-agent
+-rwxr-sr-x 3 root mail  14592 Dec  3  2012 /usr/bin/mail-lock
+-rwxr-sr-x 1 root ssh  288880 Jan 18  2018 /usr/bin/ssh-agent
+vm$ 
+```
+
+Programs stored in the `/usr/bin` directory have more interesting access
+controls. We'll use the `ls` utility's `-l` flag to view owner *and* group
+membership.
+
+The `ssh-agent` executable file belongs to the "root" user, but the name of its
+group is `ssh`. And though the `mail-lock` executable also belongs to the
+"root" user, its group is `mail`.
 
 All files and folders have a set of "permissions" which describe exactly which
 users may interact with them, and even *how* they may interact.
