@@ -72,7 +72,7 @@ In short, groups help maintain logical collections of rights for many users.
 
 ---
 
-# File permissions
+# File ownership
 
 ```terminal
 vm$ ls /home/larry
@@ -116,10 +116,63 @@ membership.
 
 The `ssh-agent` executable file belongs to the "root" user, but the name of its
 group is `ssh`. And though the `mail-lock` executable also belongs to the
-"root" user, its group is `mail`.
+"def. of parameters for root" user, its group is `mail`.
 
-All files and folders have a set of "permissions" which describe exactly which
-users may interact with them, and even *how* they may interact.
+---
+
+# `chown`
+
+## Change file owner and group
+
+```terminal
+vm$ cat README.txt
+cat: README.txt: Permission denied
+vm$ ls -o
+total 4
+-r-xr----- 1 root 29 Nov 17 17:23 README.txt
+vm$ sudo chown sally README.txt
+vm$ ls -o
+total 4
+-r-xr----- 1 sally 29 Nov 17 17:23 README.txt
+vm$ cat README.txt
+Hello! I am a "readme" file.
+vm$ 
+```
+
+???
+
+You can use `chown` to **ch**ange files' **own**er.
+
+You'll often need to use the `sudo` utility because reassigning ownership is a
+privileged operation. (See :chapter:sudo: for more information.)
+
+---
+
+:continued:
+
+```terminal
+vm$ cat index.html
+cat: index.html: Permission denied
+vm$ ls -g
+total 4
+-rw-rw---- 1 root 67 Nov 17 17:51 index.html
+vm$ sudo chown :mike index.html
+vm$ ls -g
+total 4
+-rw-rw---- 1 mike 67 Nov 17 17:51 index.html
+vm$ cat index.html
+<!DOCTYPE html><html><body>Hello! I am an HTML file.</body></html>
+vm$ 
+```
+
+???
+
+You can also use `chown` to change a file's group. Just write the group name
+after a color (`:`) character.
+
+---
+
+# In Review
 
 ---
 
