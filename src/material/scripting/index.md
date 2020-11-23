@@ -447,7 +447,7 @@ vm$
 
 ???
 
-Our error handling abilities are improving, but we're still limited to a
+Our error handling abilities are improving, but we're still limited to
 executing a single command when something goes wrong. At the very least, we
 should output a non-zero exit code *and* write a meaningful message to standard
 error.
