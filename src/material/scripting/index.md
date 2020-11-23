@@ -278,9 +278,9 @@ vm$
 
 One more method to improve readability is documentation via comments.
 
-The "number sign" (`#`) designates the beginning of a comment; any text that
-follows it is ignored by the shell. Comments can be used to describe the
-overall behavior of the script or any specific command.
+The "number sign" (`#`) designates the beginning of a comment; the shell
+ignores any text that follows it. Comments can be used to describe the overall
+behavior of the script or any specific command.
 
 ---
 
