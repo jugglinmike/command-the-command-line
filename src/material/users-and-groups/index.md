@@ -82,6 +82,23 @@ In short, groups help maintain logical collections of rights for many users.
 
 ---
 
+# `groups`
+
+## Print the groups a user is in
+
+```terminal
+vm$ groups
+sally adm cdrom sudo dip plugdev lpadmin sambashare
+vm$ 
+```
+
+???
+
+To see a list of the groups that the current user account belongs to, run the
+`groups` command.
+
+---
+
 # File ownership
 
 ```terminal
