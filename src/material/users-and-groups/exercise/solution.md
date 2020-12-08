@@ -24,7 +24,7 @@
 
    This is telling us that the owner is allowed to read and write (`rw-`), that
    the group is only allowed to read (`r--`), and that all other users are only
-   allowed to read (again, `r--`). It also shows th the file's owner is the
+   allowed to read (again, `r--`). It also shows that the file's owner is the
    `root` user.
 
    We can also verify experimentally by trying to read the file as a non-root
