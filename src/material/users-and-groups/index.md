@@ -1,9 +1,7 @@
 ---
-title: Users and Groups (TODO)
+title: Users and Groups
 layout: chapter.html
 ---
-
-This chapter has yet to be completed.
 
 ???
 
