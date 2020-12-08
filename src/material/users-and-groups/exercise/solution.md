@@ -35,3 +35,55 @@
        Hello
        vm$ echo 'Another line of text' >> announcements.txt
        -bash: announcements.txt: Permission denied
+
+2. We'll make the file with output redirection again:
+
+       vm$ echo true > penguins.sh
+
+   There is no file permission that allows/disallows deleting specifically; any
+   user with "write" permission to a file may also delete that file. There's a
+   good reason for this: any user who can edit a file is able to remove all of
+   that file's contents. In other words, they can essentially delete the file.
+   So there's not much use in defining a separate "delete" permissions.
+   Permissions are already complicated enough!
+
+   That means we can rewrite this exercise to say, "Create a file that only
+   members of the group named `sudo` can **modify**." If we want to grant
+   access to a file for a specific group, that file needs to "below" to the
+   group. Setting file ownership is a job for `chown`:
+
+       vm$ chown :sudo penguins.sh
+
+   We can verify using `ls`:
+
+       vm$ ls -l penguins.sh
+       -rw-r--r-- 1 sally sudo 5 Dec  8 17:42 penguins.sh
+
+  The word `sudo` in the fourth column proves that the file now belongs to the
+  group named `sudo`.
+
+  We use the `chmod` utility to set the permissions for files. In this case,
+  we want to target the file's group (so we'll use `g`), we want to add a
+  permission (so we'll use the plus sign, `+`), and we want the select the
+  "write" permission (so we'll use `w`):
+
+      vm$ chmod g+w penguins.sh
+
+  Once again, `ls` will let us review the permission information:
+
+      vm$ ls -l penguins.sh
+      -rw-rw-r-- 1 sally sudo 5 Dec  8 17:42 penguins.sh
+
+  That's almost right, but the instructions say that *only* members of the
+  `sudo` group should be able to delete the file. The permissions field reads
+  `-rw-rw-r--`. The first `rw-` means that the owner is also allowed to modify
+  (and therefore delete) the file. We'll need to use `chmod` to revoke that
+  permission: `u` to target the file's owner, `-` to remove the permission, and
+  `w` to select the "write" permission:
+
+      vm$ chmod u-w penguins.sh
+
+  Now (finally), we should have a file in the desired state.
+
+      vm$ ls -l penguins.sh
+      -r--rw-r-- 1 sally sudo 5 Dec  8 17:42 penguins.sh
