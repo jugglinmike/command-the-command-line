@@ -243,8 +243,9 @@ reduced by deferring the loading of some binaries. Placing non-essential
 binaries within a dedicated directory (`/sbin/`) allowed for that.
 
 Today, the time savings enabled by this optimization are greatly reduced, and
-many applications no longer honor the distinction. There is a movement to make
-these directories one and the same.
+many applications no longer honor the distinction. [There is a movement to make
+these directories one and the
+same.](https://www.freedesktop.org/wiki/Software/systemd/TheCaseForTheUsrMerge/)
 
 ---
 
