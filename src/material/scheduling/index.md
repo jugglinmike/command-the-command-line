@@ -183,6 +183,6 @@ the first hour of the day (i.e. "at the top of every hour").
 
 The "day of week" and "day of month" specifiers are an exception. `cron`
 interprets the *union* of these values. In this example, "day of month" is 1
-and "day of week" is 0. `cron` runs the job on every Sunday and on the first
-day of every month (and *not* on just Sundays which are also the first day of
-the month).
+and "day of week" is 0. `cron` runs the job on the first day in January and on
+every Sunday in January (and *not* on just Sundays which are also the first day
+of January).
