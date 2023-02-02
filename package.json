@@ -50,6 +50,6 @@
     "repl-sim": "^0.1.0",
     "unified": "^4.2.1",
     "unist-util-visit": "^1.0.0",
-    "webpack": "^1.13.1"
+    "webpack": "^5.75.0"
   }
 }
