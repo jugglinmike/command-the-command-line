@@ -212,3 +212,10 @@ instructions for installing these tools.
 The default user account in the exercise environment is named "vagrant", and it
 is configured to use the Bash shell. Administrative access requires a password,
 and that password is "vagrant".
+
+---
+
+# About the course
+
+Command the Command Line was created in 2016 at [Bocoup](https://bocoup.com).
+It is currently maintained by [Mike Pennisi](https://mikepennisi.com).

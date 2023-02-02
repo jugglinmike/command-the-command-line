@@ -13,10 +13,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/bocoup-education/comand-the-command-line.git"
+    "url": "git+ssh://git@github.com/jugglinmike/comand-the-command-line.git"
   },
   "keywords": [
-    "bocoup",
     "education",
     "unix",
     "linux",
@@ -24,12 +23,12 @@
     "terminal",
     "shell"
   ],
-  "author": "Bocoup, LLC",
+  "author": "Mike Pennisi",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/bocoup-education/command-the-command-line/issues"
+    "url": "https://github.com/jugglinmike/command-the-command-line/issues"
   },
-  "homepage": "https://github.com/bocoup-education/command-the-command-line#readme",
+  "homepage": "https://github.com/jugglinmike/command-the-command-line#readme",
   "dependencies": {
     "async": "^2.0.0",
     "cpr": "^1.1.2",

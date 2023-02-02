@@ -31,5 +31,5 @@ via the `AWS_DEFAULT_PROFILE` environment variable, as in:
 - All content contained within the `src/material/` directory is licensed under
   the Creative Commons Attribution-ShareAlike 4.0 International License; see
   LICENSE-CC-BY-SA
-- All code contained with the `src/` directory is copyright 2016 Bocoup LLC.,
+- All code contained with the `src/` directory is copyright 2023 Mike Pennisi,
   licensed under the GNU General Public License v3.0; see LICENSE-GPL

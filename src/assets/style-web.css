@@ -76,17 +76,17 @@ footer img {
   border-width: 0;
 }
 
-footer .bocoup, footer .license {
+footer .about, footer .license {
 	width: 45%;
 
 	float: left;
 }
 
-footer .bocoup {
+footer .about {
 	margin-right: 10%;
 }
 
-footer .bocoup img {
+footer .about img {
 	margin-right: 2em;
 
 	float: left;
