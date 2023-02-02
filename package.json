@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/bocoup-education/command-the-command-line#readme",
   "dependencies": {
-    "async": "^2.0.0",
+    "async": "^2.6.4",
     "cpr": "^1.1.2",
     "gray-matter": "^2.0.2",
     "handlebars": "^4.0.5",
